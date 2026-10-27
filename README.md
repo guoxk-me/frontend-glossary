@@ -1,26 +1,69 @@
 # 前端词典
 
-把前端术语，讲明白。
+看见效果，找到名字。一本面向前端界面表达的中文视觉词典：从布局、动效、视觉风格和交互模式中找到想要的效果，再组合成清楚的需求描述。
 
-前端词典是一个中文前端术语知识库，计划用简洁的解释、贴近实际的例子和相关概念，帮助开发者理解日常开发中遇到的名词与缩写。
+## 首版功能
 
-## 内容方向
+- 32 个词条，支持中文、英文、别名与通俗关键词搜索、分类筛选和收藏。
+- 每个词条有独立页面、可操作演示、适用场景、相近概念和来源；部分效果可调整参数。
+- 多个具名方案，按作用对象组合效果；同对象同类别冲突需要确认替换。
+- 描述可手写；参数变化只标记待更新，确认后才替换手写正文。
+- 本地自动保存、Markdown 复制与下载、带校验的 JSON 备份导入导出。
+- 浅色、深色、跟随系统；移动端导航；完整首版词库的 PWA 离线缓存与保存后更新。
 
-- HTML、CSS 与 JavaScript 基础概念
-- 浏览器、网络与 Web 标准
-- 框架、组件与状态管理
-- 工程化、测试与性能优化
+首版不需要后端、账号或在线 AI。收藏与方案只在当前浏览器，请定期导出备份。词条释义目前为编辑草稿，需要持续校对。
 
-## 词条结构
+## 本地启动
 
-计划为每个词条提供：
+使用 Node 24.22.1、pnpm 10.28.0（版本已固定）。
 
-- 名称：中文名、英文名及常见缩写
-- 解释：这个概念是什么，解决什么问题
-- 示例：在实际开发中如何使用
-- 关联：容易混淆或值得一起了解的概念
-- 参考：官方文档或标准链接
+```bash
+pnpm install --frozen-lockfile
+pnpm dev
+```
 
-## 项目状态
+开发地址由终端显示。PWA 在开发模式关闭；离线验收要使用生产构建：
 
-项目初始化阶段，尚未实现词条内容和网站功能，技术方案待确定。
+```bash
+pnpm build
+pnpm preview
+```
+
+默认预览为 `http://127.0.0.1:4173`，也可用 `PORT=4273 pnpm preview` 指定端口。首次联网打开后，等待“离线内容已就绪”，再关闭网络访问未打开过的词条。外部参考资料仍需联网。
+
+## 技术栈与检查
+
+Nuxt 4.6.3、Nuxt Content 3.16.2、Vue 3.5、shadcn-vue、Tailwind CSS 4、Pinia、VueUse、Zod。Nuxt Content 使用 Node 原生 SQLite 处理构建期内容，部署产物是静态文件。
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm check
+pnpm deps:check
+```
+
+直接依赖使用 `pnpm-workspace.yaml` 的命名 catalog；提交 `pnpm-lock.yaml`。Taze 的检查与更新分开，`pnpm deps:update` 会改版本，之后必须重新执行检查。Husky 提交前检查暂存文件，commitlint 校验 Conventional Commits，支持中文描述。
+
+兼容性约束：TypeScript 固定在 Vue 类型检查与 ESLint 支持的 6.0.3；Workbox 固定 7.4.0，构建期 Rollup 与旧 semver 有显式覆盖，保留 pnpm 信任降级检查。具体原因与验证记录见 [实现说明](docs/implementation.md)。
+
+## 目录
+
+| 位置 | 内容 |
+| --- | --- |
+| `content/terms/` | Markdown 正文与词条元信息 |
+| `content.config.ts` | Nuxt Content 集合字段校验 |
+| `app/components/demos/` | 四类独立演示 |
+| `app/components/ui/` | 项目维护的 shadcn-vue 组件源码 |
+| `app/lib/` | 搜索、描述、冲突与备份规则，以及核心测试 |
+| `app/stores/library.ts` | 收藏、方案和本地持久化 |
+| `docs/prd.md` | 已确认需求与范围 |
+| `docs/prototypes/frontend-glossary.pen` | 专属 Pen 原型，含保留的早期稿与文档风格 v2 |
+
+新增词条时同步补齐集合字段、演示分支和生成描述规则，并验证静态构建、搜索及离线访问。列表只展示静态预览，真实动画在详情中运行，并遵循减少动态效果偏好。
+
+## 后续部署 Vercel
+
+已提供 `vercel.json`：构建命令 `pnpm build`，输出 `.output/public`，启用 clean URLs。后续将 GitHub 仓库导入 Vercel 即可按该配置构建；此阶段未执行 Vercel 部署，也没有运行时业务 API 或 Functions。
+
+iOS 主屏幕安装、各桌面浏览器的原生安装流程需在对应设备验收，移动端视口测试不等同于真机安装测试。

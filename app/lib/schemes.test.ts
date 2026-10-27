@@ -1,0 +1,168 @@
+import type { Scheme, Term } from '../types/glossary'
+import { describe, expect, it } from 'vitest'
+import { readBackup } from './backup'
+import { defaultParameters, searchTerms } from './glossary'
+import { describeScheme, findConflict, refreshDescription, regenerateDescription } from './schemes'
+
+const sidebar: Term = {
+  slug: 'sidebar',
+  title: '可折叠侧栏',
+  description: '后台导航',
+  english: 'Sidebar',
+  category: 'layout',
+  aliases: ['侧边菜单'],
+  keywords: ['左边菜单不动', '右边滚动'],
+  demo: 'sidebar',
+  order: 0,
+  naming: '常用说法',
+  usage: '多模块后台',
+  comparison: '顶部导航',
+  target: '页面整体',
+  phrase: '采用可折叠侧栏。',
+  sources: [],
+}
+const drawer: Term = {
+  ...sidebar,
+  slug: 'drawer',
+  title: '详情抽屉',
+  category: 'interaction',
+  demo: 'drawer',
+  english: 'Drawer',
+  aliases: ['侧边详情'],
+  order: 1,
+}
+const grid: Term = {
+  ...sidebar,
+  slug: 'grid',
+  title: '卡片网格',
+  demo: 'grid',
+  english: 'Grid',
+  aliases: [],
+  order: 2,
+}
+const terms = [sidebar, drawer, grid]
+function exampleScheme(): Scheme {
+  return {
+    id: 'scheme-1',
+    title: '订单后台',
+    choices: [
+      {
+        id: 'choice-1',
+        termSlug: 'sidebar',
+        target: '页面整体',
+        parameters: defaultParameters(),
+      },
+    ],
+    description: '',
+    hasManualEdits: false,
+    isStale: false,
+    updatedAt: '2026-10-27T00:00:00.000Z',
+  }
+}
+
+describe('需求描述保护', () => {
+  it('未编辑时参数变化会进入生成描述', () => {
+    const scheme = exampleScheme()
+    scheme.choices[0]!.parameters.width = 280
+    refreshDescription(scheme, terms)
+    expect(scheme.description).toContain('280px')
+    expect(scheme.isStale).toBe(false)
+  })
+  it('手写后更改参数、取消重生成、再确认替换', () => {
+    const scheme = exampleScheme()
+    scheme.description = '保留我的业务要求：订单金额只对管理员显示。'
+    scheme.hasManualEdits = true
+    scheme.choices[0]!.parameters.collapsed = true
+    refreshDescription(scheme, terms)
+    expect(scheme.isStale).toBe(true)
+    const original = scheme.description
+    expect(regenerateDescription(scheme, terms, false)).toBe(false)
+    expect(scheme.description).toBe(original)
+    expect(scheme.isStale).toBe(true)
+    expect(regenerateDescription(scheme, terms, true)).toBe(true)
+    expect(scheme.description).toContain('默认收起')
+    expect(scheme.description).not.toContain('订单金额')
+    expect(scheme.hasManualEdits).toBe(false)
+    expect(scheme.isStale).toBe(false)
+  })
+  it('不同对象或不同类别可以共存，重复同类需要确认', () => {
+    const scheme = exampleScheme()
+    const choice = {
+      id: 'choice-2',
+      termSlug: 'grid',
+      target: '页面整体',
+      parameters: defaultParameters(),
+    }
+    expect(findConflict(scheme, choice, terms)?.id).toBe('choice-1')
+    expect(findConflict(scheme, { ...choice, target: '订单列表' }, terms)).toBeUndefined()
+    expect(findConflict(scheme, { ...choice, termSlug: 'drawer' }, terms)).toBeUndefined()
+    expect(findConflict(scheme, { ...choice, id: 'choice-1' }, terms)).toBeUndefined()
+  })
+})
+
+describe('本地备份边界', () => {
+  it('完整保留手写状态与参数，支持往返', () => {
+    const scheme = exampleScheme()
+    scheme.description = '用户手写内容'
+    scheme.hasManualEdits = true
+    scheme.isStale = true
+    const backup = {
+      version: 1,
+      favorites: ['sidebar'],
+      schemes: [scheme],
+    }
+    expect(readBackup(JSON.stringify(backup), terms)).toEqual(backup)
+  })
+  it.each([
+    '{broken',
+    JSON.stringify({ version: 2, favorites: [], schemes: [] }),
+    JSON.stringify({
+      version: 1,
+      favorites: ['missing'],
+      schemes: [],
+    }),
+    JSON.stringify({
+      version: 1,
+      favorites: [],
+      schemes: [
+        {
+          ...exampleScheme(),
+          choices: [
+            {
+              id: 'x',
+              termSlug: 'sidebar',
+              target: '页面',
+              parameters: {
+                ...defaultParameters(),
+                duration: 5000,
+              },
+            },
+          ],
+        },
+      ],
+    }),
+    JSON.stringify({
+      version: 1,
+      favorites: [],
+      schemes: [
+        exampleScheme(),
+        exampleScheme(),
+      ],
+    }),
+  ])('拒绝无效备份 %s', (text) => {
+    expect(() => readBackup(text, terms)).toThrow()
+  })
+})
+
+describe('可解释的关键词搜索', () => {
+  it('支持别名、英文大小写、多个描述词及分类组合', () => {
+    expect(searchTerms(terms, 'SIDEBAR')[0]?.slug).toBe('sidebar')
+    expect(searchTerms(terms, '侧边菜单')[0]?.slug).toBe('sidebar')
+    expect(searchTerms(terms, '左边菜单不动 右边滚动', 'layout')[0]?.slug).toBe('sidebar')
+    expect(searchTerms(terms, 'SIDEBAR', 'motion')).toEqual([])
+    expect(searchTerms(terms, '不存在的效果')).toEqual([])
+  })
+  it('输出包括明确的作用对象', () => {
+    expect(describeScheme(exampleScheme(), terms)).toContain('## 页面整体')
+  })
+})

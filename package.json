@@ -1,0 +1,61 @@
+{
+  "name": "frontend-glossary",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=24.15.0 <25"
+  },
+  "scripts": {
+    "dev": "nuxt dev --host 127.0.0.1",
+    "build": "nuxt generate",
+    "preview": "node scripts/serve-preview.mjs",
+    "postinstall": "nuxt prepare",
+    "prepare": "husky",
+    "lint": "eslint .",
+    "typecheck": "nuxt typecheck",
+    "test": "vitest run",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "deps:check": "taze",
+    "deps:update": "taze -w"
+  },
+  "dependencies": {
+    "@lucide/vue": "catalog:frontend",
+    "@nuxt/content": "catalog:frontend",
+    "@pinia/nuxt": "catalog:frontend",
+    "@vueuse/core": "catalog:frontend",
+    "class-variance-authority": "catalog:frontend",
+    "cn": "catalog:frontend",
+    "nuxt": "catalog:frontend",
+    "pinia": "catalog:frontend",
+    "reka-ui": "catalog:frontend",
+    "shadcn-nuxt": "catalog:frontend",
+    "shadcn-vue": "catalog:frontend",
+    "tw-animate-css": "catalog:frontend",
+    "vue": "catalog:frontend",
+    "zod": "catalog:frontend"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:tooling",
+    "@commitlint/cli": "catalog:tooling",
+    "@commitlint/config-conventional": "catalog:tooling",
+    "@nuxt/eslint": "catalog:tooling",
+    "@tailwindcss/vite": "catalog:tooling",
+    "@types/node": "catalog:tooling",
+    "@vite-pwa/nuxt": "catalog:tooling",
+    "eslint": "catalog:tooling",
+    "husky": "catalog:tooling",
+    "lint-staged": "catalog:tooling",
+    "tailwindcss": "catalog:tooling",
+    "taze": "catalog:tooling",
+    "typescript": "catalog:tooling",
+    "vitest": "catalog:tooling",
+    "vue-tsc": "catalog:tooling",
+    "workbox-build": "catalog:tooling",
+    "workbox-window": "catalog:tooling"
+  },
+  "lint-staged": {
+    "*.{ts,vue,mjs,json,yaml,yml,css,md}": "eslint --fix"
+  }
+}

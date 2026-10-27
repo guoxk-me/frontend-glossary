@@ -3,7 +3,7 @@
 
 # Dependencies and generated files
 node_modules/
-dist/
+/dist
 coverage/
 .nuxt/
 .output/
@@ -13,3 +13,8 @@ coverage/
 .env.*
 !.env.example
 *.log
+
+# Content cache and browser test output
+.data/
+playwright-report/
+test-results/

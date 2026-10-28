@@ -4,8 +4,10 @@ import { Icon } from '#components'
 import { navigateTo, useRoute, useSwitchLocalePath } from '#imports'
 import { useGlossaryLocale } from '../composables/use-glossary-locale'
 import CollapsePanel from './CollapsePanel.vue'
+import { Alert, AlertDescription } from './ui/alert'
 import { Button } from './ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
 
 const { text, isEnglish } = useGlossaryLocale()
 
@@ -45,12 +47,11 @@ async function confirmSwitch(): Promise<void> {
 <template>
   <Dialog v-model:open="isOpen" @update:open="error = ''">
     <span ref="trigger" class="language-trigger">
-      <DialogTrigger as-child>
-        <Button variant="ghost" size="icon" :aria-label="label" aria-describedby="language-hint">
+      <TooltipProvider><Tooltip><TooltipTrigger as-child><DialogTrigger as-child>
+        <Button variant="ghost" size="icon" :aria-label="label">
           <Icon name="lucide:languages" />
         </Button>
-      </DialogTrigger>
-      <span id="language-hint" role="tooltip" class="language-hint">{{ label }}</span>
+      </DialogTrigger></TooltipTrigger><TooltipContent>{{ label }}</TooltipContent></Tooltip></TooltipProvider>
     </span>
     <DialogContent class="sm:max-w-lg" @interact-outside="($event) => { if (isSwitching) $event.preventDefault() }">
       <DialogHeader>
@@ -58,9 +59,11 @@ async function confirmSwitch(): Promise<void> {
         <DialogDescription>{{ text('只切换界面语言，方案正文和手写内容保持不变。') }}</DialogDescription>
       </DialogHeader>
       <CollapsePanel :open="!!error">
-        <p role="alert">
-          {{ error }}
-        </p>
+        <Alert variant="destructive">
+          <AlertDescription>
+            {{ error }}
+          </AlertDescription>
+        </Alert>
       </CollapsePanel>
       <DialogFooter>
         <Button variant="outline" :disabled="isSwitching" @click="isOpen = false">

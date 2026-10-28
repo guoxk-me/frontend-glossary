@@ -3,6 +3,8 @@ import { onMounted } from 'vue'
 import { NuxtPage, NuxtRouteAnnouncer, VitePwaManifest } from '#components'
 import { createError, navigateTo, queryCollection, useAsyncData, useHead, useRoute, useSiteConfig } from '#imports'
 import AppShell from './components/AppShell.vue'
+import { Toaster } from './components/ui/sonner'
+import { TooltipProvider } from './components/ui/tooltip'
 import { useGlossaryLocale } from './composables/use-glossary-locale'
 import { useLibraryStore } from './stores/library'
 // AI modified: preload one shared catalog so every route and local search can work offline.
@@ -35,7 +37,10 @@ onMounted(() => {
 <template>
   <VitePwaManifest />
   <NuxtRouteAnnouncer />
-  <AppShell>
-    <NuxtPage />
-  </AppShell>
+  <TooltipProvider>
+    <AppShell>
+      <NuxtPage />
+    </AppShell>
+  </TooltipProvider>
+  <Toaster position="bottom-right" />
 </template>

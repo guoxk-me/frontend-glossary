@@ -7,6 +7,9 @@ import { useCatalog } from '../composables/use-catalog'
 import { useGlossaryLocale } from '../composables/use-glossary-locale'
 import { categories } from '../lib/glossary'
 import CollapsePanel from './CollapsePanel.vue'
+import { Button } from './ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
+import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
 
 const emit = defineEmits<{ navigate: [] }>()
 
@@ -71,21 +74,53 @@ function toggleGroup(category: Category): void {
     <p class="nav-caption">
       {{ text('开始使用') }}
     </p>
-    <NuxtLink :to="localePath('/')" @click="emit('navigate')">{{ text('全部词条') }} <span>{{ terms.length }}</span></NuxtLink>
-    <NuxtLink :to="localePath('/about')" @click="emit('navigate')">{{ text('使用说明') }}</NuxtLink>
-    <div class="mobile-library-links">
-      <NuxtLink :to="localePath('/favorites')" @click="emit('navigate')">{{ text('我的收藏') }}</NuxtLink>
-      <NuxtLink :to="localePath('/schemes')" @click="emit('navigate')">{{ text('我的方案') }}</NuxtLink>
-    </div>
-    <section v-for="group in groups" :key="group.id">
-      <button class="nav-group-toggle" :aria-expanded="!collapsed.includes(group.id)" :aria-controls="`${id}-${group.id}`" @click="toggleGroup(group.id)">
-        {{ text(group.label) }}<Icon name="lucide:chevron-down" class="motion-chevron" :class="{ '-rotate-90': collapsed.includes(group.id) }" :size="14" />
-      </button>
-      <CollapsePanel :id="`${id}-${group.id}`" :open="!collapsed.includes(group.id)" @transitionend="finishExpansion($event, group.id)">
-        <div class="nav-group-terms">
-          <NuxtLink v-for="term in group.terms" :key="term.slug" :to="localePath(`/terms/${term.slug}`)" @click="emit('navigate')"><span>{{ termTitle(term) }}</span><small v-if="!isEnglish">{{ term.english }}</small></NuxtLink>
-        </div>
-      </CollapsePanel>
-    </section>
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton as-child>
+          <NuxtLink :to="localePath('/')" @click="emit('navigate')">{{ text('全部词条') }} <span class="ml-auto">{{ terms.length }}</span></NuxtLink>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+      <SidebarMenuItem>
+        <SidebarMenuButton as-child>
+          <NuxtLink :to="localePath('/about')" @click="emit('navigate')">{{ text('使用说明') }}</NuxtLink>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    </SidebarMenu>
+    <SidebarMenu class="mobile-library-links">
+      <SidebarMenuItem>
+        <SidebarMenuButton as-child>
+          <NuxtLink :to="localePath('/favorites')" @click="emit('navigate')">{{ text('我的收藏') }}</NuxtLink>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+      <SidebarMenuItem>
+        <SidebarMenuButton as-child>
+          <NuxtLink :to="localePath('/schemes')" @click="emit('navigate')">{{ text('我的方案') }}</NuxtLink>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    </SidebarMenu>
+    <Collapsible v-for="group in groups" :key="group.id" :open="!collapsed.includes(group.id)" @update:open="toggleGroup(group.id)">
+      <SidebarGroup class="mt-4 p-0">
+        <SidebarGroupLabel as-child>
+          <CollapsibleTrigger as-child>
+            <Button variant="ghost" class="nav-group-toggle" :aria-expanded="!collapsed.includes(group.id)" :aria-controls="`${id}-${group.id}`">
+              {{ text(group.label) }}<Icon name="lucide:chevron-down" class="motion-chevron" :class="{ '-rotate-90': collapsed.includes(group.id) }" :size="14" />
+            </Button>
+          </CollapsibleTrigger>
+        </SidebarGroupLabel>
+        <CollapsibleContent force-mount>
+          <CollapsePanel :id="`${id}-${group.id}`" :open="!collapsed.includes(group.id)" @transitionend="finishExpansion($event, group.id)">
+            <SidebarGroupContent>
+              <SidebarMenu class="nav-group-terms">
+                <SidebarMenuItem v-for="term in group.terms" :key="term.slug">
+                  <SidebarMenuButton as-child class="h-auto min-h-9 items-start" :is-active="route.params.slug === term.slug">
+                    <NuxtLink :to="localePath(`/terms/${term.slug}`)" @click="emit('navigate')"><span class="flex min-w-0 flex-col"><span>{{ termTitle(term) }}</span><small v-if="!isEnglish">{{ term.english }}</small></span></NuxtLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </CollapsePanel>
+        </CollapsibleContent>
+      </SidebarGroup>
+    </Collapsible>
   </nav>
 </template>

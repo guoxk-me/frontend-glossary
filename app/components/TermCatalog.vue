@@ -11,6 +11,7 @@ import { useLibraryStore } from '../stores/library'
 import TermCard from './TermCard.vue'
 import { Button } from './ui/button'
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from './ui/empty'
+import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { ToggleGroup, ToggleGroupItem } from './ui/toggle-group'
 
 const props = defineProps<{ favoritesOnly?: boolean }>()
@@ -68,10 +69,10 @@ onMounted(() => {
     <p class="page-lead">
       {{ text(favoritesOnly ? '随手收藏的灵感，下次不用重新找。收藏仅保存在当前浏览器。' : '从布局、动效与交互中找到名字，把想法变成清楚的需求。') }}
     </p>
-    <div class="catalog-search">
-      <Icon name="lucide:search" :size="18" />
-      <input id="term-search" v-model="query" type="search" :aria-label="text('搜索词条')" :placeholder="text('搜索名称，或试试「左边菜单不动，右边滚动」')" autocomplete="off">
-    </div>
+    <InputGroup class="catalog-search">
+      <InputGroupAddon><Icon name="lucide:search" /></InputGroupAddon>
+      <InputGroupInput id="term-search" v-model="query" type="search" :aria-label="text('搜索词条')" :placeholder="text('搜索名称，或试试「左边菜单不动，右边滚动」')" autocomplete="off" />
+    </InputGroup>
     <div class="catalog-filter">
       <ToggleGroup :model-value="category" type="single" variant="outline" :spacing="1" :aria-label="text('词条分类')" @update:model-value="category = String($event || 'all')">
         <ToggleGroupItem value="all">

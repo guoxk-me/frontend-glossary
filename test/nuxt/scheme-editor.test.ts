@@ -61,6 +61,18 @@ async function clickButton(label: string): Promise<void> {
   await flushPromises()
 }
 
+async function chooseChineseOutput(editor: VueWrapper): Promise<void> {
+  await editor.get('#scheme-output-locale').trigger('keydown', { key: 'Enter' })
+  await flushPromises()
+  const option = [
+    ...document.querySelectorAll<HTMLElement>('[role="option"]'),
+  ].find(option => option.textContent?.trim() === '中文')
+  expect(option).toBeDefined()
+  option!.focus()
+  option!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+  await flushPromises()
+}
+
 async function openEditor(): Promise<VueWrapper> {
   const library = useLibraryStore()
   const scheme = library.createScheme('订单工作台')
@@ -82,11 +94,14 @@ describe('方案编辑的 Nuxt 集成', () => {
     const editor = await openEditor()
     await editor.get('textarea').setValue('手写要求：保留订单权限说明。')
     await clickButton('预览与调整参数')
-    await editor.get('input[type="range"]').setValue('280')
+    // AI modified: use the slider's public keyboard interaction instead of native input mutation.
+    await editor.get('[role="slider"]').trigger('keydown', { key: 'End' })
+    await editor.get('[role="slider"]').trigger('keydown', { key: 'ArrowLeft' })
+    await editor.get('[role="slider"]').trigger('keydown', { key: 'ArrowLeft' })
     expect(editor.get('textarea').element.value).toBe('手写要求：保留订单权限说明。')
     expect(editor.text()).toContain('参数已变化，描述待更新')
     await clickButton('重新生成')
-    expect(document.querySelector('[role="dialog"]')?.textContent).toContain('重新生成并替换手写内容')
+    expect(document.querySelector('[role="alertdialog"]')?.textContent).toContain('重新生成并替换手写内容')
     await clickButton('取消，保留原文')
     expect(editor.get('textarea').element.value).toBe('手写要求：保留订单权限说明。')
     expect(editor.text()).toContain('参数已变化，描述待更新')
@@ -113,13 +128,15 @@ describe('方案编辑的 Nuxt 集成', () => {
     const scheme = useLibraryStore().schemes[0]!
     expect(scheme.outputLocale).toBe('en')
     await editor.get('textarea').setValue('手机端抽屉需要全屏')
-    await editor.get('#scheme-output-locale').setValue('zh')
-    expect(document.querySelector('[role="dialog"]')?.textContent).toContain('候选描述')
+    await chooseChineseOutput(editor)
+    expect(document.querySelector('[role="alertdialog"]')?.textContent).toContain('候选描述')
     expect(scheme.outputLocale).toBe('en')
     await clickButton('取消，保留原文')
     expect(scheme.description).toBe('手机端抽屉需要全屏')
+    expect(editor.get('#scheme-output-locale').text()).toBe('English')
+    expect(document.activeElement).toBe(editor.get('#scheme-output-locale').element)
     expect(scheme.outputLocale).toBe('en')
-    await editor.get('#scheme-output-locale').setValue('zh')
+    await chooseChineseOutput(editor)
     await clickButton('确认替换描述')
     expect(scheme.outputLocale).toBe('zh')
     expect(scheme.description).toContain('默认展开')

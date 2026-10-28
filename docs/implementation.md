@@ -108,3 +108,35 @@
 - Inspected：[实际动效录屏](verification/v2-motion.webm)记录折叠、筛选、抽屉与参数操作，供视觉节奏审阅。录屏和中间帧检查不代表所有设备帧率或真机安装验收。
 
 本轮未提交、推送或部署到 Vercel。静态原型继续作为布局基准，动效触发与中断规则以 PRD 第 9 节为准。
+
+
+## shadcn-vue 全局控件统一（2026-10-28）
+
+本轮按原型先行顺序完成，以下为本地变更，不代表已经推送或上线。
+
+| 范围 | 实现 |
+| --- | --- |
+| 5 处下拉 | 参数 2 处、词条输出、方案输出、保存位置 → Select |
+| 3 处滑块和 1 处开关 | 宽度、时长、分栏比例 → Slider；默认收起 → Switch |
+| 搜索 | 词条、订单 → InputGroup；全局搜索、命令演示 → Command |
+| 导航和展开 | Sidebar、NavigationMenu；4 类业务展开 → Collapsible；渐进披露 → Accordion |
+| 演示和反馈 | Tabs、Popover、RadioGroup、Tooltip、Table、Empty、Alert、FieldError |
+| 确认和信息区 | 5 处确认 → AlertDialog；Card、Badge、Kbd；成功消息 → Sonner |
+
+- CollapsePanel 作为可反向的高度动画层，嵌在 force-mount 的 Collapsible / Accordion 中。收起时立即 inert，已输入内容不会卸载。
+- Command 的 shouldFilter=false 让词库继续提供别名和线索排序；选项及键盘导航仍由 Reka 管理。
+- AlertDialog 默认聚焦取消，记录程序触发时的焦点；输出语言通过控件 ID 恢复，避免关闭后焦点落在 body。
+- 新增运行依赖只有 vue-sonner 2.0.9，使用 catalog:frontend。生成器带入的 Lucide 包已移除。
+- 隐藏文件输入、翻转专用按钮、演示画面及嵌入抽屉保留专用实现。
+
+原型：docs/prototypes/frontend-glossary.pen；[控件状态板](prototypes/previews/Q4Rxh.png)、[交互状态板](prototypes/previews/Rtigh.png)。
+
+### 本轮验收
+
+- Executed：冻结锁文件离线安装通过；pnpm check 通过 Lint、Type Check、6 个测试文件共 22 项测试和静态生成。
+- Executed：生成 159 条路由，PWA 预缓存 226 项资源。保留上游构建计时、Rollup 注释及依赖 peer 提示，无屏蔽规则。
+- Executed：浏览器验证 Command 英文搜索及键盘跳转、空结果、Slider / Switch 联动、Select 选项、手机独立折叠菜单、输出预览取消保留正文并回到下拉框、Popover 单选及 Escape 返回焦点。
+- Executed：390px 手机方案页无横向溢出；浅色桌面和深色手机确认框已截图。
+- Inspected：普通业务控件已移至 shadcn；原生文件 input 与翻转按钮属于上述保留边界。未重新声明真机安装、全站屏幕阅读器或完整离线更新验收。
+
+截图：[桌面下拉](verification/shadcn-desktop-select.png)、[手机确认](verification/shadcn-mobile-confirmation.png)。本轮未提交、推送或部署。

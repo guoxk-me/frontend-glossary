@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import type { DemoParameters } from '../../types/glossary'
-import { onClickOutside } from '@vueuse/core'
-import { shallowRef, useId, useTemplateRef } from 'vue'
+import { shallowRef, useId } from 'vue'
 import { Icon } from '#components'
 import { useGlossaryLocale } from '../../composables/use-glossary-locale'
 import { releaseLeavingRow, retainLeavingRow } from '../../lib/list-motion'
 import CollapsePanel from '../CollapsePanel.vue'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
 import { Button } from '../ui/button'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
-import { Input } from '../ui/input'
+import { Field, FieldLabel } from '../ui/field'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 import DrawerDemo from './DrawerDemo.vue'
 
 const props = defineProps<{ kind: string, parameters: DemoParameters, compact?: boolean }>()
@@ -17,27 +22,14 @@ const { text, isEnglish } = useGlossaryLocale()
 
 const id = useId()
 const isPopoverOpen = shallowRef(false)
-const disclosureOpen = shallowRef([true, false])
-const popover = useTemplateRef<HTMLElement>('popover')
-function closePopover(): void {
-  isPopoverOpen.value = false
-  popover.value?.querySelector('button')?.focus()
-}
-onClickOutside(popover, () => {
-  isPopoverOpen.value = false
-})
+const disclosureOpen = shallowRef(['0'])
+const visibility = shallowRef('public')
 const activeTab = shallowRef('概览')
 const count = shallowRef(3)
 const command = shallowRef('')
 const selected = shallowRef('')
 const tabLabels = ['概览', '成员', '设置']
-// AI modified: keyboard tab changes move focus with selection, matching the visible tab state.
-function moveTab(event: KeyboardEvent, index: number): void {
-  const next = (index + tabLabels.length) % tabLabels.length
-  activeTab.value = tabLabels[next]!
-  const current = event.currentTarget as HTMLElement
-  current.parentElement?.querySelector<HTMLButtonElement>(`#${id}-tab-${next}`)?.focus()
-}
+// AI modified: Reka primitives coordinate focus, Escape and arrow keys with each visible state.
 </script>
 
 <template>
@@ -129,57 +121,79 @@ function moveTab(event: KeyboardEvent, index: number): void {
             <DialogTitle>{{ text('搜索命令') }}</DialogTitle>
             <DialogDescription>{{ text('输入名称筛选，再选择一项演示命令。') }}</DialogDescription>
           </DialogHeader>
-          <Input v-model="command" :aria-label="text('搜索演示命令')" :placeholder="text('搜索项目、设置…')" />
-          <Button v-for="label in ['打开项目', '邀请成员', '工作空间设置'].filter(label => `${label} ${text(label)}`.toLowerCase().includes(command.toLowerCase()))" :key="label" variant="ghost" class="justify-between" @click="selected = label">
-            {{ text(label) }}<Icon name="lucide:arrow-up-right" />
-          </Button>
+          <Command>
+            <CommandInput v-model="command" :aria-label="text('搜索演示命令')" :placeholder="text('搜索项目、设置…')" />
+            <CommandList>
+              <CommandEmpty>{{ text('没有找到匹配的词条') }}</CommandEmpty><CommandGroup>
+                <CommandItem v-for="label in ['打开项目', '邀请成员', '工作空间设置']" :key="label" :value="label" @select="selected = label">
+                  {{ text(label) }}<Icon name="lucide:arrow-up-right" />
+                </CommandItem>
+              </CommandGroup>
+            </CommandList>
+          </Command>
           <p role="status">
             {{ selected ? (isEnglish ? `Selected: ${text(selected)} (demo)` : `已选择：${selected}（演示）`) : text('支持 Tab 切换和 Enter 选择。') }}
           </p>
         </DialogContent>
       </Dialog>
-      <div v-else-if="kind === 'tooltip'" class="tooltip-example">
-        <Button variant="outline" :aria-describedby="`${id}-tooltip`">
-          {{ text('悬停或聚焦我') }}
-        </Button>
-        <span :id="`${id}-tooltip`" role="tooltip">{{ text('查看项目的详细信息') }}</span>
-      </div>
-      <div v-else-if="kind === 'popover'" ref="popover" class="popover-example" @keydown.esc.stop="closePopover">
-        <Button variant="outline" :aria-expanded="isPopoverOpen" :aria-controls="`${id}-popover`" @click="isPopoverOpen = !isPopoverOpen">
-          {{ text('项目设置') }} <Icon name="lucide:chevron-down" class="motion-chevron" :class="{ 'rotate-180': isPopoverOpen }" :size="14" />
-        </Button>
-        <Transition name="popover">
-          <div v-show="isPopoverOpen" :id="`${id}-popover`" class="popover-content" :inert="!isPopoverOpen || undefined" :aria-hidden="!isPopoverOpen">
-            <strong>{{ text('可见范围') }}</strong>
-            <label><input type="radio" :name="`${id}-visibility`" checked> {{ text('公开可见') }}</label>
-            <label><input type="radio" :name="`${id}-visibility`"> {{ text('仅团队可见') }}</label>
-            <p>{{ text('再次点击按钮收起浮层。') }}</p>
-          </div>
-        </Transition>
-      </div>
-      <div v-else-if="kind === 'disclosure'" class="disclosure-example">
-        <section v-for="(label, index) in ['如何开始使用？', '数据保存在哪里？']" :key="label" class="disclosure-row">
-          <button :aria-expanded="disclosureOpen[index]" :aria-controls="`${id}-disclosure-${index}`" @click="disclosureOpen = disclosureOpen.map((open, position) => position === index ? !open : open)">
-            {{ text(label) }}<Icon name="lucide:chevron-down" class="motion-chevron" :class="{ 'rotate-180': disclosureOpen[index] }" :size="14" />
-          </button>
-          <CollapsePanel :id="`${id}-disclosure-${index}`" :open="!!disclosureOpen[index]">
-            <p>{{ text(index === 0 ? '浏览词条、调整演示参数，再加入方案。' : '收藏和方案只保存在当前浏览器。') }}</p>
-          </CollapsePanel>
-        </section>
-      </div>
-      <div v-else-if="kind === 'tabs'" class="tabs-example">
-        <div class="demo-tablist" role="tablist" :aria-label="text('演示项目内容')">
-          <button v-for="(label, index) in ['概览', '成员', '设置']" :id="`${id}-tab-${index}`" :key="label" role="tab" :aria-selected="activeTab === label" :aria-controls="`${id}-panel-${index}`" :tabindex="activeTab === label ? 0 : -1" :class="{ selected: activeTab === label }" @click="activeTab = label" @keydown.right.prevent="moveTab($event, index + 1)" @keydown.left.prevent="moveTab($event, index - 1)" @keydown.home.prevent="moveTab($event, 0)" @keydown.end.prevent="moveTab($event, 2)">
+      <TooltipProvider v-else-if="kind === 'tooltip'">
+        <Tooltip>
+          <TooltipTrigger as-child>
+            <Button variant="outline">
+              {{ text('悬停或聚焦我') }}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>{{ text('查看项目的详细信息') }}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <Popover v-else-if="kind === 'popover'" v-model:open="isPopoverOpen">
+        <PopoverTrigger as-child>
+          <Button variant="outline">
+            {{ text('项目设置') }}<Icon name="lucide:chevron-down" class="motion-chevron" :class="{ 'rotate-180': isPopoverOpen }" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent class="w-64">
+          <strong>{{ text('可见范围') }}</strong>
+          <RadioGroup v-model="visibility" class="my-4" :aria-label="text('可见范围')">
+            <Field orientation="horizontal">
+              <RadioGroupItem :id="`${id}-public`" value="public" /><FieldLabel :for="`${id}-public`">
+                {{ text('公开可见') }}
+              </FieldLabel>
+            </Field>
+            <Field orientation="horizontal">
+              <RadioGroupItem :id="`${id}-team`" value="team" /><FieldLabel :for="`${id}-team`">
+                {{ text('仅团队可见') }}
+              </FieldLabel>
+            </Field>
+          </RadioGroup>
+          <p class="text-sm text-muted-foreground">
+            {{ text('再次点击按钮收起浮层。') }}
+          </p>
+        </PopoverContent>
+      </Popover>
+      <Accordion v-else-if="kind === 'disclosure'" v-model="disclosureOpen" type="multiple" class="w-full max-w-sm">
+        <AccordionItem v-for="(label, index) in ['如何开始使用？', '数据保存在哪里？']" :key="label" :value="String(index)">
+          <AccordionTrigger>{{ text(label) }}</AccordionTrigger>
+          <AccordionContent force-mount :style="{ animation: 'none' }" class="p-0">
+            <CollapsePanel :open="disclosureOpen.includes(String(index))">
+              <div class="pb-3">
+                {{ text(index === 0 ? '浏览词条、调整演示参数，再加入方案。' : '收藏和方案只保存在当前浏览器。') }}
+              </div>
+            </CollapsePanel>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <Tabs v-else-if="kind === 'tabs'" v-model="activeTab" class="w-full max-w-sm">
+        <TabsList :aria-label="text('演示项目内容')">
+          <TabsTrigger v-for="label in tabLabels" :key="label" :value="label">
             {{ text(label) }}
-          </button>
-        </div>
-        <Transition v-for="(label, index) in tabLabels" :key="label" name="tab-content">
-          <div v-show="activeTab === label" :id="`${id}-panel-${index}`" :key="label" role="tabpanel" :aria-labelledby="`${id}-tab-${index}`" tabindex="0" class="demo-tab-panel">
-            <strong>{{ [text('项目进展 86%'), text('团队成员 6 人'), text('通知设置')][index] }}</strong>
-            <p>{{ [text('所有任务正在有序进行。'), text('每个角色，都有自己的职责。'), text('按需接收项目动态。')][index] }}</p>
-          </div>
-        </Transition>
-      </div>
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent v-for="(label, index) in tabLabels" :key="label" :value="label" class="demo-tab-panel">
+          <strong>{{ [text('项目进展 86%'), text('团队成员 6 人'), text('通知设置')][index] }}</strong>
+          <p>{{ [text('所有任务正在有序进行。'), text('每个角色，都有自己的职责。'), text('按需接收项目动态。')][index] }}</p>
+        </TabsContent>
+      </Tabs>
       <div v-else-if="kind === 'load-more'" class="load-more-example">
         <TransitionGroup name="list" tag="div" class="motion-list" @before-leave="retainLeavingRow" @after-leave="releaseLeavingRow" @before-enter="releaseLeavingRow">
           <div v-for="n in count" :key="n" class="mini-row">

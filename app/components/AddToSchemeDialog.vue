@@ -11,8 +11,9 @@ import CollapsePanel from './CollapsePanel.vue'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { Button } from './ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
-import { Field, FieldGroup, FieldLabel } from './ui/field'
+import { Field, FieldError, FieldGroup, FieldLabel } from './ui/field'
 import { Input } from './ui/input'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 
 const props = defineProps<{ term: Term, parameters: DemoParameters }>()
 
@@ -88,14 +89,20 @@ function add(hasConfirmed = false): void {
           <FieldLabel for="scheme-destination">
             {{ text('保存到') }}
           </FieldLabel>
-          <select id="scheme-destination" v-model="schemeId" class="native-select" @change="conflictTitle = ''">
-            <option value="new">
-              {{ text('新建方案') }}
-            </option>
-            <option v-for="scheme in library.schemes" :key="scheme.id" :value="scheme.id">
-              {{ scheme.title }}
-            </option>
-          </select>
+          <Select v-model="schemeId" @update:model-value="conflictTitle = ''">
+            <SelectTrigger id="scheme-destination">
+              <SelectValue />
+            </SelectTrigger><SelectContent>
+              <SelectGroup>
+                <SelectItem value="new">
+                  {{ text('新建方案') }}
+                </SelectItem>
+                <SelectItem v-for="scheme in library.schemes" :key="scheme.id" :value="scheme.id">
+                  {{ scheme.title }}
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </Field>
         <Field v-if="schemeId === 'new'">
           <FieldLabel for="scheme-name">
@@ -117,9 +124,9 @@ function add(hasConfirmed = false): void {
         </Alert>
       </CollapsePanel>
       <CollapsePanel :open="!!error">
-        <p role="alert" class="text-destructive text-sm">
+        <FieldError role="alert">
           {{ text(error) }}
-        </p>
+        </FieldError>
       </CollapsePanel>
       <DialogFooter>
         <Button variant="outline" @click="isOpen = false">

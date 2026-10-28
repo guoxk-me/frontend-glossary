@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mountSuspended } from '@nuxt/test-utils/runtime'
+import { flushPromises } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import CollapsePanel from '../../app/components/CollapsePanel.vue'
 import InteractionDemo from '../../app/components/demos/InteractionDemo.vue'
@@ -40,11 +41,14 @@ describe('动效中的交互边界', () => {
     const trigger = wrapper.get('button')
     await trigger.trigger('click')
     expect(trigger.attributes('aria-expanded')).toBe('true')
-    wrapper.get('input').element.focus()
-    await wrapper.get('input').trigger('keydown', { key: 'Escape' })
+    await flushPromises()
+    const radio = document.querySelector<HTMLElement>('[role="radio"]')!
+    radio.focus()
+    radio.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+    await flushPromises()
     expect(trigger.attributes('aria-expanded')).toBe('false')
     expect(document.activeElement).toBe(trigger.element)
-    expect(wrapper.get('.popover-content').attributes('inert')).toBeDefined()
+    expect(document.querySelector('[data-slot=popover-content]')).toBeNull()
   })
   it('标签键盘切换不等待淡入，连续加载到末尾不丢焦点', async () => {
     wrapper = await mountSuspended(InteractionDemo, {
@@ -54,7 +58,9 @@ describe('动效中的交互边界', () => {
       },
       attachTo: document.body,
     })
+    wrapper.get<HTMLElement>('[role=tab]').element.focus()
     await wrapper.get('[role=tab]').trigger('keydown', { key: 'ArrowRight' })
+    await flushPromises()
     const selected = wrapper.get('[role=tab][aria-selected=true]')
     expect(selected.text()).toBe('成员')
     expect(document.activeElement).toBe(selected.element)

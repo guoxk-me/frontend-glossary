@@ -6,6 +6,7 @@ import { useGlossaryLocale } from '../composables/use-glossary-locale'
 import { releaseLeavingRow, retainLeavingRow } from '../lib/list-motion'
 import { useLibraryStore } from '../stores/library'
 import LibraryBackup from './LibraryBackup.vue'
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
@@ -118,21 +119,21 @@ function remove(): void {
       </EmptyContent>
     </Empty>
   </TransitionGroup>
-  <Dialog :open="!!deleteId" @update:open="($event) => { if (!$event) deleteId = '' }">
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>{{ text('删除这个方案？') }}</DialogTitle>
-        <DialogDescription>{{ text('删除后无法在当前浏览器恢复。需要保留时，请先导出 JSON 备份。') }}</DialogDescription>
-      </DialogHeader>
-      <DialogFooter>
-        <Button variant="outline" @click="deleteId = ''">
+  <AlertDialog :open="!!deleteId" @update:open="($event) => { if (!$event) deleteId = '' }">
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>{{ text('删除这个方案？') }}</AlertDialogTitle>
+        <AlertDialogDescription>{{ text('删除后无法在当前浏览器恢复。需要保留时，请先导出 JSON 备份。') }}</AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel @click="deleteId = ''">
           {{ text('取消') }}
-        </Button>
+        </AlertDialogCancel>
         <Button variant="destructive" @click="remove">
           {{ text('确认删除') }}
         </Button>
-      </DialogFooter>
-    </DialogContent>
-  </Dialog>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
   <LibraryBackup />
 </template>

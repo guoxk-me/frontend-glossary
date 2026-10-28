@@ -4,6 +4,7 @@ import { shallowRef, watch } from 'vue'
 import { Icon } from '#components'
 import { useGlossaryLocale } from '../../composables/use-glossary-locale'
 import { Button } from '../ui/button'
+import { Slider } from '../ui/slider'
 
 const props = defineProps<{ kind: string, parameters: DemoParameters, compact?: boolean }>()
 
@@ -51,10 +52,10 @@ watch(() => props.parameters.collapsed, () => {
           </aside>
           <div v-if="kind === 'split-pane' || kind === 'master-detail'" class="mini-master" :style="{ width: `${kind === 'split-pane' ? split : 38}%` }">
             <strong>{{ kind === 'split-pane' ? text('文件列表') : text('订单列表') }}</strong>
-            <button v-for="(title, index) in ['设计系统', '前端词典', '数据看板']" :key="title" :class="{ selected: selected === index }" @click="selected = index">
+            <Button v-for="(title, index) in ['设计系统', '前端词典', '数据看板']" :key="title" variant="ghost" :class="{ selected: selected === index }" @click="selected = index">
               {{ text(title) }} <Icon name="lucide:chevron-right" :size="12" />
-            </button>
-            <input v-if="kind === 'split-pane' && !compact" v-model="split" type="range" min="30" max="65" :aria-label="text('左右分栏比例')">
+            </Button>
+            <Slider v-if="kind === 'split-pane' && !compact" :model-value="[split]" :min="30" :max="65" :aria-label="text('左右分栏比例')" @update:model-value="split = $event?.[0] ?? split" />
           </div>
           <div class="mini-content" :class="{ 'scroll-demo': ['sidebar', 'sticky-header'].includes(kind) }">
             <header class="mini-content-header">

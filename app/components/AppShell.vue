@@ -14,7 +14,9 @@ import TermNavigation from './TermNavigation.vue'
 import ThemeToggle from './ThemeToggle.vue'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { Button } from './ui/button'
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from './ui/navigation-menu'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
+import { Sidebar, SidebarContent, SidebarFooter, SidebarProvider } from './ui/sidebar'
 
 const { text, localePath } = useGlossaryLocale()
 
@@ -56,73 +58,95 @@ useEventListener('beforeunload', (event) => {
 </script>
 
 <template>
-  <a href="#main-content" class="skip-link">{{ text('跳到正文') }}</a>
-  <header class="site-header">
-    <div class="header-inner">
-      <Sheet v-model:open="isMenuOpen">
-        <SheetTrigger as-child>
-          <Button variant="ghost" size="icon" class="mobile-menu" :aria-label="text('打开导航')">
-            <Icon name="lucide:menu" />
+  <!-- AI modified: sidebar groups collapse independently; the navigation width stays fixed. -->
+  <SidebarProvider :default-open="true" :keyboard-shortcut="false" class="block min-h-0">
+    <a href="#main-content" class="skip-link">{{ text('跳到正文') }}</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <Sheet v-model:open="isMenuOpen">
+          <SheetTrigger as-child>
+            <Button variant="ghost" size="icon" class="mobile-menu" :aria-label="text('打开导航')">
+              <Icon name="lucide:menu" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" class="overflow-y-auto">
+            <SheetHeader>
+              <SheetTitle>{{ text('前端词典') }}</SheetTitle>
+              <SheetDescription>{{ text('找到你想表达的效果') }}</SheetDescription>
+            </SheetHeader>
+            <TermNavigation @navigate="isMenuOpen = false" />
+          </SheetContent>
+        </Sheet>
+        <NuxtLink :to="localePath('/')" class="brand">
+          <span class="brand-icon">
+            <Icon name="lucide:book-open" :size="17" />
+          </span>
+          <strong>{{ text('前端词典') }}</strong>
+        </NuxtLink>
+        <NavigationMenu class="top-navigation" :aria-label="text('主导航')">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink as-child>
+                <NuxtLink :to="localePath('/')">{{ text('词典') }}</NuxtLink>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink as-child>
+                <NuxtLink :to="localePath('/favorites')">{{ text('我的收藏') }}</NuxtLink>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink as-child>
+                <NuxtLink :to="localePath('/schemes')">{{ text('我的方案') }}</NuxtLink>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        <div class="header-actions">
+          <GlobalSearch />
+          <LanguageToggle />
+          <Button variant="ghost" size="icon" as-child>
+            <a href="https://github.com/guoxk-me/frontend-glossary" target="_blank" rel="noopener noreferrer" :aria-label="text('GitHub 仓库')">
+              <Icon name="lucide:github" />
+            </a>
           </Button>
-        </SheetTrigger>
-        <SheetContent side="left" class="overflow-y-auto">
-          <SheetHeader>
-            <SheetTitle>{{ text('前端词典') }}</SheetTitle>
-            <SheetDescription>{{ text('找到你想表达的效果') }}</SheetDescription>
-          </SheetHeader>
-          <TermNavigation @navigate="isMenuOpen = false" />
-        </SheetContent>
-      </Sheet>
-      <NuxtLink :to="localePath('/')" class="brand">
-        <span class="brand-icon">
-          <Icon name="lucide:book-open" :size="17" />
-        </span>
-        <strong>{{ text('前端词典') }}</strong>
-      </NuxtLink>
-      <nav class="top-navigation" :aria-label="text('主导航')">
-        <NuxtLink :to="localePath('/')">{{ text('词典') }}</NuxtLink>
-        <NuxtLink :to="localePath('/favorites')">{{ text('我的收藏') }}</NuxtLink>
-        <NuxtLink :to="localePath('/schemes')">{{ text('我的方案') }}</NuxtLink>
-      </nav>
-      <div class="header-actions">
-        <GlobalSearch />
-        <LanguageToggle />
-        <Button variant="ghost" size="icon" as-child>
-          <a href="https://github.com/guoxk-me/frontend-glossary" target="_blank" rel="noopener noreferrer" :aria-label="text('GitHub 仓库')">
-            <Icon name="lucide:github" />
-          </a>
-        </Button>
-        <ThemeToggle />
-        <div class="header-install">
-          <PwaInstall />
+          <ThemeToggle />
+          <div class="header-install">
+            <PwaInstall />
+          </div>
         </div>
       </div>
+    </header>
+    <div class="site-layout">
+      <aside class="desktop-sidebar">
+        <Sidebar collapsible="none" class="w-full">
+          <SidebarContent>
+            <TermNavigation />
+          </SidebarContent><SidebarFooter class="p-0">
+            <PwaStatus show-install />
+          </SidebarFooter>
+        </Sidebar>
+      </aside>
+      <main id="main-content" tabindex="-1">
+        <CollapsePanel :open="!!(library.saveError || library.restoreError)">
+          <Alert variant="destructive" class="mb-6">
+            <AlertTitle>{{ text('本地保存需要处理') }}</AlertTitle>
+            <AlertDescription>
+              {{ text(library.saveError || library.restoreError) }} <NuxtLink :to="localePath('/schemes')">{{ text('前往备份与恢复') }}</NuxtLink>
+            </AlertDescription>
+          </Alert>
+        </CollapsePanel>
+        <div ref="page" class="page-content">
+          <slot />
+        </div>
+        <div class="mobile-pwa">
+          <PwaStatus :show-update="false" show-install />
+        </div>
+        <footer class="site-footer">
+          <span>{{ text('把脑海里的效果，说清楚。') }}</span>
+          <NuxtLink :to="localePath('/about')">{{ text('本地保存 · 无需登录') }}</NuxtLink>
+        </footer>
+      </main>
     </div>
-  </header>
-  <div class="site-layout">
-    <aside class="desktop-sidebar">
-      <TermNavigation />
-      <PwaStatus show-install />
-    </aside>
-    <main id="main-content" tabindex="-1">
-      <CollapsePanel :open="!!(library.saveError || library.restoreError)">
-        <Alert variant="destructive" class="mb-6">
-          <AlertTitle>{{ text('本地保存需要处理') }}</AlertTitle>
-          <AlertDescription>
-            {{ text(library.saveError || library.restoreError) }} <NuxtLink :to="localePath('/schemes')">{{ text('前往备份与恢复') }}</NuxtLink>
-          </AlertDescription>
-        </Alert>
-      </CollapsePanel>
-      <div ref="page" class="page-content">
-        <slot />
-      </div>
-      <div class="mobile-pwa">
-        <PwaStatus :show-update="false" show-install />
-      </div>
-      <footer class="site-footer">
-        <span>{{ text('把脑海里的效果，说清楚。') }}</span>
-        <NuxtLink :to="localePath('/about')">{{ text('本地保存 · 无需登录') }}</NuxtLink>
-      </footer>
-    </main>
-  </div>
+  </SidebarProvider>
 </template>

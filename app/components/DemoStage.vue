@@ -8,6 +8,7 @@ import InteractionDemo from './demos/InteractionDemo.vue'
 import LayoutDemo from './demos/LayoutDemo.vue'
 import MotionDemo from './demos/MotionDemo.vue'
 import VisualDemo from './demos/VisualDemo.vue'
+import { Alert, AlertDescription } from './ui/alert'
 import { Button } from './ui/button'
 
 const props = defineProps<{ term: Term, parameters?: DemoParameters, compact?: boolean }>()
@@ -37,14 +38,16 @@ const activeParameters = computed(() => props.parameters ?? defaultParameters())
         <InteractionDemo v-else :key="replay" :kind="term.demo" :parameters="activeParameters" :compact="compact" />
       </div>
       <template #error="{ clearError }">
-        <div class="p-6 text-sm" role="alert">
-          <p class="mb-3">
-            {{ text('演示暂时无法加载，词条说明仍可阅读。') }}
-          </p>
-          <Button variant="outline" size="sm" @click="clearError">
-            {{ text('重试演示') }}
-          </Button>
-        </div>
+        <Alert variant="destructive">
+          <AlertDescription>
+            <p class="mb-3">
+              {{ text('演示暂时无法加载，词条说明仍可阅读。') }}
+            </p>
+            <Button variant="outline" size="sm" @click="clearError">
+              {{ text('重试演示') }}
+            </Button>
+          </AlertDescription>
+        </Alert>
       </template>
     </NuxtErrorBoundary>
   </div>

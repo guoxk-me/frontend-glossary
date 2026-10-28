@@ -41,6 +41,7 @@
     "shadcn-vue": "catalog:frontend",
     "tw-animate-css": "catalog:frontend",
     "vue": "catalog:frontend",
+    "vue-sonner": "catalog:frontend",
     "zod": "catalog:frontend"
   },
   "devDependencies": {

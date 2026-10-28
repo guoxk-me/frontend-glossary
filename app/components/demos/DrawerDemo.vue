@@ -4,6 +4,9 @@ import { computed, nextTick, shallowRef, useTemplateRef } from 'vue'
 import { Icon } from '#components'
 import { useGlossaryLocale } from '../../composables/use-glossary-locale'
 import { Button } from '../ui/button'
+import { Empty, EmptyHeader, EmptyTitle } from '../ui/empty'
+import { InputGroup, InputGroupAddon, InputGroupInput } from '../ui/input-group'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 
 const props = defineProps<{ parameters: DemoParameters }>()
 const { text, isEnglish } = useGlossaryLocale()
@@ -65,23 +68,29 @@ function closeOrder(): void {
     <section ref="orderList" class="order-list">
       <h3>{{ text('订单管理') }}</h3>
       <p>{{ text('选择一条订单查看详情') }}</p>
-      <label class="order-search"><Icon name="lucide:search" :size="14" /><input v-model="query" :aria-label="text('搜索订单号或客户')" :placeholder="text('搜索订单号或客户')"></label>
-      <table>
-        <thead><tr><th>{{ text('订单编号') }}</th><th>{{ text('客户') }}</th><th>{{ text('状态') }}</th></tr></thead>
-        <tbody>
-          <tr v-for="order in shown" :key="order.id" :class="{ selected: isOpen && selectedOrder.id === order.id }">
-            <td>
-              <button :aria-label="`${text('查看订单')} #${order.id}`" :aria-expanded="isOpen && selectedOrder.id === order.id" @click="openOrder(order, $event)">
+      <InputGroup class="my-4">
+        <InputGroupAddon><Icon name="lucide:search" /></InputGroupAddon><InputGroupInput v-model="query" :aria-label="text('搜索订单号或客户')" :placeholder="text('搜索订单号或客户')" />
+      </InputGroup>
+      <Table>
+        <TableHeader><TableRow><TableHead>{{ text('订单编号') }}</TableHead><TableHead>{{ text('客户') }}</TableHead><TableHead>{{ text('状态') }}</TableHead></TableRow></TableHeader>
+        <TableBody>
+          <TableRow v-for="order in shown" :key="order.id" :data-state="isOpen && selectedOrder.id === order.id ? 'selected' : undefined">
+            <TableCell>
+              <Button variant="link" class="h-auto p-0" :aria-label="`${text('查看订单')} #${order.id}`" :aria-expanded="isOpen && selectedOrder.id === order.id" @click="openOrder(order, $event)">
                 #{{ order.id }}
-              </button>
-            </td>
-            <td>{{ isEnglish ? order.englishCustomer : order.customer }}</td><td>{{ text(order.status) }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <p v-if="!shown.length" role="status">
-        {{ text('没有匹配的订单') }}
-      </p>
+              </Button>
+            </TableCell>
+            <TableCell>{{ isEnglish ? order.englishCustomer : order.customer }}</TableCell><TableCell>{{ text(order.status) }}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+      <Empty v-if="!shown.length" role="status">
+        <EmptyHeader>
+          <EmptyTitle>
+            {{ text('没有匹配的订单') }}
+          </EmptyTitle>
+        </EmptyHeader>
+      </Empty>
       <div class="order-list-footer">
         {{ shown.length }} {{ text('条演示订单') }}
       </div>

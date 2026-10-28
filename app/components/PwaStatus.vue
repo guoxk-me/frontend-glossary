@@ -7,6 +7,7 @@ import { useCatalog } from '../composables/use-catalog'
 import { useGlossaryLocale } from '../composables/use-glossary-locale'
 import { useLibraryStore } from '../stores/library'
 import PwaInstall from './PwaInstall.vue'
+import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { Button } from './ui/button'
 
 const props = withDefaults(defineProps<{ showUpdate?: boolean, showInstall?: boolean }>(), { showUpdate: true, showInstall: false })
@@ -115,9 +116,9 @@ async function retry(): Promise<void> {
   <!-- AI modified: render one update prompt outside sticky sidebars so it remains clickable. -->
   <Teleport to="body">
     <Transition name="feedback">
-      <div v-if="props.showUpdate && $pwa?.needRefresh && !isUpdateDismissed" class="pwa-notice" role="status">
-        <strong>{{ text('有新版本可以使用') }}</strong>
-        <p>{{ text('先保存当前方案，再刷新更新。保存失败时会保留当前页面。') }}</p>
+      <Alert v-if="props.showUpdate && $pwa?.needRefresh && !isUpdateDismissed" class="pwa-notice" role="status">
+        <AlertTitle>{{ text('有新版本可以使用') }}</AlertTitle>
+        <AlertDescription>{{ text('先保存当前方案，再刷新更新。保存失败时会保留当前页面。') }}</AlertDescription>
         <div class="flex gap-2">
           <Button :disabled="isBusy" @click="update">
             {{ text('保存并更新') }}
@@ -126,7 +127,7 @@ async function retry(): Promise<void> {
             {{ text('稍后') }}
           </Button>
         </div>
-      </div>
+      </Alert>
     </Transition>
   </Teleport>
 </template>

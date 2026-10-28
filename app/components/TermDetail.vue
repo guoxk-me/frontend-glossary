@@ -13,6 +13,10 @@ import DemoStage from './DemoStage.vue'
 import TermParameters from './TermParameters.vue'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
+import { Field, FieldLabel } from './ui/field'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 
 const props = defineProps<{ term: TermsCollectionItem }>()
 
@@ -55,7 +59,9 @@ useSeoMeta({
         </p>
         <div v-if="!isEnglish" class="alias-list">
           <span>{{ text('也叫') }}</span>
-          <span v-for="alias in term.aliases" :key="alias">{{ alias }}</span>
+          <Badge v-for="alias in term.aliases" :key="alias" variant="secondary">
+            {{ alias }}
+          </Badge>
         </div>
         <div class="detail-actions">
           <Button variant="outline" @click="copyText(term.english)">
@@ -66,33 +72,41 @@ useSeoMeta({
           </Button>
         </div>
       </header>
-      <div class="mobile-toc">
-        <button :aria-expanded="isTocOpen" aria-controls="mobile-toc-links" @click="isTocOpen = !isTocOpen">
-          {{ text('本页内容') }}<Icon name="lucide:chevron-down" class="motion-chevron" :class="{ 'rotate-180': isTocOpen }" />
-        </button>
-        <CollapsePanel id="mobile-toc-links" :open="isTocOpen">
-          <nav :aria-label="text('本页内容')">
-            <a v-for="section in [['preview', '效果预览'], ['understand', '这是什么'], ['describe', '可以这样描述'], ['sources', '参考资料']]" :key="section[0]" :href="`#${section[0]}`" @click="isTocOpen = false">{{ text(section[1]!) }}</a>
-          </nav>
-        </CollapsePanel>
-      </div>
+      <Collapsible v-model:open="isTocOpen" class="mobile-toc">
+        <CollapsibleTrigger as-child>
+          <Button variant="ghost" class="w-full justify-between" :aria-expanded="isTocOpen" aria-controls="mobile-toc-links">
+            {{ text('本页内容') }}<Icon name="lucide:chevron-down" class="motion-chevron" :class="{ 'rotate-180': isTocOpen }" />
+          </Button>
+        </CollapsibleTrigger>
+        <CollapsibleContent force-mount>
+          <CollapsePanel id="mobile-toc-links" :open="isTocOpen">
+            <nav :aria-label="text('本页内容')">
+              <a v-for="section in [['preview', '效果预览'], ['understand', '这是什么'], ['describe', '可以这样描述'], ['sources', '参考资料']]" :key="section[0]" :href="`#${section[0]}`" @click="isTocOpen = false">{{ text(section[1]!) }}</a>
+            </nav>
+          </CollapsePanel>
+        </CollapsibleContent>
+      </Collapsible>
       <section id="preview">
         <h2 class="section-heading">
           {{ text('效果预览') }} <span>{{ text('先看，再试一试') }}</span>
         </h2>
         <DemoStage :term="term" :parameters="parameters" />
-        <div v-if="parameterProfile(term) !== 'none'" class="detail-parameters">
-          <button class="parameter-toggle" :aria-expanded="isParametersOpen" aria-controls="term-parameter-controls" @click="isParametersOpen = !isParametersOpen">
-            <Icon name="lucide:sliders-horizontal" :size="16" />{{ text('调整效果参数') }}<Icon name="lucide:chevron-down" class="motion-chevron" :class="{ 'rotate-180': isParametersOpen }" :size="16" />
-          </button>
-          <CollapsePanel id="term-parameter-controls" :open="isParametersOpen">
-            <div class="parameter-controls">
-              <TermParameters :term="term" :parameters="parameters" @change="parameters = $event" /><Button variant="outline" class="mt-4" @click="parameters = defaultParameters()">
-                {{ text('恢复默认') }}
-              </Button>
-            </div>
-          </CollapsePanel>
-        </div>
+        <Collapsible v-if="parameterProfile(term) !== 'none'" v-model:open="isParametersOpen" class="detail-parameters">
+          <CollapsibleTrigger as-child>
+            <Button variant="ghost" class="parameter-toggle" :aria-expanded="isParametersOpen" aria-controls="term-parameter-controls">
+              <Icon name="lucide:sliders-horizontal" :size="16" />{{ text('调整效果参数') }}<Icon name="lucide:chevron-down" class="motion-chevron" :class="{ 'rotate-180': isParametersOpen }" :size="16" />
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent force-mount>
+            <CollapsePanel id="term-parameter-controls" :open="isParametersOpen">
+              <div class="parameter-controls">
+                <TermParameters :term="term" :parameters="parameters" @change="parameters = $event" /><Button variant="outline" class="mt-4" @click="parameters = defaultParameters()">
+                  {{ text('恢复默认') }}
+                </Button>
+              </div>
+            </CollapsePanel>
+          </CollapsibleContent>
+        </Collapsible>
         <p class="demo-note">
           {{ text('演示用于理解模式。具体样式和尺寸可按项目需要调整。') }}
         </p>
@@ -114,31 +128,40 @@ useSeoMeta({
           </div>
         </div>
       </section>
-      <section id="describe" class="description-section">
-        <div class="section-heading">
-          <h2>{{ text('可以这样描述') }}</h2>
+      <Card id="describe" class="description-section">
+        <CardHeader class="section-heading">
+          <CardTitle><h2>{{ text('可以这样描述') }}</h2></CardTitle>
           <Button variant="ghost" size="sm" @click="copyText(description)">
             <Icon name="lucide:copy" />{{ text('复制描述') }}
           </Button>
-        </div>
-        <div class="output-locale-control">
-          <label for="term-output-locale">{{ text('输出语言') }}</label><select id="term-output-locale" v-model="outputLocale" class="native-select">
-            <option value="en">
-              English
-            </option><option value="zh">
-              中文
-            </option>
-          </select>
-        </div>
-        <p class="generated-description">
-          {{ description }}
-        </p>
-        <AddToSchemeDialog :term="term" :parameters="parameters" />
-        <div class="description-foot">
-          <span>{{ text('随上方参数同步生成 · 可加入方案后编辑') }}</span>
-          <span role="status"><Transition name="feedback"><span v-if="message" :key="deliveryCount" class="inline-block">{{ text(message) }}</span></Transition></span>
-        </div>
-      </section>
+        </CardHeader><CardContent>
+          <Field orientation="horizontal" class="output-locale-control">
+            <FieldLabel for="term-output-locale">
+              {{ text('输出语言') }}
+            </FieldLabel><Select v-model="outputLocale">
+              <SelectTrigger id="term-output-locale">
+                <SelectValue />
+              </SelectTrigger><SelectContent>
+                <SelectGroup>
+                  <SelectItem value="en">
+                    English
+                  </SelectItem><SelectItem value="zh">
+                    中文
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </Field>
+          <p class="generated-description">
+            {{ description }}
+          </p>
+          <AddToSchemeDialog :term="term" :parameters="parameters" />
+          <div class="description-foot">
+            <span>{{ text('随上方参数同步生成 · 可加入方案后编辑') }}</span>
+            <span role="status"><Transition name="feedback"><span v-if="message" :key="deliveryCount" class="inline-block">{{ text(message) }}</span></Transition></span>
+          </div>
+        </CardContent>
+      </Card>
       <section id="sources" class="prose-section">
         <h2>{{ text('参考资料') }}</h2>
         <a v-for="source in term.sources" :key="source.url" :href="source.url" target="_blank" rel="noopener noreferrer" class="source-link">{{ text(source.title) }}<Icon name="lucide:external-link" :size="13" />

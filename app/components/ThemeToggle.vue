@@ -4,6 +4,7 @@ import { ColorScheme, Icon } from '#components'
 import { useColorMode } from '#imports'
 import { useGlossaryLocale } from '../composables/use-glossary-locale'
 import { Button } from './ui/button'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
 
 const { text, isEnglish } = useGlossaryLocale()
 
@@ -25,11 +26,17 @@ function cycleTheme(): void {
 <template>
   <!-- AI modified: reserve the button during SSR until the browser's theme preference is known. -->
   <ColorScheme>
-    <Button variant="ghost" size="icon" :aria-label="isEnglish ? `Change theme (current: ${text(themeLabel)})` : `切换主题（当前${themeLabel}）`" :title="isEnglish ? `Theme: ${text(themeLabel)}` : `主题：${themeLabel}，点击切换`" @click="cycleTheme">
-      <Icon v-if="colorMode.preference === 'system'" name="lucide:monitor" />
-      <Icon v-else-if="colorMode.preference === 'light'" name="lucide:sun" />
-      <Icon v-else name="lucide:moon" />
-    </Button>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger as-child>
+          <Button variant="ghost" size="icon" :aria-label="isEnglish ? `Change theme (current: ${text(themeLabel)})` : `切换主题（当前${themeLabel}）`" @click="cycleTheme">
+            <Icon v-if="colorMode.preference === 'system'" name="lucide:monitor" />
+            <Icon v-else-if="colorMode.preference === 'light'" name="lucide:sun" />
+            <Icon v-else name="lucide:moon" />
+          </Button>
+        </TooltipTrigger><TooltipContent>{{ text(themeLabel) }}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
     <template #placeholder>
       <Button variant="ghost" size="icon" :aria-label="text('正在读取主题偏好')" disabled>
         <Icon name="lucide:monitor" />

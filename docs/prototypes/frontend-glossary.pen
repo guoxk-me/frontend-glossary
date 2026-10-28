@@ -17926,57 +17926,26 @@
                       ]
                     },
                     {
-                      "type": "frame",
-                      "id": "G1iZG6",
-                      "name": "搜索入口",
+                      "id": "RiSUD",
+                      "type": "ref",
+                      "ref": "crKSR",
+                      "name": "InputGroup / 搜索入口",
                       "width": "fill_container",
                       "height": 52,
                       "fill": "$--docs-bg",
-                      "cornerRadius": 8,
-                      "stroke": "$--input",
-                      "strokeWidth": 1,
-                      "gap": 12,
-                      "padding": [
-                        0,
-                        16
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon",
-                          "id": "ryFCZ",
-                          "name": "搜索图标",
-                          "width": 20,
-                          "height": 20,
-                          "icon": "search",
-                          "library": "lucide",
-                          "fill": "$--muted-foreground"
+                      "stroke": "$--docs-line",
+                      "descendants": {
+                        "qpKj2": {
+                          "fill": "$--docs-muted"
                         },
-                        {
-                          "type": "text",
-                          "id": "CfPT5",
-                          "name": "搜索提示",
-                          "fill": "$--docs-muted",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
+                        "YRU3e": {
                           "content": "搜索名称，或试试「左边菜单不动，右边滚动」",
-                          "lineHeight": 1.6,
                           "fontFamily": "$--font-ui-zh",
-                          "fontSize": 14,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "text",
-                          "id": "xMqpo",
-                          "name": "快捷键",
                           "fill": "$--docs-muted",
-                          "content": "⌘ K",
-                          "lineHeight": 1.6,
-                          "fontFamily": "$--font-ui-zh",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
+                          "width": "fill_container",
+                          "textGrowth": "fixed-width"
                         }
-                      ]
+                      }
                     },
                     {
                       "type": "frame",
@@ -21214,46 +21183,26 @@
                               "fontWeight": "normal"
                             },
                             {
-                              "type": "frame",
-                              "id": "U4IxtD",
-                              "name": "订单搜索",
+                              "id": "vcgLL",
+                              "type": "ref",
+                              "ref": "crKSR",
+                              "name": "InputGroup / 订单搜索",
                               "width": "fill_container",
                               "height": 32,
                               "fill": "$--docs-bg",
-                              "cornerRadius": 5,
                               "stroke": "$--docs-line",
-                              "strokeWidth": 1,
-                              "gap": 8,
-                              "padding": [
-                                0,
-                                10
-                              ],
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "icon",
-                                  "id": "J1ux9",
-                                  "name": "search",
-                                  "width": 13,
-                                  "height": 13,
-                                  "icon": "search",
-                                  "library": "lucide",
+                              "descendants": {
+                                "qpKj2": {
                                   "fill": "$--docs-muted"
                                 },
-                                {
-                                  "type": "text",
-                                  "id": "InZkA",
-                                  "name": "搜索订单编号或客户",
-                                  "fill": "$--docs-muted",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
+                                "YRU3e": {
                                   "content": "搜索订单编号或客户",
-                                  "lineHeight": 1.6,
                                   "fontFamily": "$--font-ui-zh",
-                                  "fontSize": 10,
-                                  "fontWeight": "normal"
+                                  "fill": "$--docs-muted",
+                                  "width": "fill_container",
+                                  "textGrowth": "fixed-width"
                                 }
-                              ]
+                              }
                             },
                             {
                               "type": "frame",
@@ -22219,48 +22168,22 @@
                           "fontWeight": "normal"
                         },
                         {
-                          "id": "c6tL85",
+                          "id": "jWeME",
                           "type": "ref",
-                          "ref": "W0hW4T",
-                          "name": "English",
-                          "width": 86,
-                          "height": 40,
-                          "fill": "$--docs-ink",
-                          "stroke": "$--docs-line",
-                          "strokeWidth": 1,
-                          "descendants": {
-                            "X8ni9B": {
-                              "enabled": false,
-                              "icon": "copy",
-                              "fill": "$--docs-bg"
-                            },
-                            "Mm2ay": {
-                              "content": "English",
-                              "fontFamily": "$--font-ui-zh",
-                              "fill": "$--docs-bg"
-                            }
-                          }
-                        },
-                        {
-                          "id": "hdbd3",
-                          "type": "ref",
-                          "ref": "W0hW4T",
-                          "name": "中文",
-                          "width": 64,
+                          "ref": "Pn1p4",
+                          "name": "Select / 输出语言",
+                          "width": 144,
                           "height": 40,
                           "fill": "$--docs-bg",
                           "stroke": "$--docs-line",
-                          "strokeWidth": 1,
                           "descendants": {
-                            "X8ni9B": {
-                              "enabled": false,
-                              "icon": "copy",
-                              "fill": "$--docs-muted"
+                            "i7eqmq": {
+                              "content": "English",
+                              "fill": "$--docs-ink",
+                              "fontFamily": "$--font-ui-zh"
                             },
-                            "Mm2ay": {
-                              "content": "中文",
-                              "fontFamily": "$--font-ui-zh",
-                              "fill": "$--docs-ink"
+                            "WQSWi": {
+                              "fill": "$--docs-muted"
                             }
                           }
                         }
@@ -23979,48 +23902,22 @@
                               "fontWeight": "normal"
                             },
                             {
-                              "id": "m2BF4Y",
+                              "id": "cqRVl",
                               "type": "ref",
-                              "ref": "W0hW4T",
-                              "name": "English",
-                              "width": 86,
+                              "ref": "Pn1p4",
+                              "name": "Select / 输出语言",
+                              "width": 144,
                               "height": 40,
                               "fill": "$--docs-bg",
                               "stroke": "$--docs-line",
-                              "strokeWidth": 1,
                               "descendants": {
-                                "X8ni9B": {
-                                  "enabled": false,
-                                  "icon": "copy",
-                                  "fill": "$--docs-muted"
-                                },
-                                "Mm2ay": {
-                                  "content": "English",
-                                  "fontFamily": "$--font-ui-zh",
-                                  "fill": "$--docs-ink"
-                                }
-                              }
-                            },
-                            {
-                              "id": "ovR9W",
-                              "type": "ref",
-                              "ref": "W0hW4T",
-                              "name": "中文",
-                              "width": 64,
-                              "height": 40,
-                              "fill": "$--docs-ink",
-                              "stroke": "$--docs-line",
-                              "strokeWidth": 1,
-                              "descendants": {
-                                "X8ni9B": {
-                                  "enabled": false,
-                                  "icon": "copy",
-                                  "fill": "$--docs-bg"
-                                },
-                                "Mm2ay": {
+                                "i7eqmq": {
                                   "content": "中文",
-                                  "fontFamily": "$--font-ui-zh",
-                                  "fill": "$--docs-bg"
+                                  "fill": "$--docs-ink",
+                                  "fontFamily": "$--font-ui-zh"
+                                },
+                                "WQSWi": {
+                                  "fill": "$--docs-muted"
                                 }
                               }
                             }
@@ -24042,10 +23939,12 @@
                         {
                           "type": "frame",
                           "id": "JSd89",
-                          "name": "参数变更提示",
+                          "name": "Alert / 参数变更提示",
                           "width": "fill_container",
-                          "fill": "$--warning-soft",
-                          "cornerRadius": 6,
+                          "fill": "$--docs-bg",
+                          "cornerRadius": 8,
+                          "stroke": "$--docs-line",
+                          "strokeWidth": 1,
                           "layout": "vertical",
                           "gap": 10,
                           "padding": 16,
@@ -29392,57 +29291,26 @@
                       ]
                     },
                     {
-                      "type": "frame",
-                      "id": "h5yEp",
-                      "name": "搜索入口",
+                      "id": "OHDLE",
+                      "type": "ref",
+                      "ref": "crKSR",
+                      "name": "InputGroup / 搜索入口",
                       "width": "fill_container",
                       "height": 52,
                       "fill": "$--docs-bg",
-                      "cornerRadius": 8,
-                      "stroke": "$--input",
-                      "strokeWidth": 1,
-                      "gap": 12,
-                      "padding": [
-                        0,
-                        16
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon",
-                          "id": "i21a1H",
-                          "name": "搜索图标",
-                          "width": 20,
-                          "height": 20,
-                          "icon": "search",
-                          "library": "lucide",
-                          "fill": "$--muted-foreground"
+                      "stroke": "$--docs-line",
+                      "descendants": {
+                        "qpKj2": {
+                          "fill": "$--docs-muted"
                         },
-                        {
-                          "type": "text",
-                          "id": "FoiuR",
-                          "name": "搜索提示",
-                          "fill": "$--docs-muted",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
+                        "YRU3e": {
                           "content": "搜索名称，或试试「左边菜单不动，右边滚动」",
-                          "lineHeight": 1.6,
                           "fontFamily": "$--font-ui-zh",
-                          "fontSize": 14,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "text",
-                          "id": "s1Fgky",
-                          "name": "快捷键",
                           "fill": "$--docs-muted",
-                          "content": "⌘ K",
-                          "lineHeight": 1.6,
-                          "fontFamily": "$--font-ui-zh",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
+                          "width": "fill_container",
+                          "textGrowth": "fixed-width"
                         }
-                      ]
+                      }
                     },
                     {
                       "type": "frame",
@@ -31779,46 +31647,26 @@
               "fontWeight": "normal"
             },
             {
-              "type": "frame",
-              "id": "u56m1q",
-              "name": "手机搜索",
+              "id": "r1eQ4c",
+              "type": "ref",
+              "ref": "crKSR",
+              "name": "InputGroup / 手机搜索",
               "width": "fill_container",
               "height": 48,
               "fill": "$--docs-bg",
-              "cornerRadius": 6,
               "stroke": "$--docs-line",
-              "strokeWidth": 1,
-              "gap": 8,
-              "padding": [
-                0,
-                12
-              ],
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "WtDbL",
-                  "name": "搜索图标",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "search",
-                  "library": "lucide",
+              "descendants": {
+                "qpKj2": {
                   "fill": "$--docs-muted"
                 },
-                {
-                  "type": "text",
-                  "id": "R5QSnk",
-                  "name": "搜索提示",
-                  "fill": "$--docs-muted",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
+                "YRU3e": {
                   "content": "名称、别名或你想到的描述",
-                  "lineHeight": 1.6,
                   "fontFamily": "$--font-ui-zh",
-                  "fontSize": 13,
-                  "fontWeight": "normal"
+                  "fill": "$--docs-muted",
+                  "width": "fill_container",
+                  "textGrowth": "fixed-width"
                 }
-              ]
+              }
             },
             {
               "type": "frame",
@@ -33304,48 +33152,22 @@
                       "fontWeight": "normal"
                     },
                     {
-                      "id": "gItNQ",
+                      "id": "z2ray",
                       "type": "ref",
-                      "ref": "W0hW4T",
-                      "name": "English",
-                      "width": 86,
-                      "height": 40,
-                      "fill": "$--docs-ink",
-                      "stroke": "$--docs-line",
-                      "strokeWidth": 1,
-                      "descendants": {
-                        "X8ni9B": {
-                          "enabled": false,
-                          "icon": "copy",
-                          "fill": "$--docs-bg"
-                        },
-                        "Mm2ay": {
-                          "content": "English",
-                          "fontFamily": "$--font-ui-zh",
-                          "fill": "$--docs-bg"
-                        }
-                      }
-                    },
-                    {
-                      "id": "NcGIR",
-                      "type": "ref",
-                      "ref": "W0hW4T",
-                      "name": "中文",
-                      "width": 64,
+                      "ref": "Pn1p4",
+                      "name": "Select / 输出语言",
+                      "width": 144,
                       "height": 40,
                       "fill": "$--docs-bg",
                       "stroke": "$--docs-line",
-                      "strokeWidth": 1,
                       "descendants": {
-                        "X8ni9B": {
-                          "enabled": false,
-                          "icon": "copy",
-                          "fill": "$--docs-muted"
+                        "i7eqmq": {
+                          "content": "English",
+                          "fill": "$--docs-ink",
+                          "fontFamily": "$--font-ui-zh"
                         },
-                        "Mm2ay": {
-                          "content": "中文",
-                          "fontFamily": "$--font-ui-zh",
-                          "fill": "$--docs-ink"
+                        "WQSWi": {
+                          "fill": "$--docs-muted"
                         }
                       }
                     }
@@ -34026,48 +33848,22 @@
                       "fontWeight": "normal"
                     },
                     {
-                      "id": "TaYbX",
+                      "id": "AblU4",
                       "type": "ref",
-                      "ref": "W0hW4T",
-                      "name": "English",
-                      "width": 86,
+                      "ref": "Pn1p4",
+                      "name": "Select / 输出语言",
+                      "width": 144,
                       "height": 40,
                       "fill": "$--docs-bg",
                       "stroke": "$--docs-line",
-                      "strokeWidth": 1,
                       "descendants": {
-                        "X8ni9B": {
-                          "enabled": false,
-                          "icon": "copy",
-                          "fill": "$--docs-muted"
-                        },
-                        "Mm2ay": {
-                          "content": "English",
-                          "fontFamily": "$--font-ui-zh",
-                          "fill": "$--docs-ink"
-                        }
-                      }
-                    },
-                    {
-                      "id": "Lcmyu",
-                      "type": "ref",
-                      "ref": "W0hW4T",
-                      "name": "中文",
-                      "width": 64,
-                      "height": 40,
-                      "fill": "$--docs-ink",
-                      "stroke": "$--docs-line",
-                      "strokeWidth": 1,
-                      "descendants": {
-                        "X8ni9B": {
-                          "enabled": false,
-                          "icon": "copy",
-                          "fill": "$--docs-bg"
-                        },
-                        "Mm2ay": {
+                        "i7eqmq": {
                           "content": "中文",
-                          "fontFamily": "$--font-ui-zh",
-                          "fill": "$--docs-bg"
+                          "fill": "$--docs-ink",
+                          "fontFamily": "$--font-ui-zh"
+                        },
+                        "WQSWi": {
+                          "fill": "$--docs-muted"
                         }
                       }
                     }
@@ -34089,10 +33885,12 @@
                 {
                   "type": "frame",
                   "id": "RkwzG",
-                  "name": "参数变更提示",
+                  "name": "Alert / 参数变更提示",
                   "width": "fill_container",
-                  "fill": "$--warning-soft",
-                  "cornerRadius": 6,
+                  "fill": "$--docs-bg",
+                  "cornerRadius": 8,
+                  "stroke": "$--docs-line",
+                  "strokeWidth": 1,
                   "layout": "vertical",
                   "gap": 10,
                   "padding": 16,
@@ -34981,46 +34779,24 @@
                   "fontWeight": "normal"
                 },
                 {
-                  "type": "frame",
-                  "id": "K9a47",
-                  "name": "输入 选择方案",
+                  "id": "a1WD3",
+                  "type": "ref",
+                  "ref": "Pn1p4",
+                  "name": "Select / 输入 选择方案",
                   "width": "fill_container",
                   "height": 40,
                   "fill": "$--docs-bg",
-                  "cornerRadius": 6,
                   "stroke": "$--docs-line",
-                  "strokeWidth": 1,
-                  "gap": 16,
-                  "padding": [
-                    0,
-                    12
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "M1yrZT",
-                      "name": "字段值",
-                      "fill": "$--docs-ink",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
+                  "descendants": {
+                    "i7eqmq": {
                       "content": "订单管理后台",
-                      "lineHeight": 1.6,
-                      "fontFamily": "$--font-ui-zh",
-                      "fontSize": 14,
-                      "fontWeight": "normal"
+                      "fill": "$--docs-ink",
+                      "fontFamily": "$--font-ui-zh"
                     },
-                    {
-                      "type": "icon",
-                      "id": "HdLhl",
-                      "name": "选项",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "chevron-down",
-                      "library": "lucide",
+                    "WQSWi": {
                       "fill": "$--docs-muted"
                     }
-                  ]
+                  }
                 },
                 {
                   "type": "text",
@@ -38361,10 +38137,12 @@
                 {
                   "type": "frame",
                   "id": "DIHSM",
-                  "name": "手写内容替换提示",
+                  "name": "Alert / 手写内容替换提示",
                   "width": "fill_container",
-                  "fill": "$--warning-soft",
-                  "cornerRadius": 6,
+                  "fill": "$--docs-bg",
+                  "cornerRadius": 8,
+                  "stroke": "$--docs-line",
+                  "strokeWidth": 1,
                   "layout": "vertical",
                   "gap": 8,
                   "padding": 16,
@@ -39823,46 +39601,26 @@
                               "fontWeight": "normal"
                             },
                             {
-                              "type": "frame",
-                              "id": "qOXuo",
-                              "name": "订单搜索",
+                              "id": "LsiRT",
+                              "type": "ref",
+                              "ref": "crKSR",
+                              "name": "InputGroup / 订单搜索",
                               "width": "fill_container",
                               "height": 32,
                               "fill": "$--docs-bg",
-                              "cornerRadius": 5,
                               "stroke": "$--docs-line",
-                              "strokeWidth": 1,
-                              "gap": 8,
-                              "padding": [
-                                0,
-                                10
-                              ],
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "icon",
-                                  "id": "t7m0H",
-                                  "name": "search",
-                                  "width": 13,
-                                  "height": 13,
-                                  "icon": "search",
-                                  "library": "lucide",
+                              "descendants": {
+                                "qpKj2": {
                                   "fill": "$--docs-muted"
                                 },
-                                {
-                                  "type": "text",
-                                  "id": "QCFJq",
-                                  "name": "搜索订单编号或客户",
-                                  "fill": "$--docs-muted",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
+                                "YRU3e": {
                                   "content": "Search orders or customers",
-                                  "lineHeight": 1.6,
-                                  "fontFamily": "$--font-ui",
-                                  "fontSize": 10,
-                                  "fontWeight": "normal"
+                                  "fontFamily": "$--font-ui-zh",
+                                  "fill": "$--docs-muted",
+                                  "width": "fill_container",
+                                  "textGrowth": "fixed-width"
                                 }
-                              ]
+                              }
                             },
                             {
                               "type": "frame",
@@ -40828,48 +40586,22 @@
                           "fontWeight": "normal"
                         },
                         {
-                          "id": "hCJC9",
+                          "id": "OgCJf",
                           "type": "ref",
-                          "ref": "W0hW4T",
-                          "name": "English",
-                          "width": 86,
-                          "height": 40,
-                          "fill": "$--docs-ink",
-                          "stroke": "$--docs-line",
-                          "strokeWidth": 1,
-                          "descendants": {
-                            "X8ni9B": {
-                              "enabled": false,
-                              "icon": "copy",
-                              "fill": "$--docs-bg"
-                            },
-                            "Mm2ay": {
-                              "content": "English",
-                              "fontFamily": "$--font-ui-zh",
-                              "fill": "$--docs-bg"
-                            }
-                          }
-                        },
-                        {
-                          "id": "MAiUz",
-                          "type": "ref",
-                          "ref": "W0hW4T",
-                          "width": 72,
-                          "name": "中文",
+                          "ref": "Pn1p4",
+                          "name": "Select / 输出语言",
+                          "width": 144,
                           "height": 40,
                           "fill": "$--docs-bg",
                           "stroke": "$--docs-line",
-                          "strokeWidth": 1,
                           "descendants": {
-                            "X8ni9B": {
-                              "enabled": false,
-                              "icon": "copy",
-                              "fill": "$--docs-muted"
+                            "i7eqmq": {
+                              "content": "English",
+                              "fill": "$--docs-ink",
+                              "fontFamily": "$--font-ui-zh"
                             },
-                            "Mm2ay": {
-                              "content": "中文",
-                              "fontFamily": "$--font-ui",
-                              "fill": "$--docs-ink"
+                            "WQSWi": {
+                              "fill": "$--docs-muted"
                             }
                           }
                         }
@@ -41907,48 +41639,22 @@
                       "fontWeight": "normal"
                     },
                     {
-                      "id": "MTG8s",
+                      "id": "OVj3A",
                       "type": "ref",
-                      "ref": "W0hW4T",
-                      "name": "English",
-                      "width": 86,
-                      "height": 40,
-                      "fill": "$--docs-ink",
-                      "stroke": "$--docs-line",
-                      "strokeWidth": 1,
-                      "descendants": {
-                        "X8ni9B": {
-                          "enabled": false,
-                          "icon": "copy",
-                          "fill": "$--docs-bg"
-                        },
-                        "Mm2ay": {
-                          "content": "English",
-                          "fontFamily": "$--font-ui-zh",
-                          "fill": "$--docs-bg"
-                        }
-                      }
-                    },
-                    {
-                      "id": "QrN11",
-                      "type": "ref",
-                      "ref": "W0hW4T",
-                      "width": 64,
-                      "name": "中文",
+                      "ref": "Pn1p4",
+                      "name": "Select / 输出语言",
+                      "width": 144,
                       "height": 40,
                       "fill": "$--docs-bg",
                       "stroke": "$--docs-line",
-                      "strokeWidth": 1,
                       "descendants": {
-                        "X8ni9B": {
-                          "enabled": false,
-                          "icon": "copy",
-                          "fill": "$--docs-muted"
+                        "i7eqmq": {
+                          "content": "English",
+                          "fill": "$--docs-ink",
+                          "fontFamily": "$--font-ui-zh"
                         },
-                        "Mm2ay": {
-                          "content": "中文",
-                          "fontFamily": "$--font-ui",
-                          "fill": "$--docs-ink"
+                        "WQSWi": {
+                          "fill": "$--docs-muted"
                         }
                       }
                     }
@@ -43142,45 +42848,24 @@
                       "fontWeight": "normal"
                     },
                     {
-                      "type": "frame",
-                      "id": "WsIgg",
-                      "name": "进入方向控件",
+                      "id": "e8UqhO",
+                      "type": "ref",
+                      "ref": "Pn1p4",
+                      "name": "Select / 进入方向控件",
                       "width": "fill_container",
                       "height": 44,
-                      "cornerRadius": 6,
+                      "fill": "$--docs-bg",
                       "stroke": "$--docs-line",
-                      "strokeWidth": 1,
-                      "gap": 12,
-                      "padding": [
-                        0,
-                        12
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "Wt7us",
-                          "name": "当前参数",
-                          "fill": "$--docs-ink",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
+                      "descendants": {
+                        "i7eqmq": {
                           "content": "从右侧进入",
-                          "lineHeight": 1.5,
-                          "fontFamily": "$--font-ui-zh",
-                          "fontSize": 14,
-                          "fontWeight": "normal"
+                          "fill": "$--docs-ink",
+                          "fontFamily": "$--font-ui-zh"
                         },
-                        {
-                          "type": "icon",
-                          "id": "v38zC",
-                          "name": "展开选项",
-                          "width": 16,
-                          "height": 16,
-                          "icon": "chevron-down",
-                          "library": "lucide",
+                        "WQSWi": {
                           "fill": "$--docs-muted"
                         }
-                      ]
+                      }
                     },
                     {
                       "type": "text",
@@ -43196,45 +42881,12 @@
                       "fontWeight": "normal"
                     },
                     {
-                      "type": "frame",
-                      "id": "U6YWE",
-                      "name": "持续时间控件",
-                      "width": "fill_container",
-                      "height": 44,
-                      "cornerRadius": 6,
-                      "stroke": "$--docs-line",
-                      "strokeWidth": 1,
-                      "gap": 12,
-                      "padding": [
-                        0,
-                        12
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "HbsK0",
-                          "name": "当前参数",
-                          "fill": "$--docs-ink",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "240 ms",
-                          "lineHeight": 1.5,
-                          "fontFamily": "$--font-ui-zh",
-                          "fontSize": 14,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "icon",
-                          "id": "h9Dy7S",
-                          "name": "展开选项",
-                          "width": 16,
-                          "height": 16,
-                          "icon": "timer",
-                          "library": "lucide",
-                          "fill": "$--docs-muted"
-                        }
-                      ]
+                      "id": "B4imH",
+                      "type": "ref",
+                      "ref": "vhK6D",
+                      "name": "Slider / 持续时间",
+                      "width": 350,
+                      "height": 32
                     },
                     {
                       "type": "text",
@@ -43250,45 +42902,24 @@
                       "fontWeight": "normal"
                     },
                     {
-                      "type": "frame",
-                      "id": "Cn0is",
-                      "name": "缓动曲线控件",
+                      "id": "P9LAg",
+                      "type": "ref",
+                      "ref": "Pn1p4",
+                      "name": "Select / 缓动曲线控件",
                       "width": "fill_container",
                       "height": 44,
-                      "cornerRadius": 6,
+                      "fill": "$--docs-bg",
                       "stroke": "$--docs-line",
-                      "strokeWidth": 1,
-                      "gap": 12,
-                      "padding": [
-                        0,
-                        12
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "PGHMn",
-                          "name": "当前参数",
-                          "fill": "$--docs-ink",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
+                      "descendants": {
+                        "i7eqmq": {
                           "content": "ease-out",
-                          "lineHeight": 1.5,
-                          "fontFamily": "$--font-ui-zh",
-                          "fontSize": 14,
-                          "fontWeight": "normal"
+                          "fill": "$--docs-ink",
+                          "fontFamily": "$--font-ui-zh"
                         },
-                        {
-                          "type": "icon",
-                          "id": "WrL9u",
-                          "name": "展开选项",
-                          "width": 16,
-                          "height": 16,
-                          "icon": "chevron-down",
-                          "library": "lucide",
+                        "WQSWi": {
                           "fill": "$--docs-muted"
                         }
-                      ]
+                      }
                     },
                     {
                       "id": "QMKvp",
@@ -43590,6 +43221,1310 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Q4Rxh",
+      "x": 4680,
+      "y": 20210,
+      "name": "79 — shadcn-vue / 控件与反馈状态",
+      "clip": true,
+      "width": 1440,
+      "height": 1480,
+      "fill": "$--docs-bg",
+      "layout": "vertical",
+      "gap": 28,
+      "padding": 40,
+      "children": [
+        {
+          "type": "text",
+          "id": "QWz6u",
+          "name": "标题",
+          "fill": "$--docs-ink",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "统一控件，让每次操作都有一致反馈",
+          "lineHeight": 1.5,
+          "fontFamily": "$--font-ui-zh",
+          "fontSize": 28,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "p2sdf",
+          "name": "规则",
+          "fill": "$--docs-ink",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "shadcn-vue · reka-nova · Lucide / Nuxt Icon · 桌面 36px、触摸区域至少 44px · 焦点环与禁用态保持一致",
+          "lineHeight": 1.5,
+          "fontFamily": "$--font-ui-zh",
+          "fontSize": 14,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "z9007",
+          "name": "表单控件三列",
+          "width": "fill_container",
+          "gap": 24,
+          "children": [
+            {
+              "type": "frame",
+              "id": "qtO69",
+              "name": "Select · 选择与展开",
+              "width": "fill_container",
+              "cornerRadius": 12,
+              "stroke": "$--docs-line",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "DJnrB",
+                  "name": "分区标题",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Select · 选择与展开",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "id": "C6lNZ4",
+                  "type": "ref",
+                  "ref": "Pn1p4",
+                  "name": "Select Trigger / English",
+                  "width": "fill_container",
+                  "height": 40,
+                  "fill": "$--docs-bg",
+                  "stroke": "$--docs-line",
+                  "descendants": {
+                    "i7eqmq": {
+                      "content": "English",
+                      "fill": "$--docs-ink"
+                    },
+                    "WQSWi": {
+                      "fill": "$--docs-muted"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "i4bl4b",
+                  "name": "SelectContent / 输出语言",
+                  "width": "fill_container",
+                  "fill": "$--docs-bg",
+                  "cornerRadius": 8,
+                  "stroke": "$--docs-line",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000014",
+                    "offset": {
+                      "x": 0,
+                      "y": 4
+                    },
+                    "blur": 12
+                  },
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": 4,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "XYMdK",
+                      "name": "SelectItem / English",
+                      "width": "fill_container",
+                      "height": 36,
+                      "fill": "$--docs-soft",
+                      "cornerRadius": 4,
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "uhrAc",
+                          "name": "选项名称",
+                          "fill": "$--docs-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "English",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$--font-ui-zh",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "OdTnM",
+                          "name": "选中标记",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$--docs-ink"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lW2cr",
+                      "name": "SelectItem / 中文",
+                      "width": "fill_container",
+                      "height": 36,
+                      "fill": "$--docs-bg",
+                      "cornerRadius": 4,
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "hFgip",
+                          "name": "选项名称",
+                          "fill": "$--docs-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "中文",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$--font-ui-zh",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "PKNcZ",
+                          "name": "选中标记",
+                          "opacity": 0,
+                          "width": 16,
+                          "height": 16,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$--docs-ink"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "w117K",
+                  "name": "选择规则",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "↑↓ 选择 · Enter 确认 · Esc 关闭\n输出语言变化仍先预览，再确认替换正文。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "id": "eTD8d",
+                  "type": "ref",
+                  "ref": "Pn1p4",
+                  "name": "Select / Disabled",
+                  "width": "fill_container",
+                  "opacity": 0.5,
+                  "descendants": {
+                    "i7eqmq": {
+                      "content": "不可用 / Disabled"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f24TMn",
+              "name": "Slider / Switch · 参数",
+              "width": "fill_container",
+              "cornerRadius": 12,
+              "stroke": "$--docs-line",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yp0iP",
+                  "name": "分区标题",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Slider / Switch · 参数",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "dyIxw",
+                  "name": "时长标签",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "动画时长 240 ms",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "vhK6D",
+                  "name": "词典 / Slider",
+                  "reusable": true,
+                  "width": 360,
+                  "height": 32,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 2,
+                      "id": "mMgXI",
+                      "x": 0,
+                      "y": 14,
+                      "name": "Slider Track",
+                      "fill": "$--docs-line",
+                      "width": 360,
+                      "height": 4
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 2,
+                      "id": "uJJLQ",
+                      "x": 0,
+                      "y": 14,
+                      "name": "Slider Range",
+                      "fill": "$--docs-ink",
+                      "width": 90,
+                      "height": 4
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "oxQsp",
+                      "x": 82,
+                      "y": 8,
+                      "name": "Slider Thumb",
+                      "fill": "$--docs-bg",
+                      "width": 16,
+                      "height": 16,
+                      "stroke": "$--docs-ink",
+                      "strokeWidth": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "EU26t",
+                  "name": "范围说明",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "80–1600 ms · 步长 40 ms\n键盘方向键调整，预览立即跟随。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "JYRKB",
+                  "name": "Field / 默认收起",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "D5q9K",
+                      "name": "Switch Label",
+                      "fill": "$--docs-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "默认收起",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$--font-ui-zh",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "id": "J6wbPI",
+                      "type": "ref",
+                      "ref": "x0yVE",
+                      "name": "Switch / on",
+                      "fill": "$--docs-ink",
+                      "descendants": {
+                        "jGrNa": {
+                          "fill": "$--docs-bg"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "Q8btdo",
+                  "name": "滑块边界",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "侧栏宽度 180–300 px / 步长 10\n分栏比例 30–65% / 步长 1",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bmp60",
+              "name": "InputGroup / Tooltip · 输入",
+              "width": "fill_container",
+              "cornerRadius": 12,
+              "stroke": "$--docs-line",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Hj71q",
+                  "name": "分区标题",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "InputGroup / Tooltip · 输入",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "id": "DeDV5",
+                  "type": "ref",
+                  "ref": "crKSR",
+                  "name": "InputGroup / Search",
+                  "width": "fill_container",
+                  "height": 40,
+                  "fill": "$--docs-bg",
+                  "stroke": "$--docs-line",
+                  "descendants": {
+                    "YRU3e": {
+                      "content": "搜索词条…"
+                    }
+                  }
+                },
+                {
+                  "id": "mFbI6",
+                  "type": "ref",
+                  "ref": "crKSR",
+                  "name": "InputGroup / Focus",
+                  "width": "fill_container",
+                  "height": 40,
+                  "fill": "$--docs-bg",
+                  "stroke": "$--docs-muted",
+                  "strokeWidth": 2,
+                  "descendants": {
+                    "YRU3e": {
+                      "content": "侧栏"
+                    }
+                  }
+                },
+                {
+                  "id": "sYCZ1",
+                  "type": "ref",
+                  "ref": "o8OHD1",
+                  "name": "Tooltip / Languages",
+                  "fill": "$--docs-ink",
+                  "descendants": {
+                    "l5DsVe": {
+                      "content": "切换为 English",
+                      "fill": "$--docs-bg"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "i7LFe9",
+                  "name": "输入与提示规则",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "输入框含 Lucide 图标；悬停与键盘聚焦显示同一 Tooltip，离开或 Esc 关闭。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "bwCVy",
+          "name": "反馈标题",
+          "fill": "$--docs-ink",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "状态反馈与内容保护",
+          "lineHeight": 1.5,
+          "fontFamily": "$--font-ui-zh",
+          "fontSize": 22,
+          "fontWeight": "normal"
+        },
+        {
+          "id": "G0j5CO",
+          "type": "ref",
+          "ref": "luRgZ",
+          "name": "参数已变化，描述待更新",
+          "width": "fill_container",
+          "fill": "$--docs-bg",
+          "stroke": "$--docs-line",
+          "descendants": {
+            "zpu7Z": {
+              "fill": "$--docs-muted"
+            },
+            "vMO6X": {
+              "content": "参数已变化，描述待更新",
+              "fill": "$--docs-ink"
+            },
+            "N1yzJd": {
+              "content": "Alert · 保留手写正文，直到用户确认替换。",
+              "fill": "$--docs-muted"
+            }
+          }
+        },
+        {
+          "id": "s0pP3",
+          "type": "ref",
+          "ref": "luRgZ",
+          "name": "更新失败，请重试",
+          "width": "fill_container",
+          "fill": "$--docs-bg",
+          "stroke": "$--docs-line",
+          "descendants": {
+            "zpu7Z": {
+              "fill": "$--docs-muted"
+            },
+            "vMO6X": {
+              "content": "更新失败，请重试",
+              "fill": "$--docs-ink"
+            },
+            "N1yzJd": {
+              "content": "Alert destructive · 错误持续显示，不随 Toast 自动消失。",
+              "fill": "$--docs-muted"
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "XExHA",
+          "name": "Sonner / 已复制描述",
+          "width": "fill_container",
+          "fill": "$--docs-bg",
+          "cornerRadius": 8,
+          "stroke": "$--docs-line",
+          "strokeWidth": 1,
+          "gap": 12,
+          "padding": 16,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "vfXwF",
+              "name": "Success",
+              "width": 20,
+              "height": 20,
+              "icon": "circle-check",
+              "library": "lucide",
+              "fill": "$--docs-ink"
+            },
+            {
+              "type": "text",
+              "id": "cNOAh",
+              "name": "Toast 文案",
+              "fill": "$--docs-ink",
+              "content": "已复制描述 · Copied to clipboard",
+              "fontFamily": "$--font-ui-zh",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "id": "kXhBb",
+          "type": "ref",
+          "ref": "xbZDP",
+          "name": "Empty / 暂无匹配结果",
+          "width": "fill_container",
+          "height": "fit_content",
+          "descendants": {
+            "nOo4B": {
+              "content": "暂无匹配结果",
+              "fontFamily": "$--font-ui-zh"
+            },
+            "wPNZl": {
+              "content": "尝试更短的关键词，或清空搜索。",
+              "fontFamily": "$--font-ui-zh"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "id": "UHr1f",
+          "name": "实现边界",
+          "fill": "$--docs-ink",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "Sidebar 保持固定宽度，分类用 Collapsible；不可改成左右收缩。\n原生文件上传保留。翻转、扫光、入场与推开列表的抽屉保留专属演示。\nCard / Badge / Field / Button 使用组件变体，减少业务 CSS 覆盖；全部图标继续通过 Nuxt Icon。",
+          "lineHeight": 1.5,
+          "fontFamily": "$--font-ui-zh",
+          "fontSize": 14,
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Rtigh",
+      "x": 6220,
+      "y": 20210,
+      "name": "80 — shadcn-vue / 交互与确认状态",
+      "clip": true,
+      "width": 1440,
+      "height": 1480,
+      "fill": "$--docs-bg",
+      "layout": "vertical",
+      "gap": 24,
+      "padding": 40,
+      "children": [
+        {
+          "type": "text",
+          "id": "OECIC",
+          "name": "标题",
+          "fill": "$--docs-ink",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "交互组件与确认状态",
+          "lineHeight": 1.5,
+          "fontFamily": "$--font-ui-zh",
+          "fontSize": 28,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "F9XQkD",
+          "name": "说明",
+          "fill": "$--docs-ink",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "保持当前内容和动效：展开约 200ms，列表跟随最新操作；减少动态效果时直接显示最终状态。",
+          "lineHeight": 1.5,
+          "fontFamily": "$--font-ui-zh",
+          "fontSize": 14,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "IFBxl",
+          "name": "交互样例",
+          "width": "fill_container",
+          "gap": 24,
+          "children": [
+            {
+              "type": "frame",
+              "id": "nxsF1",
+              "name": "Tabs / Accordion",
+              "width": "fill_container",
+              "fill": "$--docs-bg",
+              "cornerRadius": 12,
+              "stroke": "$--docs-line",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 20,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ZsfIn",
+                  "name": "分组标题",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Tabs / Accordion",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "id": "i1Fqn",
+                  "type": "ref",
+                  "ref": "sxXF5",
+                  "name": "Tabs / 项目",
+                  "width": "fill_container",
+                  "descendants": {
+                    "YAytV": {
+                      "content": "概览",
+                      "fontFamily": "$--font-ui-zh"
+                    },
+                    "GflbN": {
+                      "content": "成员",
+                      "fontFamily": "$--font-ui-zh"
+                    },
+                    "zYlMc": {
+                      "content": "设置",
+                      "fontFamily": "$--font-ui-zh"
+                    },
+                    "Ta6kf": {
+                      "content": "项目进展 86%",
+                      "fontFamily": "$--font-ui-zh"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "U2dw4",
+                  "name": "AccordionItem / 如何开始使用？",
+                  "width": "fill_container",
+                  "stroke": "$--docs-line",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "pj0Sn",
+                      "name": "AccordionTrigger",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "HjBan",
+                          "name": "问题",
+                          "fill": "$--docs-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "如何开始使用？",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$--font-ui-zh",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "Zr27J",
+                          "name": "Chevron",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "chevron-up",
+                          "library": "lucide",
+                          "fill": "$--docs-muted"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "L2JR9j",
+                      "name": "AccordionContent",
+                      "fill": "$--docs-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "浏览词条、调整演示参数，再加入方案。",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$--font-ui-zh",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "bNAfv",
+                  "name": "AccordionItem / 数据保存在哪里？",
+                  "width": "fill_container",
+                  "stroke": "$--docs-line",
+                  "strokeWidth": {
+                    "bottom": 1
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "jhnRP",
+                      "name": "AccordionTrigger",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "JOc52",
+                          "name": "问题",
+                          "fill": "$--docs-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "数据保存在哪里？",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$--font-ui-zh",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "e9haH",
+                          "name": "Chevron",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "fill": "$--docs-muted"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "DzPcK",
+                  "name": "折叠行为",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "可多项展开；收起时移出键盘顺序。参数区及方案预览保留输入状态。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JS49x",
+              "name": "Popover / RadioGroup",
+              "width": "fill_container",
+              "fill": "$--docs-bg",
+              "cornerRadius": 12,
+              "stroke": "$--docs-line",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 20,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "B4TPxI",
+                  "name": "分组标题",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Popover / RadioGroup",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "rdDOE",
+                  "name": "PopoverContent / 项目设置",
+                  "width": "fill_container",
+                  "fill": "$--docs-bg",
+                  "cornerRadius": 8,
+                  "stroke": "$--docs-line",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "eb6uI",
+                      "name": "标题",
+                      "fill": "$--docs-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "可见范围",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$--font-ui-zh",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XXSgN",
+                      "name": "RadioGroupItem / 公开可见",
+                      "width": "fill_container",
+                      "height": 32,
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "SbPDc",
+                          "name": "Radio control",
+                          "width": 16,
+                          "height": 16,
+                          "cornerRadius": 8,
+                          "stroke": "$--docs-ink",
+                          "strokeWidth": 1,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "k4nt9p",
+                              "name": "Radio indicator",
+                              "fill": "$--docs-ink",
+                              "width": 8,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "c5vz4",
+                          "name": "单选标签",
+                          "fill": "$--docs-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "公开可见",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$--font-ui-zh",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "L2v4m",
+                      "name": "RadioGroupItem / 仅团队可见",
+                      "width": "fill_container",
+                      "height": 32,
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Of3ck",
+                          "name": "Radio control",
+                          "width": 16,
+                          "height": 16,
+                          "cornerRadius": 8,
+                          "stroke": "$--docs-ink",
+                          "strokeWidth": 1,
+                          "justifyContent": "center",
+                          "alignItems": "center"
+                        },
+                        {
+                          "type": "text",
+                          "id": "WQrib",
+                          "name": "单选标签",
+                          "fill": "$--docs-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "仅团队可见",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$--font-ui-zh",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "eRmAk",
+                  "name": "浮层行为",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "点击外部或 Esc 关闭；Esc 立即归还焦点。边缘自动避让，不裁切浮层。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "gaDQI",
+              "name": "AlertDialog / Empty",
+              "width": "fill_container",
+              "fill": "$--docs-bg",
+              "cornerRadius": 12,
+              "stroke": "$--docs-line",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 20,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RNIwq",
+                  "name": "分组标题",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "AlertDialog / Empty",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "SrIbJ",
+                  "name": "AlertDialog / 删除方案",
+                  "width": "fill_container",
+                  "fill": "$--docs-bg",
+                  "cornerRadius": 12,
+                  "stroke": "$--docs-line",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PA2Dw",
+                      "name": "AlertDialogTitle",
+                      "fill": "$--docs-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "删除这个方案？",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$--font-ui-zh",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "w0oFj",
+                      "name": "AlertDialogDescription",
+                      "fill": "$--docs-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "删除后无法恢复。需要保留时，请先导出 JSON 备份。",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$--font-ui-zh",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Y12lbK",
+                      "name": "AlertDialogFooter",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "justifyContent": "end",
+                      "children": [
+                        {
+                          "id": "I679k",
+                          "type": "ref",
+                          "ref": "W0hW4T",
+                          "name": "取消",
+                          "height": 36,
+                          "width": 112,
+                          "fill": "$--docs-bg",
+                          "stroke": "$--docs-line",
+                          "strokeWidth": 1,
+                          "descendants": {
+                            "X8ni9B": {
+                              "enabled": false
+                            },
+                            "Mm2ay": {
+                              "content": "取消",
+                              "fill": "$--docs-ink"
+                            }
+                          }
+                        },
+                        {
+                          "id": "BGLJr",
+                          "type": "ref",
+                          "ref": "W0hW4T",
+                          "name": "确认删除",
+                          "height": 36,
+                          "width": 112,
+                          "fill": "$--destructive",
+                          "stroke": "$--docs-line",
+                          "strokeWidth": 1,
+                          "descendants": {
+                            "X8ni9B": {
+                              "enabled": false
+                            },
+                            "Mm2ay": {
+                              "content": "确认删除",
+                              "fill": "#FFFFFF"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "nIs0A",
+                  "name": "确认规则",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "默认焦点在取消；保留原文与候选描述预览。未确认前不替换正文或删除方案。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "id": "mQIej",
+                  "type": "ref",
+                  "ref": "xbZDP",
+                  "name": "Empty / 没有已选效果",
+                  "width": "fill_container",
+                  "descendants": {
+                    "nOo4B": {
+                      "content": "还没有选择效果",
+                      "fontFamily": "$--font-ui-zh"
+                    },
+                    "wPNZl": {
+                      "content": "从词典加入需要的效果。",
+                      "fontFamily": "$--font-ui-zh"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "y1aNpq",
+          "name": "搜索标题",
+          "fill": "$--docs-ink",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "Command · 双语搜索和命令执行",
+          "lineHeight": 1.5,
+          "fontFamily": "$--font-ui-zh",
+          "fontSize": 22,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "lAEOG",
+          "name": "Command / 搜索词条",
+          "width": "fill_container",
+          "fill": "$--docs-bg",
+          "cornerRadius": 12,
+          "stroke": "$--docs-line",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "gap": 4,
+          "padding": 8,
+          "children": [
+            {
+              "id": "cXlg0",
+              "type": "ref",
+              "ref": "crKSR",
+              "name": "CommandInput",
+              "width": "fill_container",
+              "height": 44,
+              "fill": "$--docs-bg",
+              "strokeWidth": 0,
+              "descendants": {
+                "YRU3e": {
+                  "content": "搜索中英文名、别名或通俗描述…",
+                  "fontFamily": "$--font-ui-zh"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "jxtPe",
+              "name": "CommandItem",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$--docs-soft",
+              "cornerRadius": 6,
+              "gap": 12,
+              "padding": [
+                0,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "QNl6Z",
+                  "name": "词条图标",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "book-open",
+                  "library": "lucide",
+                  "fill": "$--docs-muted"
+                },
+                {
+                  "type": "text",
+                  "id": "OKXNl",
+                  "name": "结果文案",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "可折叠侧栏布局 · Collapsible sidebar layout",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "rYfdv",
+              "name": "CommandItem",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$--docs-bg",
+              "cornerRadius": 6,
+              "gap": 12,
+              "padding": [
+                0,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "c7jQCt",
+                  "name": "词条图标",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "book-open",
+                  "library": "lucide",
+                  "fill": "$--docs-muted"
+                },
+                {
+                  "type": "text",
+                  "id": "M035w",
+                  "name": "结果文案",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "分栏工作区 · Split pane",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NI9nN",
+              "name": "CommandItem",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "$--docs-bg",
+              "cornerRadius": 6,
+              "gap": 12,
+              "padding": [
+                0,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "Fc763",
+                  "name": "词条图标",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "book-open",
+                  "library": "lucide",
+                  "fill": "$--docs-muted"
+                },
+                {
+                  "type": "text",
+                  "id": "rXnlJ",
+                  "name": "结果文案",
+                  "fill": "$--docs-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "右侧详情抽屉 · Detail drawer",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$--font-ui-zh",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "fVfA4",
+              "name": "Command快捷键",
+              "fill": "$--docs-ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "↑↓ 选择   Enter 打开   Esc 关闭",
+              "lineHeight": 1.5,
+              "fontFamily": "$--font-ui-zh",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "Pq68G",
+          "name": "导航与布局",
+          "fill": "$--docs-ink",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "Sidebar / NavigationMenu：维持顶栏、固定宽度侧栏和当前路由高亮。\nTable：订单搜索和详情操作使用 InputGroup + Button，推开列表的抽屉保留业务实现。\nAlert 与 Empty 保持静态可读；只有成功通知使用短暂 Sonner。",
+          "lineHeight": 1.5,
+          "fontFamily": "$--font-ui-zh",
+          "fontSize": 14,
+          "fontWeight": "normal"
         }
       ]
     }

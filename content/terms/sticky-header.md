@@ -14,6 +14,7 @@ comparison: "sticky 受最近滚动祖先限制；fixed 通常相对视口定位
 target: "数据表格"
 phrase: "表格在容器内滚动，表头保持在顶部，便于持续对照各列。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/position"}]
+en: {"description": "Keep table headings visible as rows scroll underneath.", "usage": "Long tables with many rows.", "comparison": "A sticky table header belongs to the table, unlike a fixed site header.", "target": "Data table", "phrase": "Keep table headings sticky within the scrolling table container and aligned with their columns.", "naming": "Common term", "explanation": "Keep table headings visible as rows scroll underneath. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 表格内容滚动时，让表头停留在滚动容器顶部。

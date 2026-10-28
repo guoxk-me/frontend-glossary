@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/content',
     '@nuxt/icon',
+    '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
@@ -37,6 +38,16 @@ export default defineNuxtConfig({
       ],
     },
   },
+  // AI modified: explicit locale routes keep old links and local scheme identities intact.
+  i18n: {
+    strategy: 'prefix_except_default',
+    defaultLocale: 'zh',
+    locales: [
+      { code: 'zh', language: 'zh-CN', name: '简体中文' },
+      { code: 'en', language: 'en-US', name: 'English' },
+    ],
+    detectBrowserLanguage: false,
+  },
   colorMode: {
     preference: 'system',
     fallback: 'light',
@@ -49,11 +60,21 @@ export default defineNuxtConfig({
   },
   sitemap: {
     zeroRuntime: true,
-    include: ['/', '/about', '/terms/**'],
+    include: [
+      '/',
+      '/about',
+      '/terms/**',
+      '/en',
+      '/en/about',
+      '/en/terms/**',
+    ],
   },
   // AI modified: browser-local pages are usable but should not appear in search results.
   routeRules: {
     '/favorites': { robots: false },
+    '/en/favorites': { robots: false },
+    '/en/schemes': { robots: false },
+    '/en/schemes/**': { robots: false },
     '/schemes': { robots: false },
     '/schemes/**': { robots: false },
   },
@@ -102,6 +123,11 @@ export default defineNuxtConfig({
         '/schemes',
         '/schemes/edit',
         '/about',
+        '/en',
+        '/en/about',
+        '/en/favorites',
+        '/en/schemes',
+        '/en/schemes/edit',
       ],
     },
   },

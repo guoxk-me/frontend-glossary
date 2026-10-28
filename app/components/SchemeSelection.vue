@@ -2,7 +2,9 @@
 import type { DemoParameters, SchemeChoice, Term } from '../types/glossary'
 import { shallowRef, useId } from 'vue'
 import { Icon, NuxtLink } from '#components'
+import { useGlossaryLocale } from '../composables/use-glossary-locale'
 import { categories } from '../lib/glossary'
+import CollapsePanel from './CollapsePanel.vue'
 import DemoStage from './DemoStage.vue'
 import TermParameters from './TermParameters.vue'
 import { Badge } from './ui/badge'
@@ -11,7 +13,11 @@ import { Field, FieldLabel } from './ui/field'
 import { Input } from './ui/input'
 
 const props = defineProps<{ choice: SchemeChoice, term: Term }>()
+
 const emit = defineEmits<{ change: [choice: SchemeChoice], remove: [] }>()
+
+const { text, isEnglish, termTitle, localePath } = useGlossaryLocale()
+
 const isOpen = shallowRef(false)
 const id = useId()
 function changeTarget(event: Event): void {
@@ -35,25 +41,27 @@ function changeParameters(parameters: DemoParameters): void {
   <article class="scheme-selection">
     <div class="selection-header">
       <Badge variant="secondary">
-        {{ categories.find(category => category.id === term.category)?.label }}
+        {{ text(categories.find(category => category.id === term.category)?.label ?? '') }}
       </Badge>
-      <NuxtLink :to="`/terms/${term.slug}`">{{ term.title }}</NuxtLink>
-      <Button variant="ghost" size="icon-sm" :aria-label="`移除${term.title}`" @click="emit('remove')">
+      <NuxtLink :to="localePath(`/terms/${term.slug}`)">{{ termTitle(term) }}<small v-if="!isEnglish" class="selection-english">{{ term.english }}</small></NuxtLink>
+      <Button variant="ghost" size="icon-sm" :aria-label="isEnglish ? `Remove ${term.english}` : `移除${term.title}`" @click="emit('remove')">
         <Icon name="lucide:trash-2" />
       </Button>
     </div>
     <Field class="mt-4">
       <FieldLabel :for="id">
-        作用对象
+        {{ text('作用对象') }}
       </FieldLabel>
       <Input :id="id" :model-value="choice.target" maxlength="60" @change="changeTarget" />
     </Field>
-    <Button variant="ghost" size="sm" class="mt-3" :aria-expanded="isOpen" @click="isOpen = !isOpen">
-      <Icon name="lucide:chevron-down" :class="{ 'rotate-180': isOpen }" />{{ isOpen ? '收起预览与参数' : '预览与调整参数' }}
+    <Button variant="ghost" size="sm" class="mt-3" :aria-expanded="isOpen" :aria-controls="`${id}-details`" @click="isOpen = !isOpen">
+      <Icon name="lucide:chevron-down" class="motion-chevron" :class="{ 'rotate-180': isOpen }" />{{ isOpen ? text('收起预览与参数') : text('预览与调整参数') }}
     </Button>
-    <div v-if="isOpen" class="selection-details">
-      <DemoStage :term="term" :parameters="choice.parameters" />
-      <TermParameters :term="term" :parameters="choice.parameters" @change="changeParameters" />
-    </div>
+    <CollapsePanel :id="`${id}-details`" :open="isOpen">
+      <div class="selection-details">
+        <DemoStage :term="term" :parameters="choice.parameters" />
+        <TermParameters :term="term" :parameters="choice.parameters" @change="changeParameters" />
+      </div>
+    </CollapsePanel>
   </article>
 </template>

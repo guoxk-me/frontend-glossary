@@ -14,6 +14,7 @@ comparison: "与整齐对齐的网格不同，瀑布流不保证每一行对齐�
 target: "内容列表"
 phrase: "使用瀑布流排列不等高卡片，并明确先纵向后横向的阅读顺序。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_multicol_layout"}]
+en: {"description": "Pack cards of different heights into columns.", "usage": "Images, inspiration collections and uneven content.", "comparison": "Unlike a regular grid, row edges do not align. Preserve a logical reading order.", "target": "Content collection", "phrase": "Use a responsive masonry layout with consistent column gaps and natural card heights.", "naming": "Common term", "explanation": "Pack cards of different heights into columns. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 让不同高度的卡片紧密排列，减少纵向空隙。

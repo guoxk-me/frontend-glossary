@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { useSeoMeta } from '#imports'
+import { definePageMeta, useSeoMeta } from '#imports'
 import TermCatalog from '../components/TermCatalog.vue'
+import { useGlossaryLocale } from '../composables/use-glossary-locale'
 
-useSeoMeta({ title: '我的收藏 · 前端词典' })
+const { text } = useGlossaryLocale()
+useSeoMeta({
+  title: () => `${text('我的收藏')} · ${text('前端词典')}`,
+})
+// AI modified: the catalog restores its own saved position after rendering.
+definePageMeta({ scrollToTop: false })
 </script>
 
 <template>

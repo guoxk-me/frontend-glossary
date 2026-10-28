@@ -14,6 +14,7 @@ comparison: "滑入是位移动效；抽屉是交互模式，抽屉可以选择�
 target: "详情面板"
 phrase: "面板从指定边缘平移进入，结束后停留在目标位置。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/transform"}]
+en: {"description": "Move an element into view from an edge.", "usage": "Panels, notices and contextual content.", "comparison": "A slide moves the element; a fade changes opacity.", "target": "Content panel", "phrase": "Introduce the element with a directional slide transition.", "naming": "General term", "explanation": "Move an element into view from an edge. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 让元素从一侧平移进入目标位置。

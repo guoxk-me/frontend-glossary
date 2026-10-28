@@ -14,6 +14,7 @@ comparison: "极简是取舍策略，不是隐藏必要信息，也不等于所�
 target: "信息卡片"
 phrase: "保留必要标题、内容和操作，以留白与清晰层级组织界面。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Box_model"}]
+en: {"description": "Reduce decorative elements and prioritize essential content.", "usage": "Reading interfaces and tools with focused tasks.", "comparison": "Minimalism does not mean hiding necessary controls or reducing usability.", "target": "Interface", "phrase": "Use restrained colors, clear typography and generous spacing, retaining all controls needed for the task.", "naming": "Common term", "explanation": "Reduce decorative elements and prioritize essential content. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 删去无关装饰，保留完成任务需要的结构与内容。

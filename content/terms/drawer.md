@@ -14,6 +14,7 @@ comparison: "抽屉从边缘展开；居中弹窗更适合聚焦确认或短操�
 target: "订单详情"
 phrase: "点击订单后，从页面侧边展开详情抽屉，保留列表及滚动位置；关闭后把焦点还给触发按钮。"
 sources: [{"title": "相关规范与实现参考", "url": "https://shadcn-vue.com/docs/components/sheet"}]
+en: {"description": "Reveal details from an edge while preserving the current page context.", "usage": "Order details, profiles and contextual settings.", "comparison": "A drawer enters from an edge; a centered dialog focuses attention on a short decision. State explicitly whether the background remains interactive.", "target": "Order details", "phrase": "Open a detail drawer from the right while keeping the list and its scroll position.", "naming": "Common term", "explanation": "Reveal details from an edge while preserving the current page context. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 在当前页面侧边展开详情，保留列表上下文。

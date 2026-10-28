@@ -14,6 +14,7 @@ comparison: "展开过渡是视觉效果；折叠面板还需要明确触发方�
 target: "辅助说明"
 phrase: "辅助内容在展开与收起时平滑改变高度，并保持后续内容自然移动。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-rows"}]
+en: {"description": "Expand or collapse the space occupied by optional content.", "usage": "Settings groups and disclosure panels.", "comparison": "Collapsing changes layout space; hiding with opacity alone leaves the space occupied.", "target": "Expandable section", "phrase": "Animate the section height when opening or closing and keep the toggle accessible by keyboard.", "naming": "General term", "explanation": "Expand or collapse the space occupied by optional content. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 内容区域在收起和展开时平滑改变可见高度。

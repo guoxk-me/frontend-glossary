@@ -63,6 +63,7 @@ export const useLibraryStore = defineStore('library', () => {
   }
   function createScheme(title: string): Scheme {
     const scheme: Scheme = {
+      outputLocale: 'en',
       id: crypto.randomUUID(),
       title: title.trim() || '未命名方案',
       choices: [],

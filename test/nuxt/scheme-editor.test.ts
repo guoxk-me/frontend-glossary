@@ -48,6 +48,7 @@ afterEach(() => {
   wrapper?.unmount()
   wrapper = undefined
   vi.restoreAllMocks()
+  vi.unstubAllGlobals()
   document.body.innerHTML = ''
 })
 
@@ -93,17 +94,35 @@ describe('方案编辑的 Nuxt 集成', () => {
     await clickButton('确认替换描述')
     expect(editor.get('textarea').element.value).toContain('280')
     expect(editor.get('textarea').element.value).not.toContain('手写要求')
-    expect(editor.text()).not.toContain('描述待更新')
+    expect(editor.get('.stale-alert').element.closest('[aria-hidden="true"]')).not.toBeNull()
     expect(localStorage.getItem(storageKey)).toContain('280')
   })
 
   it('本机保存失败时仍保留编辑文本并显示恢复提示', async () => {
     const editor = await openEditor()
-    vi.spyOn(localStorage, 'setItem').mockImplementation(() => {
-      throw new Error('Storage unavailable')
+    // AI modified: Happy DOM binds storage methods on access; replace the boundary to avoid leaking a spy.
+    vi.stubGlobal('localStorage', {
+      setItem: () => { throw new Error('Storage unavailable') },
     })
     await editor.get('textarea').setValue('保存失败也不能丢失的描述。')
     expect(editor.get('textarea').element.value).toBe('保存失败也不能丢失的描述。')
     expect(editor.text()).toContain('保存失败，输入仍保留')
+  })
+  it('新方案默认英文，切换输出先预览，取消保留正文，确认后持久化', async () => {
+    const editor = await openEditor()
+    const scheme = useLibraryStore().schemes[0]!
+    expect(scheme.outputLocale).toBe('en')
+    await editor.get('textarea').setValue('手机端抽屉需要全屏')
+    await editor.get('#scheme-output-locale').setValue('zh')
+    expect(document.querySelector('[role="dialog"]')?.textContent).toContain('候选描述')
+    expect(scheme.outputLocale).toBe('en')
+    await clickButton('取消，保留原文')
+    expect(scheme.description).toBe('手机端抽屉需要全屏')
+    expect(scheme.outputLocale).toBe('en')
+    await editor.get('#scheme-output-locale').setValue('zh')
+    await clickButton('确认替换描述')
+    expect(scheme.outputLocale).toBe('zh')
+    expect(scheme.description).toContain('默认展开')
+    expect(JSON.parse(localStorage.getItem(storageKey)!).schemes[0].outputLocale).toBe('zh')
   })
 })

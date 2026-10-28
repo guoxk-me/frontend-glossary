@@ -14,6 +14,7 @@ comparison: "背景模糊作用于元素背后的区域；直接模糊元素自�
 target: "信息卡片"
 phrase: "卡片使用半透明背景、适度背景模糊和细边框，确保文字对比清晰。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter"}]
+en: {"description": "Use translucent surfaces and background blur to suggest frosted glass.", "usage": "Floating panels over visually varied backgrounds.", "comparison": "Transparency alone does not create a glass effect; readability requires sufficient contrast and a fallback surface.", "target": "Floating panel", "phrase": "Use a translucent panel with subtle background blur, a visible border and an opaque fallback for readability.", "naming": "Common term", "explanation": "Use translucent surfaces and background blur to suggest frosted glass. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 用半透明表面、背景模糊和细边框形成磨砂玻璃感。

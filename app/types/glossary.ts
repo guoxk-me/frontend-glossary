@@ -1,7 +1,18 @@
+export type Locale = 'zh' | 'en'
+export interface TermTranslation {
+  description: string
+  naming: string
+  usage: string
+  comparison: string
+  target: string
+  phrase: string
+  explanation: string
+}
 export type Category = 'layout' | 'motion' | 'visual' | 'interaction'
 export type Direction = 'left' | 'right'
 export type Easing = 'ease-out' | 'ease-in-out' | 'linear'
 export interface Term {
+  en?: TermTranslation
   slug: string
   title: string
   description: string
@@ -32,6 +43,7 @@ export interface SchemeChoice {
   parameters: DemoParameters
 }
 export interface Scheme {
+  outputLocale: Locale
   id: string
   title: string
   choices: SchemeChoice[]

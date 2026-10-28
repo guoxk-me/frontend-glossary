@@ -14,6 +14,7 @@ comparison: "导航很多或层级很深时，侧栏通常更易浏览；不要�
 target: "页面整体"
 phrase: "主要入口放在顶部横向导航中，下方展示当前页面内容。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout"}]
+en: {"description": "Place primary navigation across the top of the page.", "usage": "Sites with a small number of primary destinations.", "comparison": "A sidebar is better suited to deep or numerous destinations.", "target": "Page layout", "phrase": "Place primary navigation in a horizontal header and allow the main content to use the full width below it.", "naming": "Common term", "explanation": "Place primary navigation across the top of the page. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 把主要导航放在页面顶部，让内容获得完整的横向空间。

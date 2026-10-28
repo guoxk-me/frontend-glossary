@@ -4,12 +4,14 @@ import { shallowRef } from 'vue'
 export function useDelivery() {
   const { copy } = useClipboard({ legacy: true })
   const message = shallowRef('')
+  const deliveryCount = shallowRef(0)
   async function copyText(text: string): Promise<void> {
     try {
       await copy(text)
       message.value = '已复制到剪贴板'
     }
     catch { message.value = '复制失败，请选中文字手动复制。' }
+    deliveryCount.value++
   }
   function downloadText(text: string, filename: string, type = 'text/plain'): void {
     const href = URL.createObjectURL(new Blob([text], { type: `${type};charset=utf-8` }))
@@ -19,6 +21,12 @@ export function useDelivery() {
     link.click()
     setTimeout(() => URL.revokeObjectURL(href), 1000)
     message.value = '已开始下载'
+    deliveryCount.value++
   }
-  return { message, copyText, downloadText }
+  return {
+    message,
+    deliveryCount,
+    copyText,
+    downloadText,
+  }
 }

@@ -2,6 +2,7 @@
 import type { DemoParameters, Term } from '../types/glossary'
 import { computed, shallowRef } from 'vue'
 import { Icon } from '#components'
+import { useGlossaryLocale } from '../composables/use-glossary-locale'
 import { defaultParameters } from '../lib/glossary'
 import InteractionDemo from './demos/InteractionDemo.vue'
 import LayoutDemo from './demos/LayoutDemo.vue'
@@ -10,6 +11,9 @@ import VisualDemo from './demos/VisualDemo.vue'
 import { Button } from './ui/button'
 
 const props = defineProps<{ term: Term, parameters?: DemoParameters, compact?: boolean }>()
+
+const { text } = useGlossaryLocale()
+
 const replay = shallowRef(0)
 const activeParameters = computed(() => props.parameters ?? defaultParameters())
 </script>
@@ -18,9 +22,9 @@ const activeParameters = computed(() => props.parameters ?? defaultParameters())
   <div class="demo-stage" :class="{ 'demo-compact': compact }">
     <div v-if="!compact" class="demo-toolbar">
       <span>
-        <i /> 实时演示</span>
+        <i /> {{ text('实时演示') }}</span>
       <Button variant="ghost" size="sm" @click="replay++">
-        <Icon name="lucide:rotate-ccw" :size="13" />重播 / 重置
+        <Icon name="lucide:rotate-ccw" :size="13" />{{ text('重播 / 重置') }}
       </Button>
     </div>
     <!-- AI modified: isolate demo failures so definitions and saved schemes remain usable. -->
@@ -35,10 +39,10 @@ const activeParameters = computed(() => props.parameters ?? defaultParameters())
       <template #error="{ clearError }">
         <div class="p-6 text-sm" role="alert">
           <p class="mb-3">
-            演示暂时无法加载，词条说明仍可阅读。
+            {{ text('演示暂时无法加载，词条说明仍可阅读。') }}
           </p>
           <Button variant="outline" size="sm" @click="clearError">
-            重试演示
+            {{ text('重试演示') }}
           </Button>
         </div>
       </template>

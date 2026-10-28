@@ -14,6 +14,7 @@ comparison: "骨架只是加载反馈，不能代替失败或空内容状态；�
 target: "加载区域"
 phrase: "加载期间显示接近内容结构的骨架，使用轻柔扫光提示等待。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animations/Using_CSS_animations"}]
+en: {"description": "Move a subtle highlight across placeholder shapes while content loads.", "usage": "Loading cards, profile rows and article placeholders.", "comparison": "A skeleton resembles the expected content; a spinner only signals activity.", "target": "Loading placeholder", "phrase": "Show skeleton placeholders shaped like the final content, with a subtle moving highlight until loading completes.", "naming": "Common term", "explanation": "Move a subtle highlight across placeholder shapes while content loads. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 在占位块上移动一条高亮带，提示内容正在加载。

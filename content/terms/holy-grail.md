@@ -14,6 +14,7 @@ comparison: "圣杯布局强调三栏及页头页尾的组合，不等同于任�
 target: "页面整体"
 phrase: "页面包含页头、页尾与中间三栏；中央内容自适应，左右保留辅助栏。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout"}]
+en: {"description": "Place the main content between two side columns, below a header and above a footer.", "usage": "Workspaces that need persistent navigation and supplementary information.", "comparison": "Unlike a single-sidebar layout, this pattern has a second supporting column.", "target": "Page layout", "phrase": "Use a header, footer, left navigation and right information panel around a flexible central content area.", "naming": "Common term", "explanation": "Place the main content between two side columns, below a header and above a footer. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 在页头与页尾之间安排左右侧栏和可伸缩的主内容栏。

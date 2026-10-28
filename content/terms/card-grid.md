@@ -14,6 +14,7 @@ comparison: "网格按行列对齐；瀑布流优先利用不同高度内容留�
 target: "内容列表"
 phrase: "采用响应式卡片网格，卡片等宽，随可用宽度调整列数。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout"}]
+en: {"description": "Arrange equally sized cards in rows and columns.", "usage": "Projects, products and content with comparable metadata.", "comparison": "A grid aligns both rows and columns; masonry allows varied card heights.", "target": "Content area", "phrase": "Arrange cards in a responsive grid with consistent spacing and aligned rows.", "naming": "Common term", "explanation": "Arrange equally sized cards in rows and columns. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 把同类内容放在等宽的卡片中，按行和列排列。

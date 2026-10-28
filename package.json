@@ -27,6 +27,7 @@
     "@nuxt/content": "catalog:frontend",
     "@nuxt/icon": "catalog:frontend",
     "@nuxtjs/color-mode": "catalog:frontend",
+    "@nuxtjs/i18n": "catalog:frontend",
     "@nuxtjs/robots": "catalog:frontend",
     "@nuxtjs/sitemap": "catalog:frontend",
     "@pinia/nuxt": "catalog:frontend",

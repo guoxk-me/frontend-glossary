@@ -14,6 +14,7 @@ comparison: "命令面板搜索的是操作或目标；普通搜索框通常检�
 target: "全局操作"
 phrase: "打开可搜索的命令面板，输入关键词筛选操作，并选择执行。"
 sources: [{"title": "相关规范与实现参考", "url": "https://shadcn-vue.com/docs/components/command"}]
+en: {"description": "Search available commands from a compact keyboard-friendly panel.", "usage": "Tools with many destinations or actions.", "comparison": "A command palette searches actions; global content search retrieves records or documents.", "target": "Command panel", "phrase": "Open a searchable command palette with keyboard navigation, Enter to select and Escape to close.", "naming": "General term", "explanation": "Search available commands from a compact keyboard-friendly panel. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 把可执行操作放入可搜索的面板中，缩短导航路径。

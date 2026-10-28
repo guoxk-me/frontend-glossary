@@ -2,7 +2,7 @@ import type { Scheme, Term } from '../types/glossary'
 import { describe, expect, it } from 'vitest'
 import { readBackup } from './backup'
 import { defaultParameters, searchTerms } from './glossary'
-import { describeScheme, findConflict, refreshDescription, regenerateDescription } from './schemes'
+import { changeOutputLocale, describeScheme, findConflict, refreshDescription, regenerateDescription } from './schemes'
 
 const sidebar: Term = {
   slug: 'sidebar',
@@ -43,6 +43,7 @@ const grid: Term = {
 const terms = [sidebar, drawer, grid]
 function exampleScheme(): Scheme {
   return {
+    outputLocale: 'zh',
     id: 'scheme-1',
     title: '订单后台',
     choices: [
@@ -164,5 +165,44 @@ describe('可解释的关键词搜索', () => {
   })
   it('输出包括明确的作用对象', () => {
     expect(describeScheme(exampleScheme(), terms)).toContain('## 页面整体')
+  })
+})
+
+// AI modified: migration and language changes must preserve authored text until explicit acceptance.
+describe('输出语言与旧备份兼容', () => {
+  it('旧备份按中文读取，正文和手写状态不变', () => {
+    const { outputLocale: _locale, ...legacy } = exampleScheme()
+    legacy.description = '业务补充：保留审批记录'
+    legacy.hasManualEdits = true
+    const restored = readBackup(JSON.stringify({
+      version: 1,
+      favorites: ['sidebar'],
+      schemes: [legacy],
+    }), terms)
+    expect(restored.schemes[0]).toEqual({ ...legacy, outputLocale: 'zh' })
+  })
+  it('取消语言替换不改正文、语言和待更新状态；确认后才替换', () => {
+    const scheme = exampleScheme()
+    scheme.description = '手写业务内容'
+    scheme.hasManualEdits = true
+    scheme.isStale = true
+    const before = structuredClone(scheme)
+    expect(describeScheme(scheme, terms, 'en')).toContain('240px')
+    expect(scheme).toEqual(before)
+    expect(changeOutputLocale(scheme, terms, 'en', false)).toBe(false)
+    expect(scheme).toEqual(before)
+    expect(changeOutputLocale(scheme, terms, 'en', true)).toBe(true)
+    expect(scheme.outputLocale).toBe('en')
+    expect(scheme.description).toContain('# 订单后台')
+    expect(scheme.description).toContain('## 页面整体')
+    expect(scheme.description).toContain('expanded by default')
+    expect(scheme.description).not.toContain('手写业务内容')
+    expect(scheme.hasManualEdits).toBe(false)
+    expect(scheme.isStale).toBe(false)
+    expect(readBackup(JSON.stringify({
+      version: 1,
+      favorites: [],
+      schemes: [scheme],
+    }), terms).schemes[0]).toEqual(scheme)
   })
 })

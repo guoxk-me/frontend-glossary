@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { DemoParameters, SchemeChoice, Term } from '../types/glossary'
 import { shallowRef } from 'vue'
+import { Icon } from '#components'
 import { navigateTo } from '#imports'
 import { useCatalog } from '../composables/use-catalog'
+import { useGlossaryLocale } from '../composables/use-glossary-locale'
 import { findConflict } from '../lib/schemes'
 import { useLibraryStore } from '../stores/library'
+import CollapsePanel from './CollapsePanel.vue'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { Button } from './ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
@@ -12,12 +15,15 @@ import { Field, FieldGroup, FieldLabel } from './ui/field'
 import { Input } from './ui/input'
 
 const props = defineProps<{ term: Term, parameters: DemoParameters }>()
+
+const { text, isEnglish, termTitle, localePath } = useGlossaryLocale()
+
 const { terms } = useCatalog()
 const library = useLibraryStore()
 const isOpen = shallowRef(false)
 const schemeId = shallowRef('new')
-const title = shallowRef('后台管理界面')
-const target = shallowRef(props.term.target)
+const title = shallowRef(text('后台管理界面'))
+const target = shallowRef(props.term.en?.target ?? props.term.target)
 const conflictTitle = shallowRef('')
 const error = shallowRef('')
 function add(hasConfirmed = false): void {
@@ -45,7 +51,10 @@ function add(hasConfirmed = false): void {
     ? findConflict(existing, choice, terms.value)
     : undefined
   if (conflict && !hasConfirmed) {
-    conflictTitle.value = terms.value.find(term => term.slug === conflict.termSlug)?.title ?? '已有选择'
+    const existingTerm = terms.value.find(term => term.slug === conflict.termSlug)
+    conflictTitle.value = existingTerm
+      ? termTitle(existingTerm)
+      : text('已有选择')
     return
   }
   const scheme = existing ?? library.createScheme(title.value)
@@ -53,7 +62,7 @@ function add(hasConfirmed = false): void {
     return
   isOpen.value = false
   void navigateTo({
-    path: '/schemes/edit',
+    path: localePath('/schemes/edit'),
     query: { id: scheme.id },
   })
 }
@@ -63,22 +72,25 @@ function add(hasConfirmed = false): void {
   <Dialog v-model:open="isOpen" @update:open="conflictTitle = ''; error = ''">
     <DialogTrigger as-child>
       <Button :disabled="!library.isReady">
-        ＋ 加入方案
+        <Icon name="lucide:plus" />{{ text('加入方案') }}
       </Button>
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>把「{{ term.title }}」加入方案</DialogTitle>
-        <DialogDescription>同一个对象可组合不同类别。同类效果冲突时，需要确认替换。</DialogDescription>
+        <DialogTitle>{{ isEnglish ? `Add ${termTitle(term)} to a plan` : `把「${termTitle(term)}」加入方案` }}</DialogTitle>
+        <DialogDescription>{{ text('同一个对象可组合不同类别。同类效果冲突时，需要确认替换。') }}</DialogDescription>
       </DialogHeader>
+      <p class="text-sm text-muted-foreground">
+        {{ text('新方案默认英文输出；已有方案沿用原输出语言。') }}
+      </p>
       <FieldGroup>
         <Field>
           <FieldLabel for="scheme-destination">
-            保存到
+            {{ text('保存到') }}
           </FieldLabel>
           <select id="scheme-destination" v-model="schemeId" class="native-select" @change="conflictTitle = ''">
             <option value="new">
-              ＋ 新建方案
+              {{ text('新建方案') }}
             </option>
             <option v-for="scheme in library.schemes" :key="scheme.id" :value="scheme.id">
               {{ scheme.title }}
@@ -87,30 +99,34 @@ function add(hasConfirmed = false): void {
         </Field>
         <Field v-if="schemeId === 'new'">
           <FieldLabel for="scheme-name">
-            方案名称
+            {{ text('方案名称') }}
           </FieldLabel>
           <Input id="scheme-name" v-model="title" maxlength="80" />
         </Field>
         <Field>
           <FieldLabel for="choice-target">
-            作用对象
+            {{ text('作用对象') }}
           </FieldLabel>
-          <Input id="choice-target" v-model="target" maxlength="60" placeholder="例如：订单列表" @update:model-value="conflictTitle = ''" />
+          <Input id="choice-target" v-model="target" maxlength="60" :placeholder="text('例如：订单列表')" @update:model-value="conflictTitle = ''" />
         </Field>
       </FieldGroup>
-      <Alert v-if="conflictTitle">
-        <AlertTitle>该对象已有「{{ conflictTitle }}」</AlertTitle>
-        <AlertDescription>替换后会更新选择；已有手写描述仍会保留并标记待更新。</AlertDescription>
-      </Alert>
-      <p v-if="error" role="alert" class="text-destructive text-sm">
-        {{ error }}
-      </p>
+      <CollapsePanel :open="!!conflictTitle">
+        <Alert>
+          <AlertTitle>{{ isEnglish ? `This target already has ${conflictTitle}` : `该对象已有「${conflictTitle}」` }}</AlertTitle>
+          <AlertDescription>{{ text('替换后会更新选择；已有手写描述仍会保留并标记待更新。') }}</AlertDescription>
+        </Alert>
+      </CollapsePanel>
+      <CollapsePanel :open="!!error">
+        <p role="alert" class="text-destructive text-sm">
+          {{ text(error) }}
+        </p>
+      </CollapsePanel>
       <DialogFooter>
         <Button variant="outline" @click="isOpen = false">
-          取消
+          {{ text('取消') }}
         </Button>
         <Button @click="add(!!conflictTitle)">
-          {{ conflictTitle ? '确认替换并加入' : '加入并编辑方案' }}
+          {{ conflictTitle ? text('确认替换并加入') : text('加入并编辑方案') }}
         </Button>
       </DialogFooter>
     </DialogContent>

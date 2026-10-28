@@ -14,6 +14,7 @@ comparison: "扁平并不意味着没有层级；仍需通过字重、留白和�
 target: "信息卡片"
 phrase: "采用纯色表面和清晰排版，减少立体装饰，以间距与字重建立层级。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/background-color"}]
+en: {"description": "Use simple shapes and colors with little simulated depth.", "usage": "Content-focused tools and compact interfaces.", "comparison": "Flat design avoids heavy depth effects but still needs clear interactive affordances.", "target": "Interface surfaces", "phrase": "Use flat surfaces, solid colors and clear borders or contrast to establish hierarchy.", "naming": "Common term", "explanation": "Use simple shapes and colors with little simulated depth. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 减少材质和立体模拟，主要用颜色、形状与排版表达层级。

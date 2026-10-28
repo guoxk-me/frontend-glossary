@@ -12,6 +12,7 @@ import {
 } from 'reka-ui'
 import { Icon } from '#components'
 import { Button } from '@/components/ui/button'
+import { useGlossaryLocale } from '../../../composables/use-glossary-locale'
 import DialogOverlay from './DialogOverlay.vue'
 
 defineOptions({
@@ -21,7 +22,11 @@ defineOptions({
 const props = withDefaults(defineProps<DialogContentProps & { class?: HTMLAttributes['class'], showCloseButton?: boolean }>(), {
   showCloseButton: true,
 })
+
 const emits = defineEmits<DialogContentEmits>()
+
+// AI modified: close controls follow the same interface language as their dialog.
+const { text } = useGlossaryLocale()
 
 const delegatedProps = reactiveOmit(props, 'class')
 
@@ -45,7 +50,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       >
         <Button variant="ghost" class="absolute top-2 right-2" size="icon-sm">
           <Icon name="lucide:x" />
-          <span class="sr-only">Close</span>
+          <span class="sr-only">{{ text('关闭') }}</span>
         </Button>
       </DialogClose>
     </DialogContent>

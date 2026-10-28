@@ -9,7 +9,9 @@ const parametersSchema = z.object({
   width: z.number().int().min(180).max(300),
   collapsed: z.boolean(),
 }).strict()
+// AI modified: old backups have a Chinese draft; migration never regenerates its text.
 const schemeSchema = z.object({
+  outputLocale: z.enum(['zh', 'en']).default('zh'),
   id: z.string().min(1).max(100),
   title: z.string().trim().min(1).max(80),
   choices: z.array(z.object({

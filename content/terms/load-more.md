@@ -14,6 +14,7 @@ comparison: "与无限滚动不同，加载更多由用户主动触发；加载�
 target: "内容列表"
 phrase: "先展示一批记录，点击“加载更多”后追加下一批，并反馈已全部加载的状态。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-live"}]
+en: {"description": "Append another group of entries when the user requests it.", "usage": "Long feeds and collections where users control loading.", "comparison": "Unlike infinite scrolling, load more requires an explicit action.", "target": "Content list", "phrase": "Provide a load-more button below the list, append new entries without moving existing content and announce completion.", "naming": "General term", "explanation": "Append another group of entries when the user requests it. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 通过明确按钮逐批追加列表记录，让用户掌握加载节奏。

@@ -14,6 +14,7 @@ comparison: "淡入只改变透明度；滑入还改变位置。不可仅靠透�
 target: "提示内容"
 phrase: "内容出现时从透明过渡到完全可见，结束后保持稳定。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_transitions/Using_CSS_transitions"}]
+en: {"description": "Reveal or hide an element by changing its opacity.", "usage": "Status feedback and subtle content transitions.", "comparison": "Fading changes opacity; sliding also changes position.", "target": "Status message", "phrase": "Reveal the element with an opacity transition from transparent to fully visible.", "naming": "General term", "explanation": "Reveal or hide an element by changing its opacity. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 通过透明度变化，让元素柔和地出现。

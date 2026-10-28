@@ -14,6 +14,7 @@ comparison: "与顶部导航布局相比，侧栏适合更多层级；收起侧�
 target: "页面整体"
 phrase: "采用可折叠侧栏，顶部导航固定，主内容区域独立滚动。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout"}]
+en: {"description": "Use collapsible side navigation to organize admin tools and leave room for the main content.", "usage": "Multi-section dashboards and long management lists.", "comparison": "Unlike top navigation, a sidebar supports deeper navigation. Collapsing it must preserve the selected destination.", "target": "Page layout", "phrase": "Use a collapsible sidebar with a fixed header and an independently scrolling main content area.", "naming": "Common term", "explanation": "Use collapsible side navigation to organize admin tools and leave room for the main content. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 用可收起的侧边导航组织后台功能，把更多空间留给主内容。

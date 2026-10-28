@@ -1,4 +1,4 @@
-import type { Category, DemoParameters, ParameterProfile, Term } from '../types/glossary'
+import type { Category, DemoParameters, Locale, ParameterProfile, Term } from '../types/glossary'
 
 export const categories: { id: Category, label: string, short: string }[] = [
   { id: 'layout', label: '布局', short: '组织空间' },
@@ -24,8 +24,22 @@ export function parameterProfile(term: Term): ParameterProfile {
     return 'motion'
   return 'none'
 }
-export function describeTerm(term: Term, parameters: DemoParameters): string {
+export function describeTerm(term: Term, parameters: DemoParameters, locale: Locale = 'zh'): string {
   const profile = parameterProfile(term)
+  // AI modified: output locale is explicit and independent from the interface locale.
+  if (locale === 'en') {
+    const phrase = term.en?.phrase ?? `Use ${term.english}.`
+    if (profile === 'sidebar')
+      return `${phrase} Set the sidebar width to ${parameters.width}px, ${parameters.collapsed ? 'collapsed' : 'expanded'} by default.`
+    if (profile === 'drawer')
+      return `Open a detail drawer from the ${parameters.direction} when an order is selected. Preserve the list and its scroll position. Use a ${parameters.duration}ms ${parameters.easing} transition. On close, restore focus to the triggering order.`
+    if (profile === 'motion') {
+      return `${phrase} ${term.demo === 'slide'
+        ? `Enter from the ${parameters.direction}. `
+        : ''}Use a ${parameters.duration}ms ${parameters.easing} transition. Show the final state immediately when reduced motion is requested.`
+    }
+    return phrase
+  }
   if (profile === 'sidebar')
     return `${term.phrase}侧栏宽度为 ${parameters.width}px，默认${parameters.collapsed ? '收起' : '展开'}。`
   if (profile === 'drawer') {
@@ -49,7 +63,12 @@ export function searchTerms(terms: Term[], query: string, category = 'all'): Ter
   return terms.filter(term => category === 'all' || term.category === category)
     .map((term) => {
       const names = [term.title, term.english, ...term.aliases].join(' ').toLocaleLowerCase()
-      const clues = [term.description, ...term.keywords].join(' ').toLocaleLowerCase()
+      const clues = [
+        term.description,
+        term.en?.description ?? '',
+        term.en?.usage ?? '',
+        ...term.keywords,
+      ].join(' ').toLocaleLowerCase()
       const scores = words.map(word => names.includes(word)
         ? 5
         : clues.includes(word)

@@ -1,14 +1,16 @@
-import type { Scheme, SchemeChoice, Term } from '../types/glossary'
+import type { Locale, Scheme, SchemeChoice, Term } from '../types/glossary'
 import { describeTerm } from './glossary'
 
-export function describeScheme(scheme: Scheme, terms: Term[]): string {
+export function describeScheme(scheme: Scheme, terms: Term[], locale: Locale = scheme.outputLocale): string {
   return [
     `# ${scheme.title}`,
     ...scheme.choices.map((choice) => {
       const term = terms.find(term => term.slug === choice.termSlug)
       return `## ${choice.target}\n${term
-        ? describeTerm(term, choice.parameters)
-        : '词条已不可用，请重新选择。'}`
+        ? describeTerm(term, choice.parameters, locale)
+        : locale === 'en'
+          ? 'This term is unavailable. Please select another.'
+          : '词条已不可用，请重新选择。'}`
     }),
   ].join('\n\n')
 }
@@ -36,4 +38,16 @@ export function findConflict(scheme: Scheme, incoming: SchemeChoice, terms: Term
     const existing = terms.find(term => term.slug === choice.termSlug)
     return existing?.category === term?.category
   })
+}
+
+// AI modified: only an explicit confirmation commits a language candidate and discards manual edits.
+export function changeOutputLocale(scheme: Scheme, terms: Term[], locale: Locale, hasConfirmed: boolean): boolean {
+  if (!hasConfirmed || locale === scheme.outputLocale)
+    return false
+  scheme.description = describeScheme(scheme, terms, locale)
+  scheme.outputLocale = locale
+  scheme.hasManualEdits = false
+  scheme.isStale = false
+  scheme.updatedAt = new Date().toISOString()
+  return true
 }

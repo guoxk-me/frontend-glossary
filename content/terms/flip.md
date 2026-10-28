@@ -14,6 +14,7 @@ comparison: "这里是卡片 3D 翻面，不是用于布局动画的 FLIP 技术
 target: "信息卡片"
 phrase: "卡片沿纵轴翻转，正反两面分别显示摘要和补充信息。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/backface-visibility"}]
+en: {"description": "Rotate a card to reveal its opposite face.", "usage": "Paired information that benefits from a front and back.", "comparison": "A flip uses rotation and perspective rather than a simple content replacement.", "target": "Information card", "phrase": "Rotate the card around its vertical axis to reveal the back, with a clear control to return to the front.", "naming": "General term", "explanation": "Rotate a card to reveal its opposite face. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 通过旋转让卡片从正面翻到背面。

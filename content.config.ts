@@ -24,6 +24,15 @@ export default defineContentConfig({
         comparison: z.string(),
         target: z.string(),
         phrase: z.string(),
+        en: z.object({
+          description: z.string(),
+          naming: z.string(),
+          usage: z.string(),
+          comparison: z.string(),
+          target: z.string(),
+          phrase: z.string(),
+          explanation: z.string(),
+        }),
         sources: z.array(z.object({
           title: z.string(),
           url: z.string(),

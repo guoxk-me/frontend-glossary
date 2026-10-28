@@ -4,11 +4,15 @@ import { computed, onMounted, onUnmounted, shallowRef, watch } from 'vue'
 import { Icon } from '#components'
 import { useNuxtApp } from '#imports'
 import { useCatalog } from '../composables/use-catalog'
+import { useGlossaryLocale } from '../composables/use-glossary-locale'
 import { useLibraryStore } from '../stores/library'
+import PwaInstall from './PwaInstall.vue'
 import { Button } from './ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 
-const props = withDefaults(defineProps<{ showUpdate?: boolean }>(), { showUpdate: true })
+const props = withDefaults(defineProps<{ showUpdate?: boolean, showInstall?: boolean }>(), { showUpdate: true, showInstall: false })
+
+const { text } = useGlossaryLocale()
+
 const { $pwa } = useNuxtApp()
 const { terms } = useCatalog()
 const library = useLibraryStore()
@@ -29,13 +33,25 @@ async function verifyCache(): Promise<void> {
     return
   try {
     // AI modified: activation alone is not enough if browser storage was evicted; verify every term page.
-    const paths = [
+    const pagePaths = [
       '/',
+      '/about',
+      '/favorites',
       '/schemes',
       '/schemes/edit',
-      '/_payload.json',
+      ...terms.value.map(term => `/terms/${term.slug}`),
+    ]
+    // AI modified: both complete locale trees must be cached before declaring offline readiness.
+    const paths = [
       '/__nuxt_content/terms/sql_dump.txt',
-      ...terms.value.flatMap(term => [`/terms/${term.slug}`, `/terms/${term.slug}/_payload.json`]),
+      ...pagePaths.flatMap(path => [
+        path,
+        path === '/'
+          ? '/en'
+          : `/en${path}`,
+      ]).flatMap(path => [path, `${path === '/'
+        ? ''
+        : path}/_payload.json`]),
     ]
     const cached = await Promise.all(paths.map(path => caches.match(path, { ignoreSearch: true })))
     isCacheReady.value = cached.every(Boolean)
@@ -87,45 +103,30 @@ async function retry(): Promise<void> {
     <strong>
       <Icon v-if="isCacheReady" name="lucide:check" :size="12" />
       <Icon v-else-if="!isOnline" name="lucide:wifi-off" :size="12" />
-      <Icon v-else name="lucide:refresh-cw" :size="12" />{{ status }}</strong>
-    <p>{{ isOnline ? '收藏与方案保存在此设备' : '当前离线 · 外部资料需联网' }}</p>
+      <Icon v-else name="lucide:refresh-cw" :size="12" />{{ text(status) }}</strong>
+    <p>{{ isOnline ? text('收藏与方案保存在此设备') : text('当前离线 · 外部资料需联网') }}</p>
     <Button v-if="cacheError || $pwa?.registrationError" variant="outline" size="xs" :disabled="!isOnline || isBusy" @click="retry">
-      重新准备离线内容
+      {{ text('重新准备离线内容') }}
     </Button>
-    <Button v-if="$pwa?.showInstallPrompt" variant="outline" size="xs" @click="$pwa?.install()">
-      <Icon name="lucide:download" />安装应用
-    </Button>
-    <span v-else-if="$pwa?.isPWAInstalled">已安装到设备</span>
-    <Dialog v-else>
-      <DialogTrigger as-child>
-        <Button variant="ghost" size="xs">
-          <Icon name="lucide:download" />安装说明
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>把前端词典装在身边</DialogTitle>
-          <DialogDescription>先等待离线内容就绪，再添加到主屏幕或桌面。</DialogDescription>
-        </DialogHeader>
-        <p class="text-sm leading-7">
-          Chrome / Edge：使用地址栏的安装图标。<br>iPhone / iPad：Safari → 分享 → 添加到主屏幕。<br>不支持安装的浏览器也可以正常使用网站。
-        </p>
-      </DialogContent>
-    </Dialog>
+    <div v-if="showInstall" class="pwa-install-inline">
+      <PwaInstall />
+    </div>
   </div>
   <!-- AI modified: render one update prompt outside sticky sidebars so it remains clickable. -->
   <Teleport to="body">
-    <div v-if="props.showUpdate && $pwa?.needRefresh && !isUpdateDismissed" class="pwa-notice" role="status">
-      <strong>有新版本可以使用</strong>
-      <p>先保存当前方案，再刷新更新。保存失败时会保留当前页面。</p>
-      <div class="flex gap-2">
-        <Button :disabled="isBusy" @click="update">
-          保存并更新
-        </Button>
-        <Button variant="outline" @click="isUpdateDismissed = true">
-          稍后
-        </Button>
+    <Transition name="feedback">
+      <div v-if="props.showUpdate && $pwa?.needRefresh && !isUpdateDismissed" class="pwa-notice" role="status">
+        <strong>{{ text('有新版本可以使用') }}</strong>
+        <p>{{ text('先保存当前方案，再刷新更新。保存失败时会保留当前页面。') }}</p>
+        <div class="flex gap-2">
+          <Button :disabled="isBusy" @click="update">
+            {{ text('保存并更新') }}
+          </Button>
+          <Button variant="outline" @click="isUpdateDismissed = true">
+            {{ text('稍后') }}
+          </Button>
+        </div>
       </div>
-    </div>
+    </Transition>
   </Teleport>
 </template>

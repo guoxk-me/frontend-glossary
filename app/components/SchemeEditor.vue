@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import type { Scheme, SchemeChoice } from '../types/glossary'
-import { shallowRef } from 'vue'
+import type { Locale, Scheme, SchemeChoice } from '../types/glossary'
+import { computed, shallowRef } from 'vue'
 import { Icon, NuxtLink } from '#components'
 import { useCatalog } from '../composables/use-catalog'
 import { useDelivery } from '../composables/use-delivery'
-import { findConflict } from '../lib/schemes'
+import { useGlossaryLocale } from '../composables/use-glossary-locale'
+import { releaseLeavingRow, retainLeavingRow } from '../lib/list-motion'
+import { changeOutputLocale, describeScheme, findConflict } from '../lib/schemes'
 import { useLibraryStore } from '../stores/library'
+import CollapsePanel from './CollapsePanel.vue'
 import SchemeSelection from './SchemeSelection.vue'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { Button } from './ui/button'
@@ -15,17 +18,39 @@ import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
 
 const props = defineProps<{ scheme: Scheme }>()
+
+const { text, isEnglish, termTitle, localePath } = useGlossaryLocale()
+
 const { terms } = useCatalog()
 const library = useLibraryStore()
-const { copyText, downloadText, message } = useDelivery()
+const { copyText, downloadText, message, deliveryCount } = useDelivery()
 const isRegenerateOpen = shallowRef(false)
 const pendingChoice = shallowRef<SchemeChoice | null>(null)
 const conflictTitle = shallowRef('')
+const pendingLocale = shallowRef<Locale | null>(null)
+const candidate = computed(() => describeScheme(props.scheme, terms.value, pendingLocale.value ?? props.scheme.outputLocale))
+const hasUntranslatedText = computed(() => props.scheme.outputLocale === 'en' && /[\u3400-\u9fff]/u.test(props.scheme.description))
+function requestOutputLocale(event: Event): void {
+  const select = event.target as HTMLSelectElement
+  if (select.value === 'zh' || select.value === 'en') {
+    if (select.value !== props.scheme.outputLocale)
+      pendingLocale.value = select.value
+  }
+  select.value = props.scheme.outputLocale
+}
+function confirmOutputLocale(): void {
+  if (pendingLocale.value && changeOutputLocale(props.scheme, terms.value, pendingLocale.value, true))
+    library.saveLibrary()
+  pendingLocale.value = null
+}
 function updateChoice(choice: SchemeChoice): void {
   const conflict = findConflict(props.scheme, choice, terms.value)
   if (conflict) {
     pendingChoice.value = choice
-    conflictTitle.value = terms.value.find(term => term.slug === conflict.termSlug)?.title ?? '已有选择'
+    const existingTerm = terms.value.find(term => term.slug === conflict.termSlug)
+    conflictTitle.value = existingTerm
+      ? termTitle(existingTerm)
+      : text('已有选择')
     return
   }
   library.addChoice(props.scheme, choice, terms.value)
@@ -42,22 +67,22 @@ function confirmChoice(): void {
 </script>
 
 <template>
-  <NuxtLink to="/schemes" class="back-link">
-    <Icon name="lucide:arrow-left" :size="13" />我的方案</NuxtLink>
+  <NuxtLink :to="localePath('/schemes')" class="back-link">
+    <Icon name="lucide:arrow-left" :size="13" />{{ text('我的方案') }}</NuxtLink>
   <div class="page-title-row">
     <div>
-      <h1>编辑方案</h1>
+      <h1>{{ text('编辑方案') }}</h1>
       <p class="page-lead">
-        选择效果，明确对象，让需求可以被准确理解。
+        {{ text('选择效果，明确对象，让需求可以被准确理解。') }}
       </p>
     </div>
     <Button variant="outline" @click="library.saveLibrary()">
-      <Icon name="lucide:check" />保存到本机
+      <Icon name="lucide:check" />{{ text('保存到本机') }}
     </Button>
   </div>
   <Field class="mb-8 max-w-lg">
     <FieldLabel for="edit-scheme-title">
-      方案名称
+      {{ text('方案名称') }}
     </FieldLabel>
     <Input id="edit-scheme-title" :model-value="scheme.title" maxlength="80" @change="library.renameScheme(scheme, ($event.target as HTMLInputElement).value, terms)" />
   </Field>
@@ -65,69 +90,108 @@ function confirmChoice(): void {
     <section>
       <div class="section-heading">
         <h2>
-          已选效果 <span>{{ scheme.choices.length }}</span>
+          {{ text('已选效果') }} <span>{{ scheme.choices.length }}</span>
         </h2>
         <Button as-child variant="ghost" size="sm">
-          <NuxtLink to="/">
-            <Icon name="lucide:plus" />添加词条</NuxtLink>
+          <NuxtLink :to="localePath('/')">
+            <Icon name="lucide:plus" />{{ text('添加词条') }}</NuxtLink>
         </Button>
       </div>
-      <p v-if="!scheme.choices.length" class="empty-selection">
-        还没有选择效果。去词典找到一个，点击“加入方案”即可。
-      </p>
-      <template v-for="choice in scheme.choices" :key="`${choice.id}-${choice.target}`">
-        <SchemeSelection v-if="terms.find(term => term.slug === choice.termSlug)" :choice="choice" :term="terms.find(term => term.slug === choice.termSlug)!" @change="updateChoice" @remove="library.removeChoice(scheme, choice.id, terms)" />
-      </template>
+      <TransitionGroup name="list" tag="div" class="motion-list" @before-leave="retainLeavingRow" @after-leave="releaseLeavingRow" @before-enter="releaseLeavingRow">
+        <p v-if="!scheme.choices.length" key="empty" class="empty-selection">
+          {{ text('还没有选择效果。去词典找到一个，点击“加入方案”即可。') }}
+        </p>
+        <template v-for="choice in scheme.choices" :key="choice.id">
+          <SchemeSelection v-if="terms.find(term => term.slug === choice.termSlug)" :choice="choice" :term="terms.find(term => term.slug === choice.termSlug)!" @change="updateChoice" @remove="library.removeChoice(scheme, choice.id, terms)" />
+        </template>
+      </TransitionGroup>
       <p class="local-note">
-        同一个对象的同类效果需要确认替换，不同对象可以分别设置。
+        {{ text('同一个对象的同类效果需要确认替换，不同对象可以分别设置。') }}
       </p>
     </section>
     <section class="scheme-description">
       <div class="section-heading">
-        <h2>需求描述</h2>
+        <h2>{{ text('需求描述') }}</h2>
         <Button variant="ghost" size="sm" :disabled="!scheme.choices.length" @click="regenerate">
-          <Icon name="lucide:rotate-ccw" />重新生成
+          <Icon name="lucide:rotate-ccw" />{{ text('重新生成') }}
         </Button>
       </div>
-      <Alert v-if="scheme.isStale" class="stale-alert mb-4">
-        <AlertTitle>参数已变化，描述待更新</AlertTitle>
-        <AlertDescription>手写内容已保留。重新生成需要确认替换，也可以继续手动修改。</AlertDescription>
-      </Alert>
-      <label for="scheme-description" class="sr-only">需求描述</label>
-      <Textarea id="scheme-description" :model-value="scheme.description" maxlength="100000" class="description-editor" placeholder="加入词条后自动生成，也可以在这里写下自己的要求…" @update:model-value="library.editDescription(scheme, String($event))" />
+      <div class="output-locale-control">
+        <label for="scheme-output-locale">{{ text('输出语言') }}</label><select id="scheme-output-locale" class="native-select" :value="scheme.outputLocale" @change="requestOutputLocale">
+          <option value="en">
+            English
+          </option><option value="zh">
+            中文
+          </option>
+        </select>
+      </div>
+      <CollapsePanel :open="hasUntranslatedText">
+        <p class="mixed-language-note" role="status">
+          {{ text('输出包含未翻译的自定义内容，方案名、作用对象及手写内容会保留原文。') }}
+        </p>
+      </CollapsePanel>
+      <CollapsePanel :open="scheme.isStale">
+        <Alert class="stale-alert mb-4">
+          <AlertTitle>{{ text('参数已变化，描述待更新') }}</AlertTitle>
+          <AlertDescription>{{ text('手写内容已保留。重新生成需要确认替换，也可以继续手动修改。') }}</AlertDescription>
+        </Alert>
+      </CollapsePanel>
+      <label for="scheme-description" class="sr-only">{{ text('需求描述') }}</label>
+      <Textarea id="scheme-description" :model-value="scheme.description" maxlength="100000" class="description-editor" :placeholder="text('加入词条后自动生成，也可以在这里写下自己的要求…')" @update:model-value="library.editDescription(scheme, String($event))" />
       <div class="description-meta">
-        <span>{{ scheme.hasManualEdits ? '已手动编辑' : '根据已选效果生成' }}</span>
-        <span>{{ scheme.description.length }} 字</span>
+        <span>{{ scheme.hasManualEdits ? text('已手动编辑') : text('根据已选效果生成') }}</span>
+        <span>{{ scheme.description.length }} {{ text('字') }}</span>
       </div>
       <div class="export-actions">
         <Button :disabled="!scheme.description" @click="copyText(scheme.description)">
-          <Icon name="lucide:copy" />复制描述
+          <Icon name="lucide:copy" />{{ text('复制描述') }}
         </Button>
         <Button variant="outline" :disabled="!scheme.description" @click="downloadText(scheme.description, `${scheme.title}.md`, 'text/markdown')">
-          <Icon name="lucide:download" />导出 Markdown
+          <Icon name="lucide:download" />{{ text('导出 Markdown') }}
         </Button>
       </div>
       <p role="status" class="delivery-status">
-        {{ message || (library.saveError ? library.saveError : '更改已自动保存到当前浏览器') }}
+        <Transition name="feedback">
+          <span :key="`${deliveryCount}:${library.saveError}`" class="inline-block">{{ text(message || library.saveError || '更改已自动保存到当前浏览器') }}</span>
+        </Transition>
       </p>
       <div class="description-help">
-        <strong>准备好，可以开始沟通了。</strong>
-        <p>将描述粘贴给同事或 AI 工具，作为实现需求的起点。</p>
+        <strong>{{ text('准备好，可以开始沟通了。') }}</strong>
+        <p>{{ text('将描述粘贴给同事或 AI 工具，作为实现需求的起点。') }}</p>
       </div>
     </section>
   </div>
+  <Dialog :open="!!pendingLocale" @update:open="($event) => { if (!$event) pendingLocale = null }">
+    <DialogContent class="output-preview-dialog sm:max-w-3xl">
+      <DialogHeader><DialogTitle>{{ text('切换输出语言？') }} {{ pendingLocale === 'en' ? 'English' : '中文' }}</DialogTitle><DialogDescription>{{ text('确认后将替换整份正文，包括手写补充。') }}</DialogDescription></DialogHeader>
+      <div class="draft-comparison">
+        <section><h3>{{ text('当前正文') }}</h3><pre>{{ scheme.description }}</pre></section><section><h3>{{ text('候选描述') }}</h3><pre>{{ candidate }}</pre></section>
+      </div>
+      <p v-if="pendingLocale === 'en' && /[\u3400-\u9fff]/u.test(candidate)" class="mixed-language-note">
+        {{ text('输出包含未翻译的自定义内容，方案名、作用对象及手写内容会保留原文。') }}
+      </p>
+      <DialogFooter>
+        <Button variant="outline" @click="pendingLocale = null">
+          {{ text('取消，保留原文') }}
+        </Button><Button @click="confirmOutputLocale">
+          {{ text('确认替换描述') }}
+        </Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
   <Dialog v-model:open="isRegenerateOpen">
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>重新生成并替换手写内容？</DialogTitle>
-        <DialogDescription>会按当前效果与参数重新生成描述，并替换现有正文。取消后保留原文和待更新状态。</DialogDescription>
+        <DialogTitle>{{ text('重新生成并替换手写内容？') }}</DialogTitle>
+        <DialogDescription>{{ text('会按当前效果与参数重新生成描述，并替换现有正文。取消后保留原文和待更新状态。') }}</DialogDescription>
       </DialogHeader>
+      <pre class="regenerate-preview">{{ candidate }}</pre>
       <DialogFooter>
         <Button variant="outline" @click="isRegenerateOpen = false">
-          取消，保留原文
+          {{ text('取消，保留原文') }}
         </Button>
         <Button @click="library.regenerate(scheme, terms, true); isRegenerateOpen = false">
-          确认替换描述
+          {{ text('确认替换描述') }}
         </Button>
       </DialogFooter>
     </DialogContent>
@@ -135,15 +199,15 @@ function confirmChoice(): void {
   <Dialog :open="!!pendingChoice" @update:open="($event) => { if (!$event) pendingChoice = null }">
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>替换「{{ conflictTitle }}」？</DialogTitle>
-        <DialogDescription>这个作用对象已经有同类别的效果。确认后保留新选择，移除冲突选择；手写正文仍会保留。</DialogDescription>
+        <DialogTitle>{{ isEnglish ? `Replace ${conflictTitle}?` : `替换「${conflictTitle}」？` }}</DialogTitle>
+        <DialogDescription>{{ text('这个作用对象已经有同类别的效果。确认后保留新选择，移除冲突选择；手写正文仍会保留。') }}</DialogDescription>
       </DialogHeader>
       <DialogFooter>
         <Button variant="outline" @click="pendingChoice = null">
-          取消
+          {{ text('取消') }}
         </Button>
         <Button @click="confirmChoice">
-          确认替换效果
+          {{ text('确认替换效果') }}
         </Button>
       </DialogFooter>
     </DialogContent>

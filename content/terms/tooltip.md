@@ -14,6 +14,7 @@ comparison: "Tooltip 不应包含必须操作的表单；需要交互的补充�
 target: "辅助提示"
 phrase: "悬停或键盘聚焦时显示简短说明，移开或失焦后隐藏。"
 sources: [{"title": "相关规范与实现参考", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/"}]
+en: {"description": "Show a short explanation on hover or keyboard focus.", "usage": "Clarifying icon buttons and concise supplementary hints.", "comparison": "A tooltip contains no interactive controls and must not hold essential information.", "target": "Icon control", "phrase": "Show a brief tooltip on hover and keyboard focus, associate it with its trigger and dismiss it when focus or hover leaves.", "naming": "General term", "explanation": "Show a short explanation on hover or keyboard focus. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 在悬停或聚焦时显示简短的补充说明。

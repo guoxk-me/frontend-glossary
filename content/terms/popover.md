@@ -14,6 +14,7 @@ comparison: "Popover 可以包含操作；Tooltip 通常只提供简短文字，
 target: "辅助设置"
 phrase: "点击触发器，在其附近展开补充面板，再次点击或关闭时收起。"
 sources: [{"title": "相关规范与实现参考", "url": "https://shadcn-vue.com/docs/components/popover"}]
+en: {"description": "Display a small contextual panel beside its trigger.", "usage": "Compact settings, actions and related details.", "comparison": "A popover may contain controls; a tooltip provides a short, noninteractive explanation.", "target": "Contextual panel", "phrase": "Open a small popover anchored to the trigger, with accessible controls and a clear way to dismiss it.", "naming": "General term", "explanation": "Display a small contextual panel beside its trigger. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 在触发元素附近显示一块可交互的补充内容。

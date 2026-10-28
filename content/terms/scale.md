@@ -14,6 +14,7 @@ comparison: "缩放过渡不等于弹簧动画；真实弹簧通常包含不同�
 target: "提示内容"
 phrase: "内容从较小比例放大到正常大小，并伴随透明度变化。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/transform"}]
+en: {"description": "Bring an element into view by increasing its scale.", "usage": "Small overlays, confirmation feedback and newly added elements.", "comparison": "Scaling changes size; sliding changes position. Avoid large zoom movements.", "target": "New element", "phrase": "Reveal the element by scaling it from slightly smaller to its normal size without shifting surrounding layout.", "naming": "General term", "explanation": "Bring an element into view by increasing its scale. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 元素从较小尺寸放大到正常尺寸，强调出现位置。

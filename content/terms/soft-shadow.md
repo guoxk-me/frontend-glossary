@@ -14,6 +14,7 @@ comparison: "阴影用于深度与层级；不要把所有区域都做成高强�
 target: "信息卡片"
 phrase: "用低透明度、较大模糊半径的阴影，让卡片轻微浮起。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow"}]
+en: {"description": "Use a diffuse shadow to separate a surface from its surroundings.", "usage": "Cards, floating panels and subtle hierarchy.", "comparison": "A soft shadow has blurred edges; a hard shadow creates a stronger graphic separation.", "target": "Card surface", "phrase": "Add a restrained, diffuse shadow beneath the surface to indicate depth without distracting from content.", "naming": "Common term", "explanation": "Use a diffuse shadow to separate a surface from its surroundings. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 用低强度、较大模糊半径的阴影表达层级。

@@ -14,6 +14,7 @@ comparison: "与真实材质拟物不同，新拟态常依赖低对比表面；�
 target: "信息卡片"
 phrase: "卡片与背景保持相近色调，通过明暗双向阴影形成柔和凸起。"
 sources: [{"title": "相关规范与实现参考", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow"}]
+en: {"description": "Use paired light and dark shadows to suggest surfaces raised from a similar background.", "usage": "Small decorative controls where sufficient contrast can be maintained.", "comparison": "Unlike ordinary shadows, neumorphism combines matching surfaces and opposing highlights. Do not rely on shadows alone for state.", "target": "Decorative control", "phrase": "Use subtle opposing light and dark shadows on a matching surface, while adding clear borders and focus states for accessibility.", "naming": "Common term", "explanation": "Use paired light and dark shadows to suggest surfaces raised from a similar background. This example illustrates an admin interface. Describe the target, trigger and final state when adapting it to your project."}
 ---
 
 利用接近背景的表面和明暗双向阴影模拟柔软凸起。

@@ -1,8 +1,8 @@
 # 首版实现边界与组件分工
 
-依据已确认 PRD 与文档风格 v2，2026-10-27 开始实现。暂不部署 Vercel、不增加后端或在线 AI。
+依据已确认 PRD 与文档风格 v2，2026-10-27 开始实现。现已通过 Vercel 发布静态站点，不增加后端或在线 AI。
 
-- AppShell / TermNavigation：全局导航、移动菜单、主题和离线状态。
+- AppShell / TermNavigation：全局导航、移动菜单和离线状态；ThemeToggle 使用 Nuxt Color Mode 管理三态主题。
 - TermCatalog / TermCard：关键词及分类筛选、静态效果预览和收藏入口；输入词条数组，触发收藏。
 - TermDetail / DemoStage / TermParameters：具体词条解释、独立交互演示与合法参数；参数向上更新，重播由页面触发。
 - AddToSchemeDialog：选择或新建方案、指定对象并确认冲突，成功后导航到编辑页。
@@ -20,7 +20,23 @@
 - 旧 Babel 链路的 semver 6 请求覆盖到 7.8.5，保留版本比较能力并通过实际静态构建。
 - 上游仍有 oxc-parser 与 unplugin 的 peer 提示；目前类型检查和构建通过，后续升级继续观察，不据此宣称所有组合兼容。
 
-## 已执行的验证
+## Nuxt 生态模块接入（2026-10-28）
+
+- `@nuxtjs/color-mode` 4.1.0 管理主题。沿用 `frontend-glossary:theme` 存储键，在主题初始化前将旧 `auto` 偏好迁移为 `system`，保留显式浅色和深色偏好；SSR 预留按钮以避免主题导致 hydration 不一致。
+- `@nuxtjs/sitemap` 9.1.0 开启 `zeroRuntime`，`@nuxtjs/robots` 7.0.2 通过路由规则排除收藏、方案列表和编辑页。主地址固定为 `https://front.guoxk.me`，canonical 不带查询参数，保持无后端部署。
+- `@nuxt/hints` 1.1.5 和 `@nuxt/a11y` 1.0.0-alpha.1 仅通过 `$development` 加载，开发时开启 DevTools；alpha 诊断不能替代人工无障碍验收。
+- `@nuxt/test-utils` 4.3.4、`@vue/test-utils` 2.5.1、Happy DOM 21.0.4 与现有 Vitest 5 配合；unit 项目运行规则测试，nuxt 项目运行组件测试。Nuxt 类型配置覆盖 `test/nuxt/`。
+- 新组件测试覆盖三态主题、参数修改后保留手写正文、取消/确认重新生成，以及本机保存失败时保留输入并显示提示。
+
+## 本次模块接入验证（2026-10-28）
+
+- Executed：`pnpm check` 通过 Lint、Type Check、14 项测试（11 项规则、3 项 Nuxt 组件）和静态生成。
+- Executed：sitemap 包含 34 个公开 URL，全部使用正式域名；收藏、方案列表、方案编辑页的静态 HTML 包含 `noindex`，不进入 sitemap。robots.txt 提供 sitemap 地址并允许爬虫读取页面的 noindex 指令。
+- Executed：真实浏览器在系统深色时将旧 `auto` 偏好迁移为 `system`，首次 DOM 就绪即为深色；原有 light/dark 偏好保留，三态按钮切换和刷新正常。
+- Executed：生产预览缓存 144 个资源，断网可直接打开此前未访问的词条，主题和本地 SVG 图标正常；生产页面无开发诊断资源请求。
+- Executed：开发页面正常加载 Hints、A11y 和 DevTools。开发日志仍有上游 MDC 预构建条目无法解析的提示，未影响本次页面启动、类型检查和静态构建；不通过屏蔽规则消除提示。
+
+## 首版已执行的验证
 
 - 冻结依赖安装、Lint、Type Check、11 项单元测试与静态构建通过。测试覆盖搜索、描述保留、重新生成、冲突判定、备份结构及版本校验。
 - 桌面浏览器完成搜索、收藏、加入方案、手写描述、参数修改、取消和确认重新生成、刷新持久化。
@@ -33,7 +49,7 @@
 
 ## 尚未覆盖与后续边界
 
-- 未部署 Vercel；配置已提供，远端部署与线上验收另行执行。
+- 已部署到 `https://front.guoxk.me`，GitHub main 推送触发自动部署；每次发布仍需核对目标提交与线上行为。
 - 未在 iOS / Android 真机或桌面原生安装后验收；移动视口与浏览器离线测试不能替代这些检查。
 - 词条内容是首版编辑草稿；外部来源、术语适用范围和表述需持续校对。
 - 方案只存当前浏览器，未接账号、后端同步或在线 AI。浏览器清理站点数据会删除本机方案，使用 JSON 备份迁移。

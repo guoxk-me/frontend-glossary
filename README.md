@@ -39,9 +39,15 @@ Nuxt 4.6.3、Nuxt Content 3.16.2、Vue 3.5、shadcn-vue、Tailwind CSS 4、Pinia
 pnpm lint
 pnpm typecheck
 pnpm test
+pnpm test:unit
+pnpm test:nuxt
 pnpm check
 pnpm deps:check
 ```
+
+主题由 `@nuxtjs/color-mode` 管理，沿用原有本机偏好；`@nuxtjs/sitemap` 与 `@nuxtjs/robots` 在构建时生成 SEO 文件，词典和词条允许收录，收藏与方案页不收录。canonical 统一使用 `https://front.guoxk.me`。
+
+开发时启用 Nuxt DevTools、`@nuxt/hints` 和 `@nuxt/a11y`，后者目前为 alpha，仅作为开发辅助。生产静态站点不加载这两个诊断模块。`@nuxt/test-utils`、`@vue/test-utils` 和 Happy DOM 用于真实 Nuxt 组件交互测试，`pnpm test` 同时执行核心规则与组件测试。
 
 直接依赖使用 `pnpm-workspace.yaml` 的命名 catalog；提交 `pnpm-lock.yaml`。Taze 的检查与更新分开，`pnpm deps:update` 会改版本，之后必须重新执行检查。Husky 提交前检查暂存文件，commitlint 校验 Conventional Commits，支持中文描述。
 
@@ -56,6 +62,7 @@ pnpm deps:check
 | `app/components/demos/` | 四类独立演示 |
 | `app/components/ui/` | 项目维护的 shadcn-vue 组件源码 |
 | `app/lib/` | 搜索、描述、冲突与备份规则，以及核心测试 |
+| `test/nuxt/` | Nuxt 组件交互与存储失败测试 |
 | `app/stores/library.ts` | 收藏、方案和本地持久化 |
 | `docs/prd.md` | 已确认需求与范围 |
 | `docs/prototypes/frontend-glossary.pen` | 专属 Pen 原型，含保留的早期稿与文档风格 v2 |
@@ -68,8 +75,8 @@ pnpm deps:check
 
 `@iconify-json/lucide` 提供本地图标数据，`nuxt.config.ts` 启用源码扫描和 SVG 模式，并通过 `provider: 'none'` 禁止运行时图标请求。新增动态拼接的图标名时，将完整名称补入 `icon.clientBundle.icons`，确保静态部署和 PWA 离线可用。shadcn-vue 新生成的组件也需沿用此约定。
 
-## 后续部署 Vercel
+## Vercel 部署
 
-已提供 `vercel.json`：构建命令 `pnpm build`，输出 `.output/public`，启用 clean URLs。后续将 GitHub 仓库导入 Vercel 即可按该配置构建；此阶段未执行 Vercel 部署，也没有运行时业务 API 或 Functions。
+已提供 `vercel.json`：构建命令 `pnpm build`，输出 `.output/public`，启用 clean URLs。GitHub 的 `main` 分支已连接 Vercel 自动部署，正式地址为 [front.guoxk.me](https://front.guoxk.me)。没有运行时业务 API 或 Functions。
 
 iOS 主屏幕安装、各桌面浏览器的原生安装流程需在对应设备验收，移动端视口测试不等同于真机安装测试。

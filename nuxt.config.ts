@@ -5,9 +5,17 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   compatibilityDate: '2026-10-27',
   devtools: { enabled: false },
+  // AI modified: diagnostics are development-only and never enter the static PWA.
+  $development: {
+    devtools: { enabled: true },
+    modules: ['@nuxt/hints', '@nuxt/a11y'],
+  },
   modules: [
     '@nuxt/content',
     '@nuxt/icon',
+    '@nuxtjs/color-mode',
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
     '@pinia/nuxt',
     'shadcn-nuxt',
     '@nuxt/eslint',
@@ -29,6 +37,26 @@ export default defineNuxtConfig({
       ],
     },
   },
+  colorMode: {
+    preference: 'system',
+    fallback: 'light',
+    classSuffix: '',
+    storageKey: 'frontend-glossary:theme',
+  },
+  site: {
+    url: 'https://front.guoxk.me',
+    name: '前端词典',
+  },
+  sitemap: {
+    zeroRuntime: true,
+    include: ['/', '/about', '/terms/**'],
+  },
+  // AI modified: browser-local pages are usable but should not appear in search results.
+  routeRules: {
+    '/favorites': { robots: false },
+    '/schemes': { robots: false },
+    '/schemes/**': { robots: false },
+  },
   imports: { autoImport: false },
   content: {
     experimental: { sqliteConnector: 'native' },
@@ -48,6 +76,14 @@ export default defineNuxtConfig({
     head: {
       htmlAttrs: { lang: 'zh-CN' },
       title: '前端词典',
+      // AI modified: migrate the old VueUse preference before Nuxt's first-paint theme script.
+      script: [
+        {
+          key: 'theme-preference-migration',
+          tagPriority: 'critical',
+          innerHTML: 'try{const key=\'frontend-glossary:theme\';if(localStorage.getItem(key)===\'auto\')localStorage.setItem(key,\'system\')}catch{}',
+        },
+      ],
       meta: [
         { name: 'description', content: '看见效果，找到名字。查阅前端布局、动效与交互，把想法变成清楚的需求。' },
       ],

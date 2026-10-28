@@ -1,22 +1,15 @@
 <script setup lang="ts">
-import { useColorMode, useEventListener } from '@vueuse/core'
+import { useEventListener } from '@vueuse/core'
 import { shallowRef } from 'vue'
 import { Icon, NuxtLink } from '#components'
 import { useLibraryStore } from '../stores/library'
 import PwaStatus from './PwaStatus.vue'
 import TermNavigation from './TermNavigation.vue'
+import ThemeToggle from './ThemeToggle.vue'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { Button } from './ui/button'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
 
-const theme = useColorMode({ storageKey: 'frontend-glossary:theme', emitAuto: true })
-function cycleTheme(): void {
-  theme.value = theme.value === 'auto'
-    ? 'light'
-    : theme.value === 'light'
-      ? 'dark'
-      : 'auto'
-}
 const isMenuOpen = shallowRef(false)
 const library = useLibraryStore()
 // AI modified: a failed local write must not silently lose the in-memory draft on navigation away.
@@ -64,11 +57,7 @@ useEventListener('beforeunload', (event) => {
             <Icon name="lucide:git-fork" />
           </a>
         </Button>
-        <Button variant="ghost" size="icon" :aria-label="`切换主题（当前${theme === 'auto' ? '跟随系统' : theme === 'dark' ? '深色' : '浅色'}）`" :title="`主题：${theme}，点击切换`" @click="cycleTheme">
-          <Icon v-if="theme === 'auto'" name="lucide:monitor" />
-          <Icon v-else-if="theme === 'light'" name="lucide:sun" />
-          <Icon v-else name="lucide:moon" />
-        </Button>
+        <ThemeToggle />
       </div>
     </div>
   </header>

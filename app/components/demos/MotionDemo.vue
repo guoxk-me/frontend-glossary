@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DemoParameters } from '../../types/glossary'
-import { ArrowUpRight, Check } from '@lucide/vue'
 import { computed, shallowRef, watch } from 'vue'
+import { Icon } from '#components'
 import { Button } from '../ui/button'
 
 const props = defineProps<{ kind: string, parameters: DemoParameters, compact?: boolean, replay: number }>()
@@ -30,7 +30,7 @@ const styles = computed(() => ({
           <strong>{{ ['新建项目', '邀请团队', '发布上线'][n - 1] }}</strong>
           <div class="mini-line" />
         </div>
-        <Check :size="14" />
+        <Icon name="lucide:check" :size="14" />
       </div>
     </div>
     <div v-else-if="kind === 'shimmer'" :key="replay" class="skeleton-card">
@@ -65,11 +65,11 @@ const styles = computed(() => ({
     </div>
     <div v-else :key="replay" class="motion-element motion-card" :class="`effect-${kind}`" :tabindex="kind === 'hover-lift' && !compact ? 0 : undefined">
       <div class="motion-icon">
-        <Check :size="20" />
+        <Icon name="lucide:check" :size="20" />
       </div>
       <strong>一切准备就绪</strong>
       <p>让每一次变化自然发生。</p>
-      <span class="motion-card-bottom">查看项目 <ArrowUpRight :size="13" />
+      <span class="motion-card-bottom">查看项目 <Icon name="lucide:arrow-up-right" :size="13" />
       </span>
     </div>
     <span class="demo-timing">{{ parameters.duration }}ms · {{ parameters.easing }}</span>

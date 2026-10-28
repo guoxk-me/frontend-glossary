@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { TermsCollectionItem } from '@nuxt/content'
-import { ArrowLeft, Bookmark, Copy, ExternalLink } from '@lucide/vue'
 import { computed, shallowRef } from 'vue'
-import { ContentRenderer, NuxtLink } from '#components'
+import { ContentRenderer, Icon, NuxtLink } from '#components'
 import { useSeoMeta } from '#imports'
 import { useDelivery } from '../composables/use-delivery'
 import { categories, defaultParameters, describeTerm, parameterProfile } from '../lib/glossary'
@@ -28,7 +27,7 @@ useSeoMeta({
   <div class="detail-layout">
     <article class="term-detail">
       <NuxtLink to="/" class="back-link">
-        <ArrowLeft :size="13" />全部词条 <span>/ {{ categories.find(category => category.id === term.category)?.label }}</span>
+        <Icon name="lucide:arrow-left" :size="13" />全部词条 <span>/ {{ categories.find(category => category.id === term.category)?.label }}</span>
       </NuxtLink>
       <header class="detail-heading">
         <div class="flex items-center gap-2 mb-3">
@@ -51,7 +50,7 @@ useSeoMeta({
         <div class="detail-actions">
           <AddToSchemeDialog :term="term" :parameters="parameters" />
           <Button variant="outline" :disabled="!library.isReady" :aria-pressed="library.favorites.includes(term.slug)" @click="library.toggleFavorite(term.slug)">
-            <Bookmark :fill="library.favorites.includes(term.slug) ? 'currentColor' : 'none'" />{{ library.favorites.includes(term.slug) ? '已收藏' : '收藏词条' }}
+            <Icon name="lucide:bookmark" :class="{ '[&_path]:fill-current': library.favorites.includes(term.slug) }" />{{ library.favorites.includes(term.slug) ? '已收藏' : '收藏词条' }}
           </Button>
         </div>
       </header>
@@ -85,7 +84,7 @@ useSeoMeta({
         <div class="section-heading">
           <h2>可以这样描述</h2>
           <Button variant="ghost" size="sm" @click="copyText(description)">
-            <Copy />复制描述
+            <Icon name="lucide:copy" />复制描述
           </Button>
         </div>
         <p class="generated-description">
@@ -98,7 +97,7 @@ useSeoMeta({
       </section>
       <section id="sources" class="prose-section">
         <h2>参考资料</h2>
-        <a v-for="source in term.sources" :key="source.url" :href="source.url" target="_blank" rel="noopener noreferrer" class="source-link">{{ source.title }}<ExternalLink :size="13" />
+        <a v-for="source in term.sources" :key="source.url" :href="source.url" target="_blank" rel="noopener noreferrer" class="source-link">{{ source.title }}<Icon name="lucide:external-link" :size="13" />
         </a>
         <p class="text-xs text-muted-foreground mt-4">
           释义为编辑整理；“常用说法 / 描述性命名”不代表标准规范名称。

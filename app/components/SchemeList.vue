@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ArrowUpRight, Layers, Plus, Trash2 } from '@lucide/vue'
 import { shallowRef } from 'vue'
-import { NuxtLink } from '#components'
+import { Icon, NuxtLink } from '#components'
 import { navigateTo } from '#imports'
 import { useLibraryStore } from '../stores/library'
 import LibraryBackup from './LibraryBackup.vue'
@@ -47,7 +46,7 @@ function remove(): void {
     <Dialog v-model:open="isNewOpen">
       <DialogTrigger as-child>
         <Button :disabled="!library.isReady || library.schemes.length >= 100">
-          <Plus />新建方案
+          <Icon name="lucide:plus" />新建方案
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -80,7 +79,7 @@ function remove(): void {
   <div v-else-if="library.schemes.length" class="scheme-grid">
     <Card v-for="scheme in [...library.schemes].reverse()" :key="scheme.id">
       <CardHeader>
-        <Layers class="mb-4" :size="22" />
+        <Icon name="lucide:layers" class="mb-4" :size="22" />
         <CardTitle>
           <NuxtLink :to="{ path: '/schemes/edit', query: { id: scheme.id } }">{{ scheme.title }}</NuxtLink>
         </CardTitle>
@@ -92,11 +91,11 @@ function remove(): void {
         </Badge>
         <div class="flex">
           <Button variant="ghost" size="icon" :aria-label="`删除${scheme.title}`" @click="deleteId = scheme.id">
-            <Trash2 />
+            <Icon name="lucide:trash-2" />
           </Button>
           <Button as-child variant="ghost" size="icon">
             <NuxtLink :to="{ path: '/schemes/edit', query: { id: scheme.id } }" :aria-label="`编辑${scheme.title}`">
-              <ArrowUpRight />
+              <Icon name="lucide:arrow-up-right" />
             </NuxtLink>
           </Button>
         </div>
@@ -105,7 +104,7 @@ function remove(): void {
   </div>
   <Empty v-else class="border min-h-72 mb-10">
     <EmptyHeader>
-      <Layers class="mx-auto text-muted-foreground" />
+      <Icon name="lucide:layers" class="mx-auto text-muted-foreground" />
       <EmptyTitle>你的第一个想法，从这里开始</EmptyTitle>
       <EmptyDescription>例如：可折叠侧栏 ＋ 卡片列表 ＋ 右侧详情抽屉。</EmptyDescription>
     </EmptyHeader>

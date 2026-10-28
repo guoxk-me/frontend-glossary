@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Download, Upload } from '@lucide/vue'
 import { shallowRef, useTemplateRef } from 'vue'
+import { Icon } from '#components'
 import { useCatalog } from '../composables/use-catalog'
 import { useDelivery } from '../composables/use-delivery'
 import { useLibraryStore } from '../stores/library'
@@ -42,10 +42,10 @@ async function importFile(event: Event): Promise<void> {
     </div>
     <div class="flex flex-wrap gap-2">
       <Button variant="outline" :disabled="!library.isReady" @click="downloadText(library.exportBackup(), '前端词典备份.json', 'application/json')">
-        <Download />导出 JSON
+        <Icon name="lucide:download" />导出 JSON
       </Button>
       <Button variant="outline" :disabled="!library.isReady || !!library.restoreError" @click="fileInput?.click()">
-        <Upload />导入 JSON
+        <Icon name="lucide:upload" />导入 JSON
       </Button>
       <input ref="fileInput" type="file" accept=".json,application/json" class="hidden" aria-label="导入方案备份" @change="importFile">
     </div>

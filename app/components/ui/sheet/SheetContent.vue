@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { DialogContentEmits, DialogContentProps } from 'reka-ui'
-
 import type { HTMLAttributes } from 'vue'
-import { XIcon } from '@lucide/vue'
+
 import { reactiveOmit } from '@vueuse/core'
 import { cn } from 'cn'
 import {
@@ -11,6 +10,7 @@ import {
   DialogPortal,
   useForwardPropsEmits,
 } from 'reka-ui'
+import { Icon } from '#components'
 import { Button } from '@/components/ui/button'
 import SheetOverlay from './SheetOverlay.vue'
 
@@ -52,7 +52,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
         as-child
       >
         <Button variant="ghost" class="absolute top-3 right-3" size="icon-sm">
-          <XIcon />
+          <Icon name="lucide:x" />
           <span class="sr-only">Close</span>
         </Button>
       </DialogClose>

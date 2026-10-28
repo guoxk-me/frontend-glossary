@@ -21,8 +21,8 @@
     "deps:update": "taze -w"
   },
   "dependencies": {
-    "@lucide/vue": "catalog:frontend",
     "@nuxt/content": "catalog:frontend",
+    "@nuxt/icon": "catalog:frontend",
     "@pinia/nuxt": "catalog:frontend",
     "@vueuse/core": "catalog:frontend",
     "class-variance-authority": "catalog:frontend",
@@ -40,6 +40,7 @@
     "@antfu/eslint-config": "catalog:tooling",
     "@commitlint/cli": "catalog:tooling",
     "@commitlint/config-conventional": "catalog:tooling",
+    "@iconify-json/lucide": "catalog:tooling",
     "@nuxt/eslint": "catalog:tooling",
     "@tailwindcss/vite": "catalog:tooling",
     "@types/node": "catalog:tooling",

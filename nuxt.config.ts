@@ -7,11 +7,28 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: [
     '@nuxt/content',
+    '@nuxt/icon',
     '@pinia/nuxt',
     'shadcn-nuxt',
     '@nuxt/eslint',
     '@vite-pwa/nuxt',
   ],
+  // AI modified: bundle icons locally so the static PWA never needs an icon API.
+  icon: {
+    provider: 'none',
+    mode: 'svg',
+    size: '24px',
+    clientBundle: {
+      scan: true,
+      // The demo menu selects these icons dynamically.
+      icons: [
+        'lucide:layout-dashboard',
+        'lucide:package',
+        'lucide:users',
+        'lucide:settings',
+      ],
+    },
+  },
   imports: { autoImport: false },
   content: {
     experimental: { sqliteConnector: 'native' },

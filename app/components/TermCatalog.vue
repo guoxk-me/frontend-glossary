@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ArrowUpRight, BookOpen, Search } from '@lucide/vue'
 import { useEventListener } from '@vueuse/core'
 import { computed, shallowRef, useTemplateRef } from 'vue'
-import { NuxtLink } from '#components'
+import { Icon, NuxtLink } from '#components'
 import { useCatalog } from '../composables/use-catalog'
 import { categories, searchTerms } from '../lib/glossary'
 import { useLibraryStore } from '../stores/library'
@@ -39,14 +38,14 @@ useEventListener('keydown', (event) => {
     </p>
     <div v-if="!favoritesOnly" class="intro-actions">
       <Button as-child>
-        <a href="#term-search">开始找词 <ArrowUpRight />
+        <a href="#term-search">开始找词 <Icon name="lucide:arrow-up-right" />
         </a>
       </Button>
       <NuxtLink to="/schemes">或者，组合一个方案 <span>→</span>
       </NuxtLink>
     </div>
     <div class="catalog-search">
-      <Search :size="18" />
+      <Icon name="lucide:search" :size="18" />
       <input id="term-search" ref="search" v-model="query" type="search" aria-label="搜索词条" placeholder="试试「左侧导航」「淡入」「卡片排列」…" autocomplete="off">
       <kbd>⌘ / Ctrl K</kbd>
     </div>
@@ -72,7 +71,7 @@ useEventListener('keydown', (event) => {
     </div>
     <Empty v-else class="border min-h-64">
       <EmptyHeader>
-        <BookOpen class="mx-auto text-muted-foreground" />
+        <Icon name="lucide:book-open" class="mx-auto text-muted-foreground" />
         <EmptyTitle>{{ favoritesOnly && !query ? '还没有收藏词条' : '暂时没有找到匹配的词条' }}</EmptyTitle>
         <EmptyDescription>试试更短的描述，例如“侧栏”“淡入”；也可以从分类里看效果。</EmptyDescription>
       </EmptyHeader>

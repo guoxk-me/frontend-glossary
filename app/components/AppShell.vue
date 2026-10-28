@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { BookOpen, GitFork, Menu, Monitor, Moon, Sun } from '@lucide/vue'
 import { useColorMode, useEventListener } from '@vueuse/core'
 import { shallowRef } from 'vue'
-import { NuxtLink } from '#components'
+import { Icon, NuxtLink } from '#components'
 import { useLibraryStore } from '../stores/library'
 import PwaStatus from './PwaStatus.vue'
 import TermNavigation from './TermNavigation.vue'
@@ -36,7 +35,7 @@ useEventListener('beforeunload', (event) => {
       <Sheet v-model:open="isMenuOpen">
         <SheetTrigger as-child>
           <Button variant="ghost" size="icon" class="mobile-menu" aria-label="打开导航">
-            <Menu />
+            <Icon name="lucide:menu" />
           </Button>
         </SheetTrigger>
         <SheetContent side="left" class="overflow-y-auto">
@@ -49,7 +48,7 @@ useEventListener('beforeunload', (event) => {
       </Sheet>
       <NuxtLink to="/" class="brand">
         <span class="brand-icon">
-          <BookOpen :size="17" />
+          <Icon name="lucide:book-open" :size="17" />
         </span>
         <strong>前端词典</strong>
       </NuxtLink>
@@ -62,13 +61,13 @@ useEventListener('beforeunload', (event) => {
         <span class="version-label">v0.1 · 预览版</span>
         <Button variant="ghost" size="icon" as-child>
           <a href="https://github.com/guoxk-me/frontend-glossary" target="_blank" rel="noopener noreferrer" aria-label="GitHub 仓库">
-            <GitFork />
+            <Icon name="lucide:git-fork" />
           </a>
         </Button>
         <Button variant="ghost" size="icon" :aria-label="`切换主题（当前${theme === 'auto' ? '跟随系统' : theme === 'dark' ? '深色' : '浅色'}）`" :title="`主题：${theme}，点击切换`" @click="cycleTheme">
-          <Monitor v-if="theme === 'auto'" />
-          <Sun v-else-if="theme === 'light'" />
-          <Moon v-else />
+          <Icon v-if="theme === 'auto'" name="lucide:monitor" />
+          <Icon v-else-if="theme === 'light'" name="lucide:sun" />
+          <Icon v-else name="lucide:moon" />
         </Button>
       </div>
     </div>

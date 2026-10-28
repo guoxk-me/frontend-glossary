@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Term } from '../types/glossary'
-import { ArrowUpRight, Bookmark } from '@lucide/vue'
-import { NuxtLink } from '#components'
+import { Icon, NuxtLink } from '#components'
 import { categories } from '../lib/glossary'
 import { useLibraryStore } from '../stores/library'
 import DemoStage from './DemoStage.vue'
@@ -21,11 +20,11 @@ const library = useLibraryStore()
     <CardContent class="term-card-content">
       <div class="card-title-row">
         <NuxtLink :to="`/terms/${term.slug}`">
-          <h2>{{ term.title }} <ArrowUpRight :size="14" />
+          <h2>{{ term.title }} <Icon name="lucide:arrow-up-right" :size="14" />
           </h2>
         </NuxtLink>
         <Button variant="ghost" size="icon-sm" :disabled="!library.isReady" :aria-label="`${library.favorites.includes(term.slug) ? '取消收藏' : '收藏'}${term.title}`" :aria-pressed="library.favorites.includes(term.slug)" @click="library.toggleFavorite(term.slug)">
-          <Bookmark :fill="library.favorites.includes(term.slug) ? 'currentColor' : 'none'" />
+          <Icon name="lucide:bookmark" :class="{ '[&_path]:fill-current': library.favorites.includes(term.slug) }" />
         </Button>
       </div>
       <p class="english-name">

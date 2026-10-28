@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DemoParameters } from '../../types/glossary'
-import { ArrowUpRight, ChevronDown, Search } from '@lucide/vue'
 import { shallowRef } from 'vue'
+import { Icon } from '#components'
 import { Button } from '../ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { Input } from '../ui/input'
@@ -42,7 +42,7 @@ function moveTab(event: KeyboardEvent, index: number): void {
         </template>
         <template v-else-if="kind === 'command'">
           <div class="mock-command">
-            <Search :size="13" />
+            <Icon name="lucide:search" :size="13" />
             <span>搜索命令…</span>
             <div>↗ 打开项目</div>
             <div>⌘ 切换工作空间</div>
@@ -131,7 +131,7 @@ function moveTab(event: KeyboardEvent, index: number): void {
       <Dialog v-else-if="kind === 'command'">
         <DialogTrigger as-child>
           <Button variant="outline">
-            <Search />打开命令面板
+            <Icon name="lucide:search" />打开命令面板
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -141,7 +141,7 @@ function moveTab(event: KeyboardEvent, index: number): void {
           </DialogHeader>
           <Input v-model="command" aria-label="搜索演示命令" placeholder="搜索项目、设置…" />
           <Button v-for="label in ['打开项目', '邀请成员', '工作空间设置'].filter(label => label.includes(command))" :key="label" variant="ghost" class="justify-between" @click="selected = label">
-            {{ label }}<ArrowUpRight />
+            {{ label }}<Icon name="lucide:arrow-up-right" />
           </Button>
           <p role="status">
             {{ selected ? `已选择：${selected}（演示）` : '支持 Tab 切换和 Enter 选择。' }}
@@ -156,7 +156,7 @@ function moveTab(event: KeyboardEvent, index: number): void {
       </div>
       <details v-else-if="kind === 'popover'" class="popover-example">
         <summary class="mock-button">
-          项目设置 <ChevronDown :size="14" />
+          项目设置 <Icon name="lucide:chevron-down" :size="14" />
         </summary>
         <div class="popover-content">
           <strong>可见范围</strong>

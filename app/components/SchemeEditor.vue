@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { Scheme, SchemeChoice } from '../types/glossary'
-import { ArrowLeft, Check, Copy, Download, Plus, RotateCcw } from '@lucide/vue'
 import { shallowRef } from 'vue'
-import { NuxtLink } from '#components'
+import { Icon, NuxtLink } from '#components'
 import { useCatalog } from '../composables/use-catalog'
 import { useDelivery } from '../composables/use-delivery'
 import { findConflict } from '../lib/schemes'
@@ -44,7 +43,7 @@ function confirmChoice(): void {
 
 <template>
   <NuxtLink to="/schemes" class="back-link">
-    <ArrowLeft :size="13" />我的方案</NuxtLink>
+    <Icon name="lucide:arrow-left" :size="13" />我的方案</NuxtLink>
   <div class="page-title-row">
     <div>
       <h1>编辑方案</h1>
@@ -53,7 +52,7 @@ function confirmChoice(): void {
       </p>
     </div>
     <Button variant="outline" @click="library.saveLibrary()">
-      <Check />保存到本机
+      <Icon name="lucide:check" />保存到本机
     </Button>
   </div>
   <Field class="mb-8 max-w-lg">
@@ -70,7 +69,7 @@ function confirmChoice(): void {
         </h2>
         <Button as-child variant="ghost" size="sm">
           <NuxtLink to="/">
-            <Plus />添加词条</NuxtLink>
+            <Icon name="lucide:plus" />添加词条</NuxtLink>
         </Button>
       </div>
       <p v-if="!scheme.choices.length" class="empty-selection">
@@ -87,7 +86,7 @@ function confirmChoice(): void {
       <div class="section-heading">
         <h2>需求描述</h2>
         <Button variant="ghost" size="sm" :disabled="!scheme.choices.length" @click="regenerate">
-          <RotateCcw />重新生成
+          <Icon name="lucide:rotate-ccw" />重新生成
         </Button>
       </div>
       <Alert v-if="scheme.isStale" class="stale-alert mb-4">
@@ -102,10 +101,10 @@ function confirmChoice(): void {
       </div>
       <div class="export-actions">
         <Button :disabled="!scheme.description" @click="copyText(scheme.description)">
-          <Copy />复制描述
+          <Icon name="lucide:copy" />复制描述
         </Button>
         <Button variant="outline" :disabled="!scheme.description" @click="downloadText(scheme.description, `${scheme.title}.md`, 'text/markdown')">
-          <Download />导出 Markdown
+          <Icon name="lucide:download" />导出 Markdown
         </Button>
       </div>
       <p role="status" class="delivery-status">

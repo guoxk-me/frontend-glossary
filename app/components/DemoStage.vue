@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DemoParameters, Term } from '../types/glossary'
-import { RotateCcw } from '@lucide/vue'
 import { computed, shallowRef } from 'vue'
+import { Icon } from '#components'
 import { defaultParameters } from '../lib/glossary'
 import InteractionDemo from './demos/InteractionDemo.vue'
 import LayoutDemo from './demos/LayoutDemo.vue'
@@ -20,7 +20,7 @@ const activeParameters = computed(() => props.parameters ?? defaultParameters())
       <span>
         <i /> 实时演示</span>
       <Button variant="ghost" size="sm" @click="replay++">
-        <RotateCcw :size="13" />重播 / 重置
+        <Icon name="lucide:rotate-ccw" :size="13" />重播 / 重置
       </Button>
     </div>
     <!-- AI modified: isolate demo failures so definitions and saved schemes remain usable. -->

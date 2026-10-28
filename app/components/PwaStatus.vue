@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Check, Download, RefreshCw, WifiOff } from '@lucide/vue'
 import { useOnline } from '@vueuse/core'
 import { computed, onMounted, onUnmounted, shallowRef, watch } from 'vue'
+import { Icon } from '#components'
 import { useNuxtApp } from '#imports'
 import { useCatalog } from '../composables/use-catalog'
 import { useLibraryStore } from '../stores/library'
@@ -85,21 +85,21 @@ async function retry(): Promise<void> {
 <template>
   <div class="pwa-status">
     <strong>
-      <Check v-if="isCacheReady" :size="12" />
-      <WifiOff v-else-if="!isOnline" :size="12" />
-      <RefreshCw v-else :size="12" />{{ status }}</strong>
+      <Icon v-if="isCacheReady" name="lucide:check" :size="12" />
+      <Icon v-else-if="!isOnline" name="lucide:wifi-off" :size="12" />
+      <Icon v-else name="lucide:refresh-cw" :size="12" />{{ status }}</strong>
     <p>{{ isOnline ? '收藏与方案保存在此设备' : '当前离线 · 外部资料需联网' }}</p>
     <Button v-if="cacheError || $pwa?.registrationError" variant="outline" size="xs" :disabled="!isOnline || isBusy" @click="retry">
       重新准备离线内容
     </Button>
     <Button v-if="$pwa?.showInstallPrompt" variant="outline" size="xs" @click="$pwa?.install()">
-      <Download />安装应用
+      <Icon name="lucide:download" />安装应用
     </Button>
     <span v-else-if="$pwa?.isPWAInstalled">已安装到设备</span>
     <Dialog v-else>
       <DialogTrigger as-child>
         <Button variant="ghost" size="xs">
-          <Download />安装说明
+          <Icon name="lucide:download" />安装说明
         </Button>
       </DialogTrigger>
       <DialogContent>

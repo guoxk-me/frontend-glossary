@@ -19,8 +19,8 @@ onlyBuiltDependencies:
 
 catalogs:
   frontend:
-    '@lucide/vue': 1.62.0
     '@nuxt/content': 3.16.2
+    '@nuxt/icon': 2.6.1
     '@pinia/nuxt': 1.0.3
     '@vueuse/core': 15.0.0
     class-variance-authority: 0.7.1
@@ -37,6 +37,7 @@ catalogs:
     '@antfu/eslint-config': 10.0.0
     '@commitlint/cli': 21.2.4
     '@commitlint/config-conventional': 21.2.4
+    '@iconify-json/lucide': 1.2.147
     '@nuxt/eslint': 1.17.0
     '@tailwindcss/vite': 4.3.3
     '@types/node': 26.6.5

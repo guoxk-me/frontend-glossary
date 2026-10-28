@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DemoParameters } from '../../types/glossary'
-import { LayoutDashboard, Package, PanelLeft, Settings, Users } from '@lucide/vue'
 import { shallowRef, watch } from 'vue'
+import { Icon } from '#components'
 import { Button } from '../ui/button'
 
 const props = defineProps<{ kind: string, parameters: DemoParameters, compact?: boolean }>()
@@ -40,8 +40,8 @@ watch(() => props.parameters.collapsed, () => {
             <div class="mini-logo">
               ◈ <b v-if="expanded ?? !parameters.collapsed">Acme Inc.</b>
             </div>
-            <div v-for="(icon, index) in [LayoutDashboard, Package, Users, Settings]" :key="index" :class="{ active: index === 0 }">
-              <component :is="icon" :size="12" />
+            <div v-for="(icon, index) in ['lucide:layout-dashboard', 'lucide:package', 'lucide:users', 'lucide:settings']" :key="index" :class="{ active: index === 0 }">
+              <Icon :name="icon" :size="12" />
               <span v-if="expanded ?? !parameters.collapsed">{{ ['工作台', '项目管理', '团队成员', '设置'][index] }}</span>
             </div>
           </aside>
@@ -55,7 +55,7 @@ watch(() => props.parameters.collapsed, () => {
           <div class="mini-content" :class="{ 'scroll-demo': ['sidebar', 'sticky-header'].includes(kind) }">
             <header class="mini-content-header">
               <Button v-if="kind === 'sidebar' && !compact" variant="ghost" size="icon-sm" aria-label="切换演示侧栏" @click="expanded = !(expanded ?? !props.parameters.collapsed)">
-                <PanelLeft :size="14" />
+                <Icon name="lucide:panel-left" :size="14" />
               </Button>
               <strong>{{ kind === 'master-detail' || kind === 'split-pane' ? ['设计系统', '前端词典', '数据看板'][selected] : '工作台' }}</strong>
               <span>今天，星期二</span>

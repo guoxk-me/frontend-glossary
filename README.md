@@ -62,6 +62,12 @@ pnpm deps:check
 
 新增词条时同步补齐集合字段、演示分支和生成描述规则，并验证静态构建、搜索及离线访问。列表只展示静态预览，真实动画在详情中运行，并遵循减少动态效果偏好。
 
+## 图标管理
+
+界面图标统一使用 [Nuxt Icon](https://nuxt.com/modules/icon) 的 `<Icon name="lucide:book-open" />`，从 `#components` 显式导入 `Icon`。不再直接使用 `@lucide/vue`。
+
+`@iconify-json/lucide` 提供本地图标数据，`nuxt.config.ts` 启用源码扫描和 SVG 模式，并通过 `provider: 'none'` 禁止运行时图标请求。新增动态拼接的图标名时，将完整名称补入 `icon.clientBundle.icons`，确保静态部署和 PWA 离线可用。shadcn-vue 新生成的组件也需沿用此约定。
+
 ## 后续部署 Vercel
 
 已提供 `vercel.json`：构建命令 `pnpm build`，输出 `.output/public`，启用 clean URLs。后续将 GitHub 仓库导入 Vercel 即可按该配置构建；此阶段未执行 Vercel 部署，也没有运行时业务 API 或 Functions。

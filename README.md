@@ -65,7 +65,7 @@ pnpm deps:check
 | `test/nuxt/` | Nuxt 组件交互与存储失败测试 |
 | `app/stores/library.ts` | 收藏、方案和本地持久化 |
 | `docs/prd.md` | 已确认需求与范围 |
-| `docs/prototypes/frontend-glossary.pen` | 专属 Pen 原型，含保留的早期稿与文档风格 v2 |
+| `docs/prototypes/frontend-glossary.pen` | 专属 Pen 原型，保留文档风格 v2、基础设计系统与共享组件 |
 
 新增词条时同步补齐集合字段、演示分支和生成描述规则，并验证静态构建、搜索及离线访问。列表只展示静态预览，真实动画在详情中运行，并遵循减少动态效果偏好。
 

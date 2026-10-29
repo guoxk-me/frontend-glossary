@@ -147,6 +147,8 @@ a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 .desktop-sidebar > [data-slot="sidebar"] { height: 100%; background: var(--background); }
 .desktop-sidebar [data-slot="sidebar-content"] { scrollbar-width: thin; padding: 3px; margin: -3px; }
 .term-navigation { font-size: 13px; }
+/* AI modified: separate clickable rows with vertical space without enlarging bilingual text. */
+.term-navigation > [data-slot="sidebar-menu"] { gap: 8px; }
 .mobile-term-navigation { padding: 0 16px 20px; }
 .term-navigation .nav-primary-link, .term-navigation .nav-group-toggle { width: 100%; height: auto; min-height: 48px; display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 8px; font-size: 15px; font-weight: 600; line-height: 1.5; color: var(--foreground); white-space: normal; }
 .term-navigation .nav-primary-link svg, .term-navigation .nav-category-icon { width: 18px; height: 18px; flex-shrink: 0; }
@@ -155,12 +157,12 @@ a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 .term-navigation .nav-count { margin-left: auto; min-width: 26px; padding: 1px 6px; border-radius: 5px; background: var(--muted); color: var(--muted-foreground); font-size: 11px; font-weight: 500; text-align: center; }
 .term-navigation a.router-link-exact-active .nav-count { background: var(--background); color: var(--selection-foreground); }
 .nav-caption { border-top: 1px solid var(--border); padding: 20px 10px 0; margin: 16px 0 8px; color: var(--muted-foreground); font-size: 11px; font-weight: 500; }
-.term-navigation .nav-category { margin-top: 4px; }
+.term-navigation .nav-category { margin-top: 12px; }
 .term-navigation .nav-group-toggle { justify-content: flex-start; background: transparent; }
 .nav-category-title { flex: 1; text-align: left; }
 .nav-group-count { color: var(--muted-foreground); font-size: 11px; font-weight: 400; }
 .term-navigation .nav-group-toggle .motion-chevron { width: 14px; height: 14px; color: var(--muted-foreground); }
-.term-navigation .nav-group-terms { width: auto; margin: 2px 0 8px 20px; padding-left: 9px; border-left: 1px solid var(--border); gap: 2px; }
+.term-navigation .nav-group-terms { width: auto; margin: 6px 0 8px 20px; padding-left: 9px; border-left: 1px solid var(--border); gap: 8px; }
 .term-navigation .nav-term-link { height: auto; min-height: 46px; padding: 5px 10px; border-left: 2px solid transparent; border-radius: 6px; color: var(--foreground); font-size: 13px; font-weight: 400; white-space: normal; }
 .term-navigation .nav-term-link.router-link-exact-active { border-left-color: var(--selection-foreground); color: var(--selection-foreground); font-weight: 600; }
 .term-navigation .nav-term-label { display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow: visible; white-space: normal; text-overflow: clip; overflow-wrap: anywhere; }

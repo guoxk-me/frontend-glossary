@@ -79,7 +79,7 @@ useEventListener('beforeunload', (event) => {
             <nav v-if="isTemplateRoute()" class="template-mobile-nav" :aria-label="text('主导航')">
               <NuxtLink v-for="link in [{ path: '/', title: '词典' }, { path: '/templates', title: 'Templates' }, { path: '/favorites', title: '我的收藏' }, { path: '/schemes', title: '我的方案' }]" :key="link.path" :to="localePath(link.path)" @click="isMenuOpen = false">{{ text(link.title) }}</NuxtLink>
             </nav>
-            <TermNavigation v-else @navigate="isMenuOpen = false" />
+            <TermNavigation v-else class="mobile-term-navigation" @navigate="isMenuOpen = false" />
           </SheetContent>
         </Sheet>
         <NuxtLink :to="localePath('/')" class="brand">

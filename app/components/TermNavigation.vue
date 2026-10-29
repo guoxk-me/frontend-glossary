@@ -23,6 +23,13 @@ const groups = computed(() => categories.map(category => ({
   ...category,
   terms: terms.value.filter(term => term.category === category.id),
 })))
+// AI modified: category icons make the directory hierarchy easier to scan.
+const categoryIcons: Record<Category, string> = {
+  layout: 'lucide:panels-top-left',
+  motion: 'lucide:sparkles',
+  visual: 'lucide:palette',
+  interaction: 'lucide:mouse-pointer-2',
+}
 const collapsed = useState<Category[]>('collapsed-term-groups', () => [])
 const isRestored = useState('navigation-preferences-restored', () => false)
 async function showCurrentCategory(): Promise<void> {
@@ -71,44 +78,53 @@ function toggleGroup(category: Category): void {
 
 <template>
   <nav ref="navigation" :aria-label="text('词条分类')" class="term-navigation">
-    <p class="nav-caption">
-      {{ text('开始使用') }}
-    </p>
     <SidebarMenu>
       <SidebarMenuItem>
-        <SidebarMenuButton as-child>
-          <NuxtLink :to="localePath('/')" @click="emit('navigate')">{{ text('全部词条') }} <span class="ml-auto">{{ terms.length }}</span></NuxtLink>
+        <SidebarMenuButton as-child class="nav-primary-link">
+          <NuxtLink :to="localePath('/')" @click="emit('navigate')">
+            <Icon name="lucide:library-big" :size="18" />
+            <span>{{ text('全部词条') }}</span><span class="nav-count">{{ terms.length }}</span>
+          </NuxtLink>
         </SidebarMenuButton>
       </SidebarMenuItem>
       <SidebarMenuItem>
-        <SidebarMenuButton as-child>
-          <NuxtLink :to="localePath('/about')" @click="emit('navigate')">{{ text('使用说明') }}</NuxtLink>
+        <SidebarMenuButton as-child class="nav-primary-link">
+          <NuxtLink :to="localePath('/about')" @click="emit('navigate')">
+            <Icon name="lucide:book-open" :size="18" /><span>{{ text('使用说明') }}</span>
+          </NuxtLink>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
     <SidebarMenu class="mobile-library-links">
       <SidebarMenuItem>
-        <SidebarMenuButton as-child>
+        <SidebarMenuButton as-child class="nav-primary-link">
           <NuxtLink :to="localePath('/templates')" @click="emit('navigate')">Templates</NuxtLink>
         </SidebarMenuButton>
       </SidebarMenuItem>
       <SidebarMenuItem>
-        <SidebarMenuButton as-child>
+        <SidebarMenuButton as-child class="nav-primary-link">
           <NuxtLink :to="localePath('/favorites')" @click="emit('navigate')">{{ text('我的收藏') }}</NuxtLink>
         </SidebarMenuButton>
       </SidebarMenuItem>
       <SidebarMenuItem>
-        <SidebarMenuButton as-child>
+        <SidebarMenuButton as-child class="nav-primary-link">
           <NuxtLink :to="localePath('/schemes')" @click="emit('navigate')">{{ text('我的方案') }}</NuxtLink>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
+    <!-- AI modified: distinguish primary navigation from the bilingual term directory. -->
+    <p class="nav-caption">
+      {{ text('词条分类') }}
+    </p>
     <Collapsible v-for="group in groups" :key="group.id" :open="!collapsed.includes(group.id)" @update:open="toggleGroup(group.id)">
-      <SidebarGroup class="mt-4 p-0">
+      <SidebarGroup class="nav-category p-0">
         <SidebarGroupLabel as-child>
           <CollapsibleTrigger as-child>
             <Button variant="ghost" class="nav-group-toggle" :aria-expanded="!collapsed.includes(group.id)" :aria-controls="`${id}-${group.id}`">
-              {{ text(group.label) }}<Icon name="lucide:chevron-down" class="motion-chevron" :class="{ '-rotate-90': collapsed.includes(group.id) }" :size="14" />
+              <Icon :name="categoryIcons[group.id]" class="nav-category-icon" :size="18" />
+              <span class="nav-category-title">{{ text(group.label) }}</span>
+              <span class="nav-group-count">{{ group.terms.length }}</span>
+              <Icon name="lucide:chevron-down" class="motion-chevron" :class="{ '-rotate-90': collapsed.includes(group.id) }" :size="14" />
             </Button>
           </CollapsibleTrigger>
         </SidebarGroupLabel>
@@ -117,8 +133,8 @@ function toggleGroup(category: Category): void {
             <SidebarGroupContent>
               <SidebarMenu class="nav-group-terms">
                 <SidebarMenuItem v-for="term in group.terms" :key="term.slug">
-                  <SidebarMenuButton as-child class="h-auto min-h-9 items-start" :is-active="route.params.slug === term.slug">
-                    <NuxtLink :to="localePath(`/terms/${term.slug}`)" @click="emit('navigate')"><span class="flex min-w-0 flex-col"><span>{{ termTitle(term) }}</span><small v-if="!isEnglish">{{ term.english }}</small></span></NuxtLink>
+                  <SidebarMenuButton as-child class="nav-term-link" :is-active="route.params.slug === term.slug">
+                    <NuxtLink :to="localePath(`/terms/${term.slug}`)" @click="emit('navigate')"><span class="nav-term-label"><span class="nav-term-title">{{ termTitle(term) }}</span><small v-if="!isEnglish" class="nav-term-english">{{ term.english }}</small></span></NuxtLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               </SidebarMenu>

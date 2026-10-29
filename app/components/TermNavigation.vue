@@ -89,6 +89,11 @@ function toggleGroup(category: Category): void {
     <SidebarMenu class="mobile-library-links">
       <SidebarMenuItem>
         <SidebarMenuButton as-child>
+          <NuxtLink :to="localePath('/templates')" @click="emit('navigate')">Templates</NuxtLink>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+      <SidebarMenuItem>
+        <SidebarMenuButton as-child>
           <NuxtLink :to="localePath('/favorites')" @click="emit('navigate')">{{ text('我的收藏') }}</NuxtLink>
         </SidebarMenuButton>
       </SidebarMenuItem>

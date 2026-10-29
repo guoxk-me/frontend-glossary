@@ -1,8 +1,11 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
+import { templateSchema } from './app/lib/template-schema'
 
 // AI modified: content metadata is validated before it can enter the public glossary.
 export default defineContentConfig({
   collections: {
+    // AI modified: authored template metadata shares the existing offline content pipeline.
+    templates: defineCollection({ type: 'data', source: 'templates/*.json', schema: templateSchema }),
     terms: defineCollection({
       type: 'page',
       source: 'terms/*.md',

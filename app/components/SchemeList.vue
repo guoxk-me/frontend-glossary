@@ -88,7 +88,7 @@ function remove(): void {
         <CardTitle>
           <NuxtLink :to="{ path: localePath('/schemes/edit'), query: { id: scheme.id } }">{{ scheme.title }}</NuxtLink>
         </CardTitle>
-        <CardDescription>{{ scheme.choices.length }} {{ text('个效果') }} · {{ scheme.updatedAt.slice(0, 10) }} {{ text('更新') }}</CardDescription>
+        <CardDescription>{{ scheme.choices.length }} {{ text('个效果') }}<span v-if="scheme.templateSelections?.length"> · {{ scheme.templateSelections.length }} {{ text('个模板参考') }}</span> · {{ scheme.updatedAt.slice(0, 10) }} {{ text('更新') }}</CardDescription>
       </CardHeader>
       <CardFooter class="justify-between gap-2">
         <Badge variant="secondary">

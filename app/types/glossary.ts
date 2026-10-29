@@ -1,3 +1,5 @@
+import type { TemplateSelection } from './template'
+
 export type Locale = 'zh' | 'en'
 export interface TermTranslation {
   description: string
@@ -47,6 +49,7 @@ export interface Scheme {
   id: string
   title: string
   choices: SchemeChoice[]
+  templateSelections?: TemplateSelection[]
   description: string
   hasManualEdits: boolean
   isStale: boolean
@@ -54,6 +57,7 @@ export interface Scheme {
 }
 export interface LibraryBackup {
   version: 1
+  templateFavorites?: string[]
   favorites: string[]
   schemes: Scheme[]
 }

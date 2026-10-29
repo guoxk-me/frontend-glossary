@@ -5,6 +5,7 @@ import { Icon } from '#components'
 import { useNuxtApp } from '#imports'
 import { useCatalog } from '../composables/use-catalog'
 import { useGlossaryLocale } from '../composables/use-glossary-locale'
+import { useTemplates } from '../composables/use-templates'
 import { useLibraryStore } from '../stores/library'
 import PwaInstall from './PwaInstall.vue'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
@@ -16,6 +17,7 @@ const { text } = useGlossaryLocale()
 
 const { $pwa } = useNuxtApp()
 const { terms } = useCatalog()
+const { templates } = useTemplates()
 const library = useLibraryStore()
 const isOnline = useOnline()
 const isCacheReady = shallowRef(false)
@@ -40,11 +42,16 @@ async function verifyCache(): Promise<void> {
       '/favorites',
       '/schemes',
       '/schemes/edit',
+      '/templates',
+      ...templates.value.map(template => `/templates/${template.slug}`),
       ...terms.value.map(term => `/terms/${term.slug}`),
     ]
     // AI modified: both complete locale trees must be cached before declaring offline readiness.
     const paths = [
       '/__nuxt_content/terms/sql_dump.txt',
+      // AI modified: template text and previews must be cached before reporting offline readiness.
+      '/__nuxt_content/templates/sql_dump.txt',
+      ...templates.value.flatMap(template => template.pages.map(page => page.thumbnail)),
       ...pagePaths.flatMap(path => [
         path,
         path === '/'

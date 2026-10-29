@@ -90,6 +90,33 @@ async function openEditor(): Promise<VueWrapper> {
 }
 
 describe('方案编辑的 Nuxt 集成', () => {
+  it('同类效果可同时保存，重复同一效果必须确认，手写正文保留', () => {
+    const library = useLibraryStore()
+    const scheme = library.createScheme('组合布局')
+    const grid: Term = { ...sidebar, slug: 'grid', title: '卡片网格' }
+    const terms = [sidebar, grid]
+    const choice = {
+      id: 'sidebar',
+      termSlug: 'sidebar',
+      target: '页面',
+      parameters: defaultParameters(),
+    }
+    expect(library.addChoice(scheme, choice, terms)).toBe(true)
+    library.editDescription(scheme, '保留手写要求')
+    expect(library.addChoice(scheme, { ...choice, id: 'grid', termSlug: 'grid' }, terms)).toBe(true)
+    expect(scheme.choices).toHaveLength(2)
+    const duplicate = {
+      ...choice,
+      id: 'new-sidebar',
+      parameters: { ...choice.parameters, width: 280 },
+    }
+    expect(library.addChoice(scheme, duplicate, terms)).toBe(false)
+    expect(library.addChoice(scheme, duplicate, terms, true)).toBe(true)
+    expect(scheme.choices.map(choice => choice.termSlug)).toEqual(['grid', 'sidebar'])
+    expect(scheme.description).toBe('保留手写要求')
+    expect(scheme.isStale).toBe(true)
+  })
+
   it('调整参数后保留手写描述，取消不替换，确认才生成并保存', async () => {
     const editor = await openEditor()
     await editor.get('textarea').setValue('手写要求：保留订单权限说明。')

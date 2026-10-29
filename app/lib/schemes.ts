@@ -1,5 +1,6 @@
 import type { Locale, Scheme, SchemeChoice, Term } from '../types/glossary'
 import { describeTerm } from './glossary'
+import { describeTemplate } from './templates'
 
 export function describeScheme(scheme: Scheme, terms: Term[], locale: Locale = scheme.outputLocale): string {
   return [
@@ -12,6 +13,8 @@ export function describeScheme(scheme: Scheme, terms: Term[], locale: Locale = s
           ? 'This term is unavailable. Please select another.'
           : '词条已不可用，请重新选择。'}`
     }),
+    // AI modified: saved template snapshots participate in regeneration and language previews.
+    ...(scheme.templateSelections ?? []).map(selection => describeTemplate(selection, locale)),
   ].join('\n\n')
 }
 export function refreshDescription(scheme: Scheme, terms: Term[]): void {
@@ -30,13 +33,12 @@ export function regenerateDescription(scheme: Scheme, terms: Term[], hasConfirme
   scheme.updatedAt = new Date().toISOString()
   return true
 }
-export function findConflict(scheme: Scheme, incoming: SchemeChoice, terms: Term[]): SchemeChoice | undefined {
-  const term = terms.find(term => term.slug === incoming.termSlug)
+export function findConflict(scheme: Scheme, incoming: SchemeChoice): SchemeChoice | undefined {
   return scheme.choices.find((choice) => {
     if (choice.id === incoming.id || choice.target.trim() !== incoming.target.trim())
       return false
-    const existing = terms.find(term => term.slug === choice.termSlug)
-    return existing?.category === term?.category
+    // AI modified: categories describe discovery, not mutually exclusive styles.
+    return choice.termSlug === incoming.termSlug
   })
 }
 

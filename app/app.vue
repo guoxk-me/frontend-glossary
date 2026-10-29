@@ -11,6 +11,10 @@ import { useLibraryStore } from './stores/library'
 const { data: terms, error } = await useAsyncData('glossary-terms', () => queryCollection('terms').order('order', 'ASC').all())
 if (error.value)
   throw createError({ statusCode: 500, statusMessage: '词库加载失败，请重试' })
+// AI modified: preload both languages and regions for local search and offline requirements.
+const { error: templateError } = await useAsyncData('glossary-templates', () => queryCollection('templates').all())
+if (templateError.value)
+  throw createError({ statusCode: 500, statusMessage: '模板加载失败，请重试' })
 const library = useLibraryStore()
 const route = useRoute()
 const { isEnglish } = useGlossaryLocale()

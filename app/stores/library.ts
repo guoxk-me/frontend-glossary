@@ -1,11 +1,15 @@
 import type { LibraryBackup, Scheme, SchemeChoice, Term } from '../types/glossary'
+import type { TemplateDecision, TemplateSelection } from '../types/template'
 import { defineStore } from 'pinia'
 import { ref, shallowRef } from 'vue'
 import { readBackup, storageKey } from '../lib/backup'
 import { findConflict, refreshDescription, regenerateDescription } from '../lib/schemes'
+import { templateSelectionSchema } from '../lib/template-schema'
+import { adoptTemplateSelection, describeTemplate, hasTemplateOverlap } from '../lib/templates'
 
 export const useLibraryStore = defineStore('library', () => {
   const favorites = ref<string[]>([])
+  const templateFavorites = ref<string[]>([])
   const schemes = ref<Scheme[]>([])
   const isReady = shallowRef(false)
   const saveError = shallowRef('')
@@ -22,6 +26,7 @@ export const useLibraryStore = defineStore('library', () => {
         originalBackup.value = stored
         const backup = readBackup(stored, terms)
         favorites.value = backup.favorites
+        templateFavorites.value = backup.templateFavorites ?? []
         schemes.value = backup.schemes
       }
     }
@@ -33,7 +38,14 @@ export const useLibraryStore = defineStore('library', () => {
     isReady.value = true
   }
   function exportBackup(): string {
-    const backup: LibraryBackup = { version: 1, favorites: favorites.value, schemes: schemes.value }
+    const backup: LibraryBackup = {
+      version: 1,
+      favorites: favorites.value,
+      schemes: schemes.value,
+      ...(templateFavorites.value.length
+        ? { templateFavorites: templateFavorites.value }
+        : {}),
+    }
     return JSON.stringify(backup, null, 2)
   }
   function saveLibrary(): boolean {
@@ -61,6 +73,13 @@ export const useLibraryStore = defineStore('library', () => {
       : [...favorites.value, slug]
     saveLibrary()
   }
+  // AI modified: templates have a separate favorite namespace and preserve term favorites.
+  function toggleTemplateFavorite(slug: string): void {
+    templateFavorites.value = templateFavorites.value.includes(slug)
+      ? templateFavorites.value.filter(favorite => favorite !== slug)
+      : [...templateFavorites.value, slug]
+    saveLibrary()
+  }
   function createScheme(title: string): Scheme {
     const scheme: Scheme = {
       outputLocale: 'en',
@@ -77,7 +96,7 @@ export const useLibraryStore = defineStore('library', () => {
     return schemes.value[schemes.value.length - 1]!
   }
   function addChoice(scheme: Scheme, choice: SchemeChoice, terms: Term[], hasConfirmed = false): boolean {
-    const conflict = findConflict(scheme, choice, terms)
+    const conflict = findConflict(scheme, choice)
     if (conflict && !hasConfirmed)
       return false
     if (!conflict && !scheme.choices.some(existing => existing.id === choice.id) && scheme.choices.length >= 100) {
@@ -116,6 +135,61 @@ export const useLibraryStore = defineStore('library', () => {
     saveLibrary()
     return true
   }
+  // AI modified: append new references without overwriting manual prose; edits mark it stale.
+  function adoptTemplate(scheme: Scheme, selection: TemplateSelection, terms: Term[], decision?: TemplateDecision): boolean {
+    if (!templateSelectionSchema.safeParse(selection).success) {
+      saveError.value = '模板选择无效或超出备份限制，现有内容已保留。'
+      return false
+    }
+    const isEditing = scheme.templateSelections?.some(saved => saved.id === selection.id) ?? false
+    if (!isEditing && hasTemplateOverlap(scheme, selection) && !decision)
+      return false
+    if (!isEditing && (scheme.templateSelections?.length ?? 0) >= 100) {
+      saveError.value = '一个方案最多包含 100 个模板参考。'
+      return false
+    }
+    // AI modified: validate prospective text before mutation so the next reload can still read the backup.
+    const candidate: Scheme = {
+      ...scheme,
+      templateSelections: [
+        ...(scheme.templateSelections ?? []),
+      ],
+    }
+    if (isEditing) {
+      candidate.templateSelections = candidate.templateSelections?.map(saved => saved.id === selection.id
+        ? selection
+        : saved)
+      refreshDescription(candidate, terms)
+    }
+    else {
+      adoptTemplateSelection(candidate, selection, decision ?? 'keep')
+      const adopted = candidate.templateSelections?.find(saved => saved.id === selection.id)
+      if (!adopted && decision === 'keep')
+        return true
+      if (candidate.hasManualEdits && decision !== 'replace' && adopted) {
+        candidate.description = [
+          candidate.description,
+          describeTemplate(adopted, candidate.outputLocale),
+        ].filter(Boolean).join('\n\n')
+        candidate.updatedAt = new Date().toISOString()
+      }
+      else {
+        refreshDescription(candidate, terms)
+      }
+    }
+    if (candidate.description.length > 100000) {
+      saveError.value = '加入后描述超过 100000 字，现有内容已保留。请另建方案。'
+      return false
+    }
+    Object.assign(scheme, candidate)
+    saveLibrary()
+    return true
+  }
+  function removeTemplate(scheme: Scheme, selectionId: string, terms: Term[]): void {
+    scheme.templateSelections = scheme.templateSelections?.filter(selection => selection.id !== selectionId)
+    refreshDescription(scheme, terms)
+    saveLibrary()
+  }
   function importBackup(text: string, terms: Term[]): number {
     const backup = readBackup(text, terms)
     if (schemes.value.length + backup.schemes.length > 100)
@@ -126,6 +200,12 @@ export const useLibraryStore = defineStore('library', () => {
       ...new Set([
         ...favorites.value,
         ...backup.favorites,
+      ]),
+    ]
+    templateFavorites.value = [
+      ...new Set([
+        ...templateFavorites.value,
+        ...(backup.templateFavorites ?? []),
       ]),
     ]
     const ids = new Set(schemes.value.map(scheme => scheme.id))
@@ -146,6 +226,10 @@ export const useLibraryStore = defineStore('library', () => {
   }
   return {
     favorites,
+    templateFavorites,
+    toggleTemplateFavorite,
+    adoptTemplate,
+    removeTemplate,
     schemes,
     isReady,
     saveError,

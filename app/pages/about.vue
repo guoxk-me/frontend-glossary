@@ -18,9 +18,9 @@ useSeoMeta({
         An interactive visual glossary for the moments when you know the effect but not its name.
       </p>
       <h2>Start with an effect</h2>
-      <ol><li>Search Chinese or English names, aliases and simple descriptions, or browse a category.</li><li>Open a term, try its demo and adjust its parameters.</li><li>Add effects to a named plan and specify their targets.</li><li>Copy or export Markdown to share with a colleague or an AI tool.</li></ol>
+      <ol><li>Search Chinese or English names, aliases and simple descriptions, or browse a category.</li><li>Open a term, try its demo and adjust its parameters.</li><li>Copy a term or template requirement directly to share with a colleague or an AI tool.</li><li>Save to a named plan when you need to combine or reuse requirements.</li></ol>
       <h2>Your edits stay yours</h2>
-      <p>Changing the interface language requires confirmation but never rewrites a plan. New plans generate English descriptions by default. Existing plans keep their Chinese drafts. Output language is a separate setting: preview and confirm before replacing the whole draft. Custom names and targets are never translated automatically.</p>
+      <p>Changing the interface language never rewrites a plan. New plans generate English descriptions by default. Existing plans keep their Chinese drafts. Output language is a separate setting: preview and confirm before replacing the whole draft. Custom names and targets are never translated automatically.</p>
       <p>After manual editing, parameter changes mark the draft as outdated. Your text remains unchanged until you confirm regeneration.</p>
       <h2>Stored in this browser</h2>
       <p>Favorites and plans stay on this device, without an account or upload. Clearing browser data can remove them. Export JSON backups from <NuxtLink :to="localePath('/schemes')">My plans</NuxtLink> regularly. Import merges favorites and appends plans without replacing existing plans.</p>
@@ -44,8 +44,8 @@ useSeoMeta({
       <ol>
         <li>用中文、英文、别名或简短描述搜索；也可以直接看分类里的效果。</li>
         <li>打开词条，操作演示、调整参数，了解适用场景和相近概念。</li>
-        <li>把词条加入方案，写明作用对象，组合成清楚的需求。</li>
-        <li>复制或导出 Markdown，交给同事或你选择的 AI 工具。</li>
+        <li>直接复制词条或模板描述，交给同事或你选择的 AI 工具。</li>
+        <li>需要组合与反复使用时，再保存到方案；方案支持编辑和导出。</li>
       </ol>
       <h2>你的手写内容，会留在原处</h2>
       <p>方案描述可直接编辑。手写后再修改参数，页面只会提示“参数已变化，描述待更新”。只有确认“重新生成并替换”后，原文才会被替换；取消会保留原文。</p>

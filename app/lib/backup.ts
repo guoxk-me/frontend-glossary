@@ -1,5 +1,6 @@
 import type { LibraryBackup, Term } from '../types/glossary'
 import { z } from 'zod'
+import { templateSelectionSchema } from './template-schema'
 
 export const storageKey = 'frontend-glossary:library:v1'
 const parametersSchema = z.object({
@@ -14,6 +15,7 @@ const schemeSchema = z.object({
   outputLocale: z.enum(['zh', 'en']).default('zh'),
   id: z.string().min(1).max(100),
   title: z.string().trim().min(1).max(80),
+  templateSelections: z.array(templateSelectionSchema).max(100).optional(),
   choices: z.array(z.object({
     id: z.string().min(1).max(100),
     termSlug: z.string(),
@@ -28,6 +30,7 @@ const schemeSchema = z.object({
 const backupSchema = z.object({
   version: z.literal(1),
   favorites: z.array(z.string()).max(500),
+  templateFavorites: z.array(z.string().min(1).max(100)).max(500).optional(),
   schemes: z.array(schemeSchema).max(100),
 }).strict()
 
@@ -49,6 +52,10 @@ export function readBackup(text: string, terms: Term[]): LibraryBackup {
     if (ids.has(scheme.id))
       throw new Error('备份包含重复方案编号。')
     ids.add(scheme.id)
+    // AI modified: reject ambiguous saved references without changing legacy backup shapes.
+    const templateIds = (scheme.templateSelections ?? []).map(selection => selection.id)
+    if (new Set(templateIds).size !== templateIds.length)
+      throw new Error('备份包含重复模板选择编号。')
     const choiceIds = new Set<string>()
     for (const choice of scheme.choices) {
       if (!slugs.has(choice.termSlug))

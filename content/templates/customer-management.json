@@ -1,0 +1,244 @@
+{
+  "slug": "customer-management",
+  "title": "简洁浅色客户管理",
+  "english": "Customer management",
+  "description": {
+    "zh": "清晰的侧栏导航、紧凑的筛选与表格。适合借鉴信息密度与页面层级。",
+    "en": "A light workspace with a clear sidebar, compact filters and a customer table. Borrow its density and visual hierarchy."
+  },
+  "kind": "page",
+  "scene": "admin",
+  "origin": "original",
+  "source": {
+    "title": "Frontend Glossary",
+    "url": "/templates/customer-management"
+  },
+  "keywords": [
+    "后台",
+    "客户",
+    "表格",
+    "侧栏",
+    "筛选",
+    "浅色",
+    "admin",
+    "customer",
+    "table",
+    "sidebar",
+    "filters",
+    "light"
+  ],
+  "pages": [
+    {
+      "id": "customers",
+      "title": {
+        "zh": "客户管理页面",
+        "en": "Customer management page"
+      },
+      "thumbnail": "/templates/customer-management.png",
+      "preview": "/templates/customer-management.png",
+      "regions": [
+        {
+          "id": "sidebar",
+          "title": {
+            "zh": "左侧导航",
+            "en": "Sidebar"
+          },
+          "relation": {
+            "zh": "位于主内容区左侧，与内容并排。",
+            "en": "Place the sidebar beside the main content."
+          },
+          "relatedRegionIds": [],
+          "termSlugs": [
+            "flat"
+          ],
+          "features": [
+            {
+              "aspect": "layout",
+              "description": {
+                "zh": "保留常驻侧栏与主内容并排的布局。",
+                "en": "Keep the persistent sidebar beside the main content."
+              }
+            },
+            {
+              "aspect": "palette",
+              "description": {
+                "zh": "保留浅色背景、蓝色强调与浅蓝选中底色。",
+                "en": "Keep the light surface, blue accent and pale blue active background."
+              }
+            },
+            {
+              "aspect": "typography",
+              "description": {
+                "zh": "保留菜单文字与分组标题的字号、字重层级。",
+                "en": "Keep the type hierarchy of navigation entries and group labels."
+              }
+            },
+            {
+              "aspect": "decoration",
+              "description": {
+                "zh": "保留导航与正文之间的细分隔线。",
+                "en": "Keep a fine divider between navigation and content."
+              }
+            },
+            {
+              "aspect": "states",
+              "description": {
+                "zh": "保留已展示的当前菜单选中状态；没有确认过渡动效。",
+                "en": "Keep the visible active navigation state; no transition motion is confirmed."
+              }
+            }
+          ]
+        },
+        {
+          "id": "toolbar",
+          "title": {
+            "zh": "顶部工具栏",
+            "en": "Page toolbar"
+          },
+          "relation": {
+            "zh": "位于主内容区顶部、筛选区上方。",
+            "en": "Place the toolbar at the top of the main content, above the filters."
+          },
+          "relatedRegionIds": [
+            "filters"
+          ],
+          "termSlugs": [
+            "minimal"
+          ],
+          "features": [
+            {
+              "aspect": "layout",
+              "description": {
+                "zh": "保留左侧标题、右侧主要操作的横向排列。",
+                "en": "Keep the page title on the left and primary action on the right."
+              }
+            },
+            {
+              "aspect": "palette",
+              "description": {
+                "zh": "保留浅色背景与深色主要按钮。",
+                "en": "Keep the light surface and dark primary button."
+              }
+            },
+            {
+              "aspect": "typography",
+              "description": {
+                "zh": "保留标题、说明与按钮的文字层级。",
+                "en": "Keep the type hierarchy of the title, supporting text and action."
+              }
+            },
+            {
+              "aspect": "decoration",
+              "description": {
+                "zh": "减少装饰，以留白分隔页面标题和正文。",
+                "en": "Use spacing to separate the title and content with minimal decoration."
+              }
+            }
+          ]
+        },
+        {
+          "id": "filters",
+          "title": {
+            "zh": "筛选区",
+            "en": "Filter bar"
+          },
+          "relation": {
+            "zh": "位于客户列表上方，控件沿同一水平线排列。",
+            "en": "Place filters above the customer table, aligned in a row."
+          },
+          "relatedRegionIds": [
+            "customers"
+          ],
+          "termSlugs": [
+            "outline"
+          ],
+          "features": [
+            {
+              "aspect": "layout",
+              "description": {
+                "zh": "保留筛选控件的横向排列和一致间距。",
+                "en": "Keep horizontally aligned filters with consistent spacing."
+              }
+            },
+            {
+              "aspect": "palette",
+              "description": {
+                "zh": "保留白色控件表面与浅灰色边界。",
+                "en": "Keep white controls and light gray boundaries."
+              }
+            },
+            {
+              "aspect": "typography",
+              "description": {
+                "zh": "保留统一的控件文字层级。",
+                "en": "Keep consistent control typography."
+              }
+            },
+            {
+              "aspect": "decoration",
+              "description": {
+                "zh": "保留轻量细边框与小圆角。",
+                "en": "Keep fine borders and restrained corner rounding."
+              }
+            }
+          ]
+        },
+        {
+          "id": "customers",
+          "title": {
+            "zh": "客户列表区",
+            "en": "Customer table"
+          },
+          "relation": {
+            "zh": "位于筛选区下方，列与表头保持对齐。",
+            "en": "Place the customer table below the filters, with aligned headers and columns."
+          },
+          "relatedRegionIds": [
+            "filters"
+          ],
+          "termSlugs": [
+            "flat"
+          ],
+          "features": [
+            {
+              "aspect": "layout",
+              "description": {
+                "zh": "保留紧凑表格、对齐的列和底部分页。",
+                "en": "Keep the compact table, aligned columns and pagination below."
+              }
+            },
+            {
+              "aspect": "palette",
+              "description": {
+                "zh": "保留浅色表头、正文表面和浅蓝选中行。",
+                "en": "Keep the light table header, white rows and pale blue selected row."
+              }
+            },
+            {
+              "aspect": "typography",
+              "description": {
+                "zh": "保留表头、正文与辅助信息的文字层级。",
+                "en": "Keep the type hierarchy of headers, rows and supporting details."
+              }
+            },
+            {
+              "aspect": "decoration",
+              "description": {
+                "zh": "保留行分隔线和表格外部细边框。",
+                "en": "Keep fine row dividers and a light outer border."
+              }
+            },
+            {
+              "aspect": "states",
+              "description": {
+                "zh": "保留已展示的行选中外观，不附加未经确认的动效。",
+                "en": "Keep the visible selected-row appearance without adding unconfirmed motion."
+              }
+            }
+          ]
+        }
+      ],
+      "demo": "customer-management"
+    }
+  ]
+}

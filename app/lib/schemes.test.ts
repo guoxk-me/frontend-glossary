@@ -86,7 +86,7 @@ describe('需求描述保护', () => {
     expect(scheme.hasManualEdits).toBe(false)
     expect(scheme.isStale).toBe(false)
   })
-  it('不同对象或不同类别可以共存，重复同类需要确认', () => {
+  it('同对象的不同效果可共存，只有相同效果需要确认更新', () => {
     const scheme = exampleScheme()
     const choice = {
       id: 'choice-2',
@@ -94,10 +94,11 @@ describe('需求描述保护', () => {
       target: '页面整体',
       parameters: defaultParameters(),
     }
-    expect(findConflict(scheme, choice, terms)?.id).toBe('choice-1')
-    expect(findConflict(scheme, { ...choice, target: '订单列表' }, terms)).toBeUndefined()
-    expect(findConflict(scheme, { ...choice, termSlug: 'drawer' }, terms)).toBeUndefined()
-    expect(findConflict(scheme, { ...choice, id: 'choice-1' }, terms)).toBeUndefined()
+    expect(findConflict(scheme, choice)).toBeUndefined()
+    expect(findConflict(scheme, { ...choice, termSlug: 'sidebar' })?.id).toBe('choice-1')
+    expect(findConflict(scheme, { ...choice, termSlug: 'sidebar', target: '订单列表' })).toBeUndefined()
+    expect(findConflict(scheme, { ...choice, termSlug: 'drawer' })).toBeUndefined()
+    expect(findConflict(scheme, { ...choice, id: 'choice-1', termSlug: 'sidebar' })).toBeUndefined()
   })
 })
 

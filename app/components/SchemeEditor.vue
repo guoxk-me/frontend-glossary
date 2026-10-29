@@ -10,6 +10,7 @@ import { changeOutputLocale, describeScheme, findConflict } from '../lib/schemes
 import { useLibraryStore } from '../stores/library'
 import CollapsePanel from './CollapsePanel.vue'
 import SchemeSelection from './SchemeSelection.vue'
+import TemplateReferences from './templates/TemplateReferences.vue'
 import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog'
 import { Button } from './ui/button'
@@ -43,7 +44,7 @@ function confirmOutputLocale(): void {
   pendingLocale.value = null
 }
 function updateChoice(choice: SchemeChoice): void {
-  const conflict = findConflict(props.scheme, choice, terms.value)
+  const conflict = findConflict(props.scheme, choice)
   if (conflict) {
     pendingChoice.value = choice
     const existingTerm = terms.value.find(term => term.slug === conflict.termSlug)
@@ -87,9 +88,10 @@ function confirmChoice(): void {
   </Field>
   <div class="scheme-editor-grid">
     <section>
+      <TemplateReferences :scheme="scheme" />
       <div class="section-heading">
         <h2>
-          {{ text('已选效果') }} <span>{{ scheme.choices.length }}</span>
+          {{ text(scheme.templateSelections?.length ? '词条效果' : '已选效果') }} <span>{{ scheme.choices.length }}</span>
         </h2>
         <Button as-child variant="ghost" size="sm">
           <NuxtLink :to="localePath('/')">
@@ -100,7 +102,7 @@ function confirmChoice(): void {
         <Empty v-if="!scheme.choices.length" key="empty" class="border">
           <EmptyHeader>
             <EmptyDescription>
-              {{ text('还没有选择效果。去词典找到一个，点击“加入方案”即可。') }}
+              {{ text(scheme.templateSelections?.length ? '可以从词典继续添加单独的效果。' : '还没有选择效果。去词典找到一个，点击“加入方案”即可。') }}
             </EmptyDescription>
           </EmptyHeader>
         </Empty>
@@ -109,13 +111,13 @@ function confirmChoice(): void {
         </template>
       </TransitionGroup>
       <p class="local-note">
-        {{ text('同一个对象的同类效果需要确认替换，不同对象可以分别设置。') }}
+        {{ text('同一对象可以组合多种效果，重复添加同一效果时才需要确认。') }}
       </p>
     </section>
     <section class="scheme-description">
       <div class="section-heading">
         <h2>{{ text('需求描述') }}</h2>
-        <Button variant="ghost" size="sm" :disabled="!scheme.choices.length" @click="regenerate">
+        <Button variant="ghost" size="sm" :disabled="!scheme.choices.length && !scheme.templateSelections?.length" @click="regenerate">
           <Icon name="lucide:rotate-ccw" />{{ text('重新生成') }}
         </Button>
       </div>
@@ -145,7 +147,7 @@ function confirmChoice(): void {
       </CollapsePanel>
       <CollapsePanel :open="scheme.isStale">
         <Alert class="stale-alert mb-4">
-          <AlertTitle>{{ text('参数已变化，描述待更新') }}</AlertTitle>
+          <AlertTitle>{{ text(scheme.templateSelections?.length ? '选择已变化，描述待更新' : '参数已变化，描述待更新') }}</AlertTitle>
           <AlertDescription>{{ text('手写内容已保留。重新生成需要确认替换，也可以继续手动修改。') }}</AlertDescription>
         </Alert>
       </CollapsePanel>
@@ -217,7 +219,7 @@ function confirmChoice(): void {
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>{{ isEnglish ? `Replace ${conflictTitle}?` : `替换「${conflictTitle}」？` }}</AlertDialogTitle>
-        <AlertDialogDescription>{{ text('这个作用对象已经有同类别的效果。确认后保留新选择，移除冲突选择；手写正文仍会保留。') }}</AlertDialogDescription>
+        <AlertDialogDescription>{{ text('这个作用对象已经添加过该效果。确认后更新它的参数；手写正文仍会保留。') }}</AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel @click="pendingChoice = null">

@@ -140,3 +140,45 @@
 - Inspected：普通业务控件已移至 shadcn；原生文件 input 与翻转按钮属于上述保留边界。未重新声明真机安装、全站屏幕阅读器或完整离线更新验收。
 
 截图：[桌面下拉](verification/shadcn-desktop-select.png)、[手机确认](verification/shadcn-mobile-confirmation.png)。本轮未提交、推送或部署。
+
+
+## Templates 首版（2026-10-28）
+
+新增模板内容集合、目录与详情路由。首个案例为简洁浅色客户管理，按区域选择样式并生成双语视觉描述；搜索和收藏接入现有入口。
+
+模板参考以区域快照保存在现有方案中，重新生成和语言候选共用同一描述逻辑。旧版本 1 备份可读取，新增字段为可选；手写正文和超长描述边界有回归覆盖。更新已有参考不会静默覆盖手写正文。
+
+离线准备检查覆盖模板页面、双语负载、内容库与缩略图。断网硬刷新使用与服务端一致的初始网络状态，首次挂载后再应用真实状态，避免按钮 disabled 属性因挂载差异保留在线外观。
+
+Executed：完整检查通过 Lint、Type Check、9 个测试文件共 34 项测试和静态生成；生成 168 条路由，预缓存 250 项资源。其后响应式 CSS 修订再次执行静态构建。
+
+Executed：浏览器验证区域配色取消、自定义调整、方案新建和本地保存、已存参考更新、手写正文取消/确认替换、模板收藏与搜索分组。断网硬刷新英文详情后，4 个区域与缩略图可用，离线提示可见，大图按钮禁用；390px 视口无横向溢出。
+
+本轮仅为本地实现，未提交、推送或部署。原始预览为静态样式参考；未宣称真机安装、完整屏幕阅读器或整站模板验收。
+
+
+Executed：最终英文详情在 390 / 768 / 1024 / 1440px 的稳定布局下，文档宽度均等于视口宽度；手机加入方案弹窗位于 390px 视口内。调整视口后等待按钮宽度过渡结束，再读取尺寸，避免把过渡中间状态当作最终布局。
+
+截图：[桌面列表](verification/templates-desktop-list.png)、[桌面详情](verification/templates-desktop-detail.png)、[手机详情](verification/templates-mobile-detail.png)、[英文离线](verification/templates-mobile-en-offline.png)、[手机加入方案](verification/templates-mobile-join.png)。
+
+## 2026-10-28 功能精简验收
+
+- 界面语言单击切换，保留查询参数与方案正文；覆盖手写内容仍需确认。
+- 相同作用对象可以组合不同的同类别词条，仅相同词条重复时确认更新。
+- 模板支持直接复制需求，保存方案可选；取消专属侧栏、列表搜索与类型筛选，旧筛选链接显示完整列表。
+- 区域逐项样式开关默认折叠，补充要求直接可见；重复区域只允许保留或替换，不再重复追加。
+- Executed：pnpm check 通过，9 个测试文件、36 项测试，以及静态构建；git diff --check 通过。
+- Executed：浏览器验证直接复制成功且方案数量不增加、语言切换保留自定义输入与取消的样式、手机导航、可选保存落盘、重复处理选项，以及全屏预览。桌面 1440 与手机 390 宽度未发现横向溢出。
+- 截图见 docs/verification/templates-simplified-*.png。未提交、推送或部署；模拟视口不代表真机验收。
+
+
+## 2026-10-29 Interactive fullscreen preview
+
+- Customer management now opens a real Vue demo; static thumbnails and the image fallback for pages without a demo remain available.
+- Search, status/owner filters, pagination, customer details, status edits, creation, sidebar navigation, overview counts and activity history work with session-only data. Reset and close restore the seed customers.
+- Demo state is separate from requirement editing, favorites and saved plans. The optional demo field does not change saved reference formats.
+- Executed: pnpm check passed lint, type checking, 39 tests across 10 files and static generation. Added coverage for filters/pagination, create/status flows, store isolation, reset and reopening.
+- Executed: browser checks passed English search, combined-filter empty states, pagination, create/status changes, activity and overview counts, reset, and nested Escape dismissal with restored focus. Closing fullscreen preserved the handwritten requirement.
+- Executed: at 390px, mobile navigation and forms worked; document and drawer widths were 390px. English controls worked, as did searching after an offline reload. Emulated-browser checks do not constitute real-device or full screen-reader acceptance.
+- Screenshots: [Desktop](verification/templates-live-desktop.png), [Mobile list](verification/templates-live-mobile.png), [Mobile form](verification/templates-live-mobile-form.png).
+- Local implementation only: no commit, push or deployment; no customer-management backend.

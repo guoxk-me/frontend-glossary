@@ -49,7 +49,7 @@ function add(hasConfirmed = false): void {
     parameters: { ...props.parameters },
   }
   const conflict = existing
-    ? findConflict(existing, choice, terms.value)
+    ? findConflict(existing, choice)
     : undefined
   if (conflict && !hasConfirmed) {
     const existingTerm = terms.value.find(term => term.slug === conflict.termSlug)
@@ -79,7 +79,7 @@ function add(hasConfirmed = false): void {
     <DialogContent>
       <DialogHeader>
         <DialogTitle>{{ isEnglish ? `Add ${termTitle(term)} to a plan` : `把「${termTitle(term)}」加入方案` }}</DialogTitle>
-        <DialogDescription>{{ text('同一个对象可组合不同类别。同类效果冲突时，需要确认替换。') }}</DialogDescription>
+        <DialogDescription>{{ text('同一对象可组合多种效果。重复添加同一效果时，需要确认更新。') }}</DialogDescription>
       </DialogHeader>
       <p class="text-sm text-muted-foreground">
         {{ text('新方案默认英文输出；已有方案沿用原输出语言。') }}

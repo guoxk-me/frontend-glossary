@@ -445,3 +445,13 @@ button:focus .bookmark-feedback { animation: bookmark-feedback 180ms var(--motio
 }
 
 @keyframes tab-panel-enter { from { opacity: 0; } to { opacity: 1; } }
+
+/* AI modified: keep bilingual navigation within tablet widths before switching to the mobile header. */
+@media(max-width:1200px) {
+  .header-actions .global-search-trigger { width: 180px; flex-basis: 180px; }
+  .header-actions > a { display: none; }
+}
+/* AI modified: keep the compact search control above the shared desktop width in the mobile cascade. */
+@media(max-width:800px) {
+  .header-actions .global-search-trigger { width: 36px; flex-basis: 36px; }
+}

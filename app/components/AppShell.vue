@@ -23,6 +23,8 @@ const { text, localePath } = useGlossaryLocale()
 const isMenuOpen = shallowRef(false)
 const library = useLibraryStore()
 const route = useRoute()
+// AI modified: template pages use the global navigation and a full-width content area.
+const isTemplateRoute = () => /^\/(?:en\/)?templates(?:\/|$)/u.test(route.path)
 const page = useTemplateRef<HTMLElement>('page')
 const nuxt = useNuxtApp()
 function pageIdentity(): string {
@@ -74,7 +76,10 @@ useEventListener('beforeunload', (event) => {
               <SheetTitle>{{ text('前端词典') }}</SheetTitle>
               <SheetDescription>{{ text('找到你想表达的效果') }}</SheetDescription>
             </SheetHeader>
-            <TermNavigation @navigate="isMenuOpen = false" />
+            <nav v-if="isTemplateRoute()" class="template-mobile-nav" :aria-label="text('主导航')">
+              <NuxtLink v-for="link in [{ path: '/', title: '词典' }, { path: '/templates', title: 'Templates' }, { path: '/favorites', title: '我的收藏' }, { path: '/schemes', title: '我的方案' }]" :key="link.path" :to="localePath(link.path)" @click="isMenuOpen = false">{{ text(link.title) }}</NuxtLink>
+            </nav>
+            <TermNavigation v-else @navigate="isMenuOpen = false" />
           </SheetContent>
         </Sheet>
         <NuxtLink :to="localePath('/')" class="brand">
@@ -88,6 +93,11 @@ useEventListener('beforeunload', (event) => {
             <NavigationMenuItem>
               <NavigationMenuLink as-child>
                 <NuxtLink :to="localePath('/')">{{ text('词典') }}</NuxtLink>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink as-child>
+                <NuxtLink :to="localePath('/templates')">Templates</NuxtLink>
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
@@ -117,8 +127,8 @@ useEventListener('beforeunload', (event) => {
         </div>
       </div>
     </header>
-    <div class="site-layout">
-      <aside class="desktop-sidebar">
+    <div class="site-layout" :class="{ 'template-layout': isTemplateRoute() }">
+      <aside v-if="!isTemplateRoute()" class="desktop-sidebar">
         <Sidebar collapsible="none" class="w-full">
           <SidebarContent>
             <TermNavigation />
@@ -139,8 +149,8 @@ useEventListener('beforeunload', (event) => {
         <div ref="page" class="page-content">
           <slot />
         </div>
-        <div class="mobile-pwa">
-          <PwaStatus :show-update="false" show-install />
+        <div :class="isTemplateRoute() ? 'template-pwa' : 'mobile-pwa'">
+          <PwaStatus :show-update="isTemplateRoute()" show-install />
         </div>
         <footer class="site-footer">
           <span>{{ text('把脑海里的效果，说清楚。') }}</span>
@@ -150,3 +160,10 @@ useEventListener('beforeunload', (event) => {
     </div>
   </SidebarProvider>
 </template>
+
+<style scoped>
+.template-layout { grid-template-columns: minmax(0, 1fr); max-width: 1400px; }
+.template-mobile-nav { display: flex; flex-direction: column; padding: 0 24px; }
+.template-mobile-nav a { padding: 12px 0; }
+.template-pwa { margin-top: 32px; }
+</style>
